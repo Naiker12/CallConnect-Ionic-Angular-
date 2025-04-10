@@ -23,6 +23,10 @@ log.txt
 /platforms
 /plugins
 
+# Angular
+/environments/environments.ts
+/environments/environments.prod.ts
+
 # Compiled output
 /dist
 /tmp

@@ -10,6 +10,8 @@ import { ModalController } from '@ionic/angular';
 })
 export class VerificationModalComponent  implements OnInit {
 
+  @Input() email!: string;
+
   @Input() title: string = 'Verifica tu correo';
   @Input() message: string = 'Hemos enviado un enlace de verificación a tu correo electrónico. Verifícalo para poder acceder.';
 
@@ -20,6 +22,20 @@ export class VerificationModalComponent  implements OnInit {
 
   closeModal() {
     this.modalCtrl.dismiss();
+  }
+
+  get emailMasked() {
+    const [name, domain] = this.email.split('@');
+    const maskedName = name.slice(0, 2) + '***';
+    return `${maskedName}@${domain}`;
+  }
+
+  resendCode() {
+    
+  }
+  
+  verifyCode() {
+  
   }
 
 

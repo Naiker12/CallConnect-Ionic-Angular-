@@ -1,4 +1,4 @@
-// src/app/firebase-config.ts
+
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { environment } from 'src/environments/environment';

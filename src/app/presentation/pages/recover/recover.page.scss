@@ -1,0 +1,64 @@
+.forgot-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --background: #f8f9fa;
+    height: 100%;
+  }
+  
+  .forgot-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .back-icon {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .forgot-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0a1d5e;
+    margin: 10px 0 6px;
+  }
+  
+  .forgot-subtitle {
+    font-size: 15px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .custom-input {
+    --background: #e9f4ff;
+    --border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  
+  .input-icon {
+    color: #007bff;
+  }
+  
+  .sign-in-button {
+    --background: #007bff;
+    --border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 18px;
+  }
+  
+  .login-text {
+    text-align: center;
+    font-size: 14px;
+  
+    a {
+      text-decoration: none;
+      color: #007bff;
+      margin-left: 4px;
+    }
+  }
+  

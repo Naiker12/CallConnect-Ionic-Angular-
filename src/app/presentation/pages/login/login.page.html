@@ -1,0 +1,33 @@
+<ion-content class="ion-padding login-content">
+  <form [formGroup]="form" (ngSubmit)="onLogin()" class="login-container">
+
+    <app-back-button></app-back-button>
+
+    <h2 class="login-title">¡Bienvenido de nuevo!</h2>
+    <p class="login-subtitle">Inicia sesión para continuar</p>
+
+    <ion-item class="custom-input">
+      <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+      <ion-input formControlName="email" type="email" placeholder="Correo electrónico"></ion-input>
+      <ion-icon *ngIf="form.get('email')?.valid" name="checkmark-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <ion-item class="custom-input">
+      <ion-icon name="key-outline" slot="start" class="input-icon"></ion-icon>
+      <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>
+      <ion-icon name="eye-off-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <a (click)="goToRecover()" class="forgot-password">¿Olvidaste tu contraseña?</a>
+
+    <ion-button expand="block" class="sign-in-button" type="submit" [disabled]="form.invalid">
+      Iniciar sesión
+    </ion-button>
+
+    <p class="register-text">
+      ¿No tienes una cuenta?
+      <a (click)="goToRegister()">Regístrate</a>
+    </p>
+
+  </form>
+</ion-content>

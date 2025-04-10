@@ -1,0 +1,42 @@
+<ion-content class="ion-padding forgot-content">
+  <div class="forgot-container">
+
+    <app-back-button></app-back-button>
+
+    <h2 class="forgot-title">Recuperar contraseña</h2>
+    <p class="forgot-subtitle">
+      Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+    </p>
+
+    <form [formGroup]="form" (ngSubmit)="onRecover()">
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          type="email"
+          placeholder="Correo electrónico"
+          formControlName="email"
+        ></ion-input>
+      </ion-item>
+
+      <div class="error-message" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+        <p *ngIf="form.get('email')?.errors?.['required']">El correo es obligatorio.</p>
+        <p *ngIf="form.get('email')?.errors?.['email']">Ingresa un correo válido.</p>
+      </div>
+
+      <ion-button
+        expand="block"
+        class="sign-in-button"
+        type="submit"
+        [disabled]="form.invalid"
+      >
+        Enviar enlace
+      </ion-button>
+    </form>
+
+    <p class="login-text">
+      ¿Ya la recordaste?
+      <a (click)="goToLogin()">Inicia sesión</a>
+    </p>
+
+  </div>
+</ion-content>

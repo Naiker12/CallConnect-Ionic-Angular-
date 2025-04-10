@@ -1,0 +1,85 @@
+.login-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --background: #f8f9fa;
+    height: 100%;
+  }
+  
+  .login-container {
+    width: 100%;
+    max-width: 420px;
+  }
+  
+  .login-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  }
+  
+  .back-icon {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .login-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0a1d5e;
+    margin: 10px 0 6px;
+  }
+  
+  .login-subtitle {
+    font-size: 15px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .custom-input {
+    --background: #e9f4ff;
+    --border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  
+  .input-icon {
+    color: #007bff;
+  }
+  
+  .options-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #6c757d;
+  }
+  
+  .remember-text {
+    margin-left: 8px;
+  }
+  
+  .forgot-password {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 13px;
+  }
+  
+  .sign-in-button {
+    --background: #007bff;
+    --border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 18px;
+  }
+  
+  .register-text {
+    text-align: center;
+    font-size: 14px;
+  
+    a {
+      text-decoration: none;
+      color: #007bff;
+      margin-left: 4px;
+    }
+  }
+  

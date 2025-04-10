@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Settings</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="user" class="profile-header">
+    <ion-avatar class="avatar">
+      <img [src]="user.photoURL || 'assets/default-avatar.png'" />
+    </ion-avatar>
+
+    <div class="user-info">
+      <div class="name">{{ user.displayName || 'Usuario' }}</div>
+      <div class="email">{{ user.email }}</div>
+    </div>
+
+    <ion-button fill="clear" class="edit-btn" size="small">
+      <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-button expand="block" color="danger" (click)="logout()">
+    Cerrar sesión
+  </ion-button>
+</ion-content>

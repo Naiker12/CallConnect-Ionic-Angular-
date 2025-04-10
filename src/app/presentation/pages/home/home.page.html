@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Mis Contactos</ion-title>
+
+    <!-- Ícono de perfil -->
+    <ion-buttons slot="end">
+      <ion-button (click)="goToProfile()">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-list *ngIf="contacts$ | async as contacts; else noContacts">
+    <ion-item *ngFor="let contact of contacts">
+      <ion-avatar slot="start">
+        <ion-icon name="person-circle" size="large"></ion-icon>
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ contact.name }}</h2>
+        <p>{{ contact.phone }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noContacts>
+    <p class="ion-text-center">No tienes contactos aún.</p>
+  </ng-template>
+
+  <!-- FAB (Floating Action Button) -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openAddContactModal()">
+      <ion-icon name="person-add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

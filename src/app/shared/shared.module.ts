@@ -4,9 +4,11 @@ import { BackButtonComponent } from './components/back-button/back-button.compon
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { VerificationModalComponent } from './components/verification-modal/verification-modal.component';
+import { AddContactModalComponent } from './components/add-contact-modal/add-contact-modal.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
  const MODULOS = [CommonModule , FormsModule, IonicModule, ReactiveFormsModule];
- const COMPONENTES = [BackButtonComponent , VerificationModalComponent];
+ const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent , ProfileComponent];
 
 
 

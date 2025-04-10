@@ -25,6 +25,16 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+
+.side-modal {
+    --width: 320px !important;
+    --height: 100%;
+    --border-radius: 0 !important;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  
+
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------

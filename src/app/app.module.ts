@@ -7,6 +7,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import { provideAuth, getAuth } from '@angular/fire/auth';
+
 
 import { provideFirebaseApp, initializeApp, setLogLevel } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
@@ -25,6 +27,7 @@ import { FirebaseAuthRepository } from './data/repositories/firebase-auth.reposi
   providers: [{ provide: RouteReuseStrategy , useClass: IonicRouteStrategy  },
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: AuthRepository , useClass: FirebaseAuthRepository },
    

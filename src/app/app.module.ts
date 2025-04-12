@@ -21,6 +21,7 @@ import { FirebaseAuthRepository } from './data/repositories/firebase-auth.reposi
 
 
 
+
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule , CoreModule],

@@ -24,8 +24,8 @@ export class RegisterPage {
       apellido: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });    
   }
 
   async onSubmit() {
@@ -39,6 +39,8 @@ export class RegisterPage {
       correo,
       telefono,
     };
+    console.log('Enviando a Firebase:', { correo, password });
+
 
     try {
       await this.registerService.registerUser(user, password);

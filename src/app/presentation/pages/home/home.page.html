@@ -1,37 +1,50 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Mis Contactos</ion-title>
-
-    <!-- Ícono de perfil -->
     <ion-buttons slot="end">
-      <ion-button (click)="goToProfile()">
-        <ion-icon name="person-circle-outline"></ion-icon>
+      <ion-button (click)="goToProfile()" aria-label="Ir al perfil">
+        <ion-icon name="person-circle-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-list *ngIf="contacts$ | async as contacts; else noContacts">
+  <ion-spinner *ngIf="isLoading" name="crescent" class="ion-margin-horizontal"></ion-spinner>
+
+
+  <ion-list *ngIf="!isLoading && contacts.length > 0; else noContacts">
     <ion-item *ngFor="let contact of contacts">
       <ion-avatar slot="start">
-        <ion-icon name="person-circle" size="large"></ion-icon>
+        <ion-img  alt="Imagen de {{ contact.nombre }}"></ion-img>
       </ion-avatar>
+
       <ion-label>
-        <h2>{{ contact.name }}</h2>
-        <p>{{ contact.phone }}</p>
+        <h2>{{ contact.nombre }}</h2>
+        <p>{{ contact.telefono }}</p>
       </ion-label>
+
+
+      <ion-buttons slot="end">
+        <ion-button  aria-label="Editar contacto">
+          <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-buttons>
     </ion-item>
   </ion-list>
 
   <ng-template #noContacts>
-    <p class="ion-text-center">No tienes contactos aún.</p>
+    <div class="ion-text-center ion-margin-top">
+      <ion-icon name="sad-outline" size="large" color="medium"></ion-icon>
+      <p>No tienes contactos aún.</p>
+    </div>
   </ng-template>
 
-  <!-- FAB (Floating Action Button) -->
+ 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openAddContactModal()">
-      <ion-icon name="person-add"></ion-icon>
+    <ion-fab-button (click)="openAddContactModal()" aria-label="Agregar nuevo contacto">
+      <ion-icon name="person-add" slot="icon-only"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  
 </ion-content>

@@ -2,18 +2,33 @@
   <ion-toolbar>
     <ion-title>Agregar contacto</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cancel()">Cerrar</ion-button>
+      <ion-button (click)="dismiss()">Cerrar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-item>
-    <ion-label position="stacked">Número de celular</ion-label>
-    <ion-input type="tel" [(ngModel)]="phoneNumber" placeholder="Ej: 3001234567"></ion-input>
-  </ion-item>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked" for="telefono">Número de celular</ion-label>
+      <ion-input
+        id="telefono"
+        type="tel"
+        formControlName="telefono"
+        placeholder="Ej: 3001234567"
+        [class.invalid]="form.get('telefono')?.invalid && form.get('telefono')?.touched"
+      ></ion-input>
+      <ion-text color="danger" *ngIf="form.get('telefono')?.invalid && form.get('telefono')?.touched">
+        <small>El número de celular es requerido y debe ser válido.</small>
+      </ion-text>
+    </ion-item>
 
-  <ion-button expand="block" class="ion-margin-top" (click)="addContact()">
-    Agregar
-  </ion-button>
+    <!-- Botón para agregar el contacto -->
+    <ion-button 
+      expand="full" 
+      (click)="onSubmit()" 
+      [disabled]="form.invalid || isSubmitting">
+      Agregar contacto
+    </ion-button>
+  </form>
 </ion-content>

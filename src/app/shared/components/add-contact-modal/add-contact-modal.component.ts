@@ -1,98 +1,100 @@
 import { Component } from '@angular/core';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
-import {
-  Firestore,
-  collection,
-  getDocs,
-  query,
-  where,
-  doc,
-  setDoc,
-  getDoc
-} from '@angular/fire/firestore';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastController, ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
 
 @Component({
-  selector: 'app-add-contact-modal',
+  selector: 'app-add-contact',
   templateUrl: './add-contact-modal.component.html',
   styleUrls: ['./add-contact-modal.component.scss'],
   standalone: false
 })
 export class AddContactModalComponent {
-  phoneNumber = '';
+  form: FormGroup;
+  isSubmitting = false;
+
+  readonly MESSAGES = {
+    CONTACT_NOT_FOUND: 'Contacto no encontrado.',
+    CONTACT_ADDED: 'Contacto agregado exitosamente.',
+    ERROR: 'Ocurrió un error al agregar el contacto.',
+    PHONE_REQUIRED: 'El número de teléfono es obligatorio.',
+    PHONE_INVALID: 'Por favor, ingresa un número de teléfono válido.',
+  };
 
   constructor(
+    private fb: FormBuilder,
     private modalCtrl: ModalController,
-    private firestore: Firestore,
-    private alertCtrl: AlertController,
-    private toastCtrl: ToastController,
-    private authService: AuthService
-  ) {}
+    private firebaseContactService: FirebaseContactService,
+    private authService: AuthService,
+    private toastController: ToastController
+  ) {
+    this.form = this.fb.group({
+      telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+    });
+  }
 
-  async addContact() {
-    const userId = this.authService.getUserId(); 
+  /**
+   * Envía el formulario y busca/agrega el contacto si es válido
+   */
+  async onSubmit(): Promise<void> {
+    if (this.form.invalid || this.isSubmitting) return;
+
+    this.isSubmitting = true;
+
+    const telefono = this.form.value.telefono;
+    const userId = this.authService.getUserId();
+
     if (!userId) {
-      this.showAlert('Error', 'Usuario no autenticado');
+      await this.showToast(this.MESSAGES.ERROR, 'danger');
+      this.isSubmitting = false;
       return;
     }
 
-    if (!this.phoneNumber || !/^\d{7,15}$/.test(this.phoneNumber)) {
-      this.showAlert('Número inválido', 'Ingresa un número de teléfono válido');
-      return;
+    try {
+      const contact = await this.firebaseContactService.searchUserByPhone(telefono);
+
+      if (!contact) {
+        await this.showToast(this.MESSAGES.CONTACT_NOT_FOUND, 'danger');
+        return;
+      }
+
+      await this.firebaseContactService.addContact(userId, contact);
+      await this.showToast(this.MESSAGES.CONTACT_ADDED, 'success');
+      this.form.reset();
+      this.modalCtrl.dismiss(true); 
+    } catch (error) {
+      console.error('Error al agregar contacto:', error);
+      await this.showToast(this.MESSAGES.ERROR, 'danger');
+    } finally {
+      this.isSubmitting = false;
     }
-
-    const usersRef = collection(this.firestore, 'users');
-    const q = query(usersRef, where('phone', '==', this.phoneNumber));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      this.showAlert('Contacto no encontrado', 'Este número no está registrado en la app.');
-      return;
-    }
-
-    const contactDoc = querySnapshot.docs[0];
-    const contactData = contactDoc.data();
-    const contactId = contactDoc.id;
-
-  
-    const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);
-    const existingContact = await getDoc(contactRef);
-    if (existingContact.exists()) {
-      this.showAlert('Ya agregado', 'Este contacto ya está en tu lista.');
-      return;
-    }
-
-
-    await setDoc(contactRef, {
-      name: contactData['name'] || 'Sin nombre',
-      phone: this.phoneNumber,
-      uid: contactId,
-    });
-
-    this.showToast('Contacto agregado exitosamente');
-    this.modalCtrl.dismiss(true); 
   }
 
-  cancel() {
-    this.modalCtrl.dismiss(false); 
-  }
-
-  async showAlert(header: string, message: string) {
-    const alert = await this.alertCtrl.create({
-      header,
-      message,
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
-
-  async showToast(message: string) {
-    const toast = await this.toastCtrl.create({
+  /**
+   * Muestra un mensaje en pantalla (toast)
+   * @param message mensaje a mostrar
+   * @param color color del toast
+   */
+  private async showToast(message: string, color: 'success' | 'danger'): Promise<void> {
+    const toast = await this.toastController.create({
       message,
       duration: 2000,
-      position: 'bottom',
-      color: 'success',
+      color,
+      position: 'bottom'
     });
-    toast.present();
+    await toast.present();
   }
+
+  /**
+   * Getter para acceder al control del teléfono desde el HTML
+   */
+  get telefonoControl() {
+    return this.form.get('telefono');
+  }
+
+  dismiss() {
+    this.modalCtrl.dismiss(); // Cierra el modal
+  }
+
 }

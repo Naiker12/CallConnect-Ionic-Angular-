@@ -1,59 +1,83 @@
-import { Component, OnInit } from '@angular/core';
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { AuthService } from 'src/app/core/services/auth.service';
-import { Observable } from 'rxjs';
-import { CollectionReference } from 'firebase/firestore';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { Contact } from 'src/app/core/models/contact';
+import { ContactService } from 'src/app/core/services/contact.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { AddContactModalComponent } from 'src/app/shared/components/add-contact-modal/add-contact-modal.component';
 import { ProfileComponent } from 'src/app/shared/components/profile/profile.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
-  standalone : false
+  standalone: false
 })
-export class HomePage implements OnInit {
-  contacts$: Observable<any[]> | null = null;
-  userId: string | null = null;
+export class HomePage implements OnInit, OnDestroy {
+  contacts: Contact[] = [];
+  isLoading = false;
+  private destroy$ = new Subject<void>();
 
   constructor(
-    private firestore: Firestore,
+    private contactService: ContactService,
     private authService: AuthService,
     private modalCtrl: ModalController
   ) {}
 
   ngOnInit() {
-    this.userId = this.authService.getUserId();
-    if (this.userId) {
-      this.loadContacts(this.userId);
+    this.loadContacts();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  loadContacts(): void {
+    const userId = this.authService.getUserId?.();
+    if (!userId) {
+      console.warn('Usuario no autenticado');
+      return;
     }
-  }
 
-  loadContacts(userId: string) {
-    const contactsRef = collection(this.firestore, `users/${userId}/contacts`) as CollectionReference;
-    this.contacts$ = collectionData(contactsRef, { idField: 'id' });
+    this.isLoading = true;
+    this.contactService.getContacts(userId)
+      .pipe(takeUntil(this.destroy$)) 
+      .subscribe({
+        next: (contacts) => {
+          this.contacts = contacts;
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error al obtener contactos:', error);
+          this.isLoading = false;
+        }
+      });
   }
-
   async openAddContactModal() {
+    console.log('Intentando abrir el modal');
     const modal = await this.modalCtrl.create({
-      component: AddContactModalComponent,
+      component: AddContactModalComponent
     });
-
+  
     modal.onDidDismiss().then((result) => {
-      if (result.data === true && this.userId) {
-        this.loadContacts(this.userId); 
-      }
+      console.log('Modal cerrado', result);
     });
-
-    return await modal.present();
-  }
-
-  async goToProfile() {
-    const modal = await this.modalCtrl.create({
-      component: ProfileComponent,
-      cssClass: 'side-modal', // <<--- aquí la clase para estilo lateral
-    });
+  
     await modal.present();
+    console.log('Modal presentado');
+  }
+  
+  async goToProfile(): Promise<void> {
+    try {
+      const modal = await this.modalCtrl.create({
+        component: ProfileComponent,
+        cssClass: 'side-modal'
+      });
+      return modal.present();
+    } catch (error) {
+      console.error('Error al abrir el perfil:', error);
+    }
   }
 }

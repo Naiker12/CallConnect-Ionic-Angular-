@@ -1,0 +1,23 @@
+ion-item {
+    --inner-padding-end: 0;
+    --padding-start: 0;
+  }
+  
+  ion-avatar {
+    --border-radius: 50%;
+  }
+  
+  ion-label h2 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  ion-label p {
+    font-size: 14px;
+    color: var(--ion-color-medium);
+  }
+  
+  ion-fab-button {
+    --background: var(--ion-color-primary);
+  }
+  

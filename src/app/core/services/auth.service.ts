@@ -12,7 +12,6 @@ import {
 })
 export class AuthService {
   constructor(@Inject(Auth) private auth: Auth) {}
-
   async register(email: string, password: string): Promise<User> {
     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     if (userCredential.user) {

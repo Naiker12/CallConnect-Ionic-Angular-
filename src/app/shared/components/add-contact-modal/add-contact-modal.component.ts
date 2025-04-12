@@ -94,7 +94,7 @@ export class AddContactModalComponent {
   }
 
   dismiss() {
-    this.modalCtrl.dismiss(); // Cierra el modal
+    this.modalCtrl.dismiss(); 
   }
 
 }

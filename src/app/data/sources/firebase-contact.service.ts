@@ -14,7 +14,7 @@ import { Contact } from 'src/app/core/models/contact';
 export class FirebaseContactService {
   constructor(
     private firestore: Firestore,
-    private zone: NgZone // Necesario para trabajar correctamente con Angular y Firebase
+    private zone: NgZone 
   ) {}
 
   /**

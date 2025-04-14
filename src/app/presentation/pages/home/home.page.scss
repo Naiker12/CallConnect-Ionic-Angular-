@@ -1,23 +1,213 @@
-ion-item {
-    --inner-padding-end: 0;
-    --padding-start: 0;
+/* Estilos para la cabecera mejorada */
+.header-toolbar {
+  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, #2c3e50 100%);
+  --border-width: 0;
+  padding-bottom: 0;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.title-icon {
+  margin-right: 8px;
+  font-size: 1.4rem;
+}
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.search-toolbar {
+  --background: transparent;
+  --border-width: 0;
+  padding-top: 0;
+}
+
+.custom-searchbar {
+  --background: rgba(255, 255, 255, 0.15);
+  --color: white;
+  --placeholder-color: rgba(255, 255, 255, 0.7);
+  --border-radius: 20px;
+  padding: 0 10px;
+  margin-bottom: 10px;
+}
+
+/* Estilos para la lista de contactos */
+.contact-list {
+  margin-top: 10px;
+}
+
+.contact-item {
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --inner-padding-end: 0;
+  --border-radius: 12px;
+  margin-bottom: 8px;
+  --background: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.contact-item:active {
+  transform: scale(0.98);
+}
+
+.contact-avatar {
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+
+.contact-avatar img {
+  border: 2px solid var(--ion-color-primary);
+}
+
+.online-status {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background-color: #4caf50;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.contact-info h2 {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.contact-info p {
+  color: var(--ion-color-medium);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.contact-actions {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.contact-item:hover .contact-actions {
+  opacity: 1;
+}
+
+.action-btn {
+  --padding-start: 5px;
+  --padding-end: 5px;
+}
+
+/* Estado vacío */
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  margin-top: 30%;
+}
+
+.empty-icon {
+  font-size: 64px;
+  color: var(--ion-color-medium-shade);
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  color: var(--ion-color-medium);
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.add-btn {
+  --border-width: 1px;
+  --border-style: solid;
+  --border-color: var(--ion-color-primary);
+  margin-top: 15px;
+}
+
+/* Botón flotante optimizado */
+.custom-fab {
+  bottom: 70px; /* Posición sobre la barra de pestañas */
+  right: 15px;
+}
+
+ion-fab-button {
+  --background: var(--ion-color-primary);
+  --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
+  transition: transform 0.2s ease;
+}
+
+ion-fab-button:active {
+  transform: scale(0.9);
+}
+
+.fab-icon {
+  font-size: 1.5rem;
+}
+
+/* Barra de pestañas mejorada */
+.custom-tab-bar {
+  --background: white;
+  --border: 1px solid rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  height: 60px;
+}
+
+.tab-button {
+  --color: var(--ion-color-medium);
+  --color-selected: var(--ion-color-primary);
+  --padding-bottom: 5px;
+}
+
+.tab-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 3px;
+  background: var(--ion-color-primary);
+  transition: width 0.2s ease;
+}
+
+.tab-button.tab-selected::before {
+  width: 40px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.contact-item {
+  animation: fadeIn 0.3s ease-out forwards;
+  animation-delay: calc(var(--index) * 0.05s);
+  opacity: 0;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 400px) {
+  .custom-fab {
+    bottom: 60px;
+    right: 10px;
   }
   
-  ion-avatar {
-    --border-radius: 50%;
+  .header-title {
+    font-size: 1rem;
   }
   
-  ion-label h2 {
-    font-size: 16px;
-    font-weight: bold;
+  .title-icon {
+    font-size: 1.2rem;
   }
-  
-  ion-label p {
-    font-size: 14px;
-    color: var(--ion-color-medium);
-  }
-  
-  ion-fab-button {
-    --background: var(--ion-color-primary);
-  }
-  
+}

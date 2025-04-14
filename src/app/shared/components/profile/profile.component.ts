@@ -27,11 +27,22 @@ export class ProfileComponent implements OnInit {
 
   logout() {
     signOut(this.auth).then(() => {
+      this.modalCtrl.dismiss();
       this.router.navigateByUrl('/login', { replaceUrl: true });
     });
   }
 
   close() {
     this.modalCtrl.dismiss();
+  }
+
+  editProfile() {
+    // Lógica para editar perfil
+    console.log('Editar perfil');
+  }
+
+  editPhoto() {
+    // Lógica para cambiar foto
+    console.log('Cambiar foto');
   }
 }

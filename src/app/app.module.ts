@@ -31,8 +31,7 @@ import { FirebaseAuthRepository } from './data/repositories/firebase-auth.reposi
     provideAuth(() => getAuth()),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: AuthRepository , useClass: FirebaseAuthRepository },
-   
-
+    
   ],
 
   bootstrap: [AppComponent],

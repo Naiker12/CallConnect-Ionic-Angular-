@@ -3,18 +3,22 @@
 
     <app-back-button></app-back-button>
 
-    <h2 class="forgot-title">Recuperar contraseña</h2>
-    <p class="forgot-subtitle">
-      Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
-    </p>
+    <div class="header-section">
+      <h2 class="forgot-title">Recuperar contraseña</h2>
+      <p class="forgot-subtitle">
+        Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+      </p>
+    </div>
 
-    <form [formGroup]="form" (ngSubmit)="onRecover()">
+    <form [formGroup]="form" (ngSubmit)="onRecover()" class="form-container">
       <ion-item class="custom-input" lines="none">
         <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
           type="email"
           placeholder="Correo electrónico"
           formControlName="email"
+          label="Correo electrónico"
+          labelPlacement="floating"
         ></ion-input>
       </ion-item>
 

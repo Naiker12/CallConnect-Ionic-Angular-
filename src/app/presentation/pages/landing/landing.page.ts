@@ -10,7 +10,7 @@ import { NavController } from '@ionic/angular';
 export class LandingPage implements OnInit {
   
   showButton = false;
-  countdown = 3;
+  countdown = 5;
 
   constructor(private navCtrl: NavController) { }
 

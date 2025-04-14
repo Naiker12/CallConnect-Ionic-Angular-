@@ -9,18 +9,21 @@
       <img src="assets/verify-img.png" alt="verify-email" />
     </div>
 
-    <p class="description">
-      Por favor, revisa el correo que te enviamos al correo <strong>{{ emailMasked }}</strong>
+    <p class="description" *ngIf="email">
+      Hemos enviado un enlace de verificación a:<br>
+      <strong>{{ emailMasked }}</strong>
     </p>
 
-    <div class="code-inputs">
-      <ion-input type="text" maxlength="1" class="code-box" *ngFor="let i of [0,1,2,3]"></ion-input>
-    </div>
+    <p class="hint-text">
+      Por favor revisa tu bandeja de entrada y sigue las instrucciones.
+    </p>
 
     <p class="resend-text">       
-         ¿Aún no lo entiendes? <strong (click)="resendCode()" class="resend">Reenviar</strong>
+      ¿No recibiste el correo? <strong (click)="resendCode()" class="resend">Reenviar</strong>
     </p>
 
-    <ion-button expand="block" class="verify-btn" (click)="verifyCode()">Verificar</ion-button>
+    <ion-button expand="block" class="verify-btn" (click)="goToLogin()">
+      Entendido
+    </ion-button>
   </div>
 </ion-content>

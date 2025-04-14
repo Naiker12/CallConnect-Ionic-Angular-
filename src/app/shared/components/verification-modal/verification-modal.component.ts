@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {  Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 
 @Component({
@@ -15,7 +16,7 @@ export class VerificationModalComponent  implements OnInit {
   @Input() title: string = 'Verifica tu correo';
   @Input() message: string = 'Hemos enviado un enlace de verificación a tu correo electrónico. Verifícalo para poder acceder.';
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController , private router: Router) {}
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -26,16 +27,19 @@ export class VerificationModalComponent  implements OnInit {
 
   get emailMasked() {
     const [name, domain] = this.email.split('@');
-    const maskedName = name.slice(0, 2) + '***';
+    const maskedName = name.slice(0, 0) + '***';
     return `${maskedName}@${domain}`;
   }
 
-  resendCode() {
-    
+  goToLogin() {
+    this.closeModal();
+    if (this.router.url !== '/login') {
+      this.router.navigate(['/login']);
+    }
   }
-  
-  verifyCode() {
-  
+
+  resendCode() {
+    console.log('Código reenviado a:', this.emailMasked);
   }
 
 

@@ -5,12 +5,12 @@
         <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-    
+
     <ion-title class="header-title">
       <ion-icon name="people-circle-outline" class="title-icon"></ion-icon>
       <span>Mis Contactos</span>
     </ion-title>
-    
+
     <ion-buttons slot="end">
       <ion-button (click)="goToProfile()" aria-label="Ir al perfil">
         <ion-avatar class="profile-avatar">
@@ -19,13 +19,9 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  
+
   <ion-toolbar color="primary" class="search-toolbar">
-    <ion-searchbar 
-      placeholder="Buscar contactos..." 
-      animated 
-      class="custom-searchbar"
-      debounce="300">
+    <ion-searchbar placeholder="Buscar contactos..." animated class="custom-searchbar" debounce="300">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -33,11 +29,8 @@
 <ion-content class="ion-padding" [fullscreen]="true">
   <!-- Lista de contactos -->
   <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
-    <ion-item 
-      *ngFor="let contact of contacts" 
-      class="contact-item"
-      [button]="true">
-      
+    <ion-item *ngFor="let contact of contacts" class="contact-item" [button]="true">
+
       <ion-avatar slot="start" class="contact-avatar">
         <img src="/src/assets/imagen-landing.png" alt="{{ contact.nombre }}">
         <div class="online-status"></div>
@@ -48,14 +41,11 @@
         <p>{{ contact.telefono }}</p>
       </ion-label>
 
-      <ion-buttons slot="end" class="contact-actions">
-        <ion-button fill="clear" color="medium" class="action-btn">
-          <ion-icon name="call-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" color="medium" class="action-btn">
-          <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
+      <ion-button fill="clear" color="medium" class="action-btn" (click)="goToCall(contact)">
+        <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+      </ion-button>
+
+
     </ion-item>
   </div>
 
@@ -63,11 +53,7 @@
     <div class="empty-state">
       <ion-icon name="people-outline" class="empty-icon"></ion-icon>
       <h3>No tienes contactos aún</h3>
-      <ion-button 
-        (click)="openAddContactModal()" 
-        fill="outline" 
-        color="primary"
-        class="add-btn">
+      <ion-button (click)="openAddContactModal()" fill="outline" color="primary" class="add-btn">
         <ion-icon name="person-add" slot="start"></ion-icon>
         Agregar Contacto
       </ion-button>
@@ -90,17 +76,17 @@
       <ion-label>Chats</ion-label>
       <ion-badge color="danger">2</ion-badge>
     </ion-tab-button>
-    
+
     <ion-tab-button tab="contacts" selected class="tab-button">
       <ion-icon name="people-outline"></ion-icon>
       <ion-label>Contactos</ion-label>
     </ion-tab-button>
-    
+
     <ion-tab-button tab="calls" class="tab-button">
       <ion-icon name="call-outline"></ion-icon>
       <ion-label>Llamadas</ion-label>
     </ion-tab-button>
-    
+
     <ion-tab-button tab="settings" class="tab-button">
       <ion-icon name="settings-outline"></ion-icon>
       <ion-label>Ajustes</ion-label>

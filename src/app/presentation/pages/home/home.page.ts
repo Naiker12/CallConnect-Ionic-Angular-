@@ -8,6 +8,7 @@ import { ProfileComponent } from 'src/app/shared/components/profile/profile.comp
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { createAnimation } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,8 @@ export class HomePage implements OnInit, OnDestroy {
     private contactService: ContactService,
     private authService: AuthService,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -135,5 +137,15 @@ export class HomePage implements OnInit, OnDestroy {
       await toast.present();
     }
   }
+
+  goToCall(contact: any) {
+    this.router.navigate(['/call'], {
+      queryParams: {
+        nombre: contact.nombre,
+        telefono: contact.telefono
+      }
+    });
+  }
+  
   
 }

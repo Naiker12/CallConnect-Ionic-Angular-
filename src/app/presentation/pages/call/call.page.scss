@@ -1,0 +1,24 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .message {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 70%;
+  }
+  
+  .message.received {
+    background-color: #e5e5ea;
+    align-self: flex-start;
+  }
+  
+  .message.sent {
+    background-color: #0078fe;
+    color: white;
+    align-self: flex-end;
+  }
+  

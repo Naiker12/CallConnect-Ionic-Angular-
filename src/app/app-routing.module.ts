@@ -29,6 +29,10 @@ const routes: Routes = [
     loadChildren: () => import('./presentation/pages/home/home.module').then( m => m.HomePageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: ':room',
+    loadChildren: () => import('./presentation/pages/call/call.module').then( m => m.CallPageModule)
+  },
 ];
 
 @NgModule({

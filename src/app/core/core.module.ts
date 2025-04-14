@@ -7,6 +7,11 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 
 import { environment } from 'src/environments/environment';
 
+
+
+// import { FcmService } from './firebase/fcm.service';
+// import { NotificationService } from './services/notification.service';
+
 @NgModule({
   imports: [
     SharedModule,
@@ -15,6 +20,7 @@ import { environment } from 'src/environments/environment';
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    // NotificationService
   ],
 })
 export class CoreModule {}

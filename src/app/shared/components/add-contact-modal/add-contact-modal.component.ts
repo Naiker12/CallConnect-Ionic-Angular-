@@ -73,8 +73,8 @@ export class AddContactModalComponent {
 
   /**
    * Muestra un mensaje en pantalla (toast)
-   * @param message mensaje a mostrar
-   * @param color color del toast
+   * @param  mensaje a mostrar
+   * @param color del toast
    */
   private async showToast(message: string, color: 'success' | 'danger'): Promise<void> {
     const toast = await this.toastController.create({

@@ -4,15 +4,6 @@ Aplicación de videollamadas desarrollada con Ionic Angular y Firebase.
 
 ![CallConnect Logo](https://ravishing-courtesy-production.up.railway.app/assets/logo.png)
 
-## Tabla de Contenidos
-- [Características](#características)
-- [Tecnologías](#tecnologías)
-- [Pasos de Instalación](#pasos-de-instalación)
-- [Configuración](#configuración)
-- [Estructura del Proyecto](#estructura-del-proyecto)
-- [Documentación API](#documentación-api)
-- [Despliegue](#despliegue)
-
 ## Características ✨
 
 - Autenticación segura con Firebase

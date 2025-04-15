@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ModalController , ToastController} from '@ionic/angular';
+import { ModalController , NavController, ToastController, AlertController } from '@ionic/angular';
 import { Contact } from 'src/app/core/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -28,7 +28,7 @@ export class HomePage implements OnInit, OnDestroy {
     private authService: AuthService,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private router: Router
+    private router: Router, 
   ) {}
 
   ngOnInit() {
@@ -138,14 +138,11 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
-  goToCall(contact: any) {
-    this.router.navigate(['/call'], {
-      queryParams: {
-        nombre: contact.nombre,
-        telefono: contact.telefono
-      }
-    });
+
+  goToCall() {
+    if (this.router.url !== '/call') {
+      this.router.navigate(['/call']);
+    }
   }
-  
   
 }

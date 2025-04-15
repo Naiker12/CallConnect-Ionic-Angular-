@@ -15,7 +15,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { environment } from 'src/environments/environment';
 import { CoreModule } from './core/core.module';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthRepository } from './domain/repositories/auth-repository';
 import { FirebaseAuthRepository } from './data/repositories/firebase-auth.repository';
 
@@ -24,7 +24,7 @@ import { FirebaseAuthRepository } from './data/repositories/firebase-auth.reposi
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule , CoreModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule , CoreModule , HttpClientModule],
   providers: [{ provide: RouteReuseStrategy , useClass: IonicRouteStrategy  },
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),

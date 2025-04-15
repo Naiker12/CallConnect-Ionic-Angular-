@@ -1,8 +1,32 @@
+/* Colores base */
+:root {
+  --ion-color-primary: #128C7E;
+  --ion-color-primary-rgb: 18, 140, 126;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #107b6e;
+  --ion-color-primary-tint: #2a988b;
+  
+  --ion-color-secondary: #25D366;
+  --ion-color-light: #f0f2f5;
+  --ion-color-medium: #667781;
+  --ion-color-dark: #3b4a54;
+}
+
+/* Reset de bloqueo de interfaz */
+ion-app, ion-content, html, body {
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  overflow: auto !important;
+}
+
 /* Estilos para la cabecera mejorada */
 .header-toolbar {
   --background: linear-gradient(135deg, var(--ion-color-primary) 0%, #2c3e50 100%);
   --border-width: 0;
   padding-bottom: 0;
+  position: relative;
+  z-index: 100;
 }
 
 .header-title {
@@ -11,6 +35,7 @@
   font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.5px;
+  pointer-events: auto;
 }
 
 .title-icon {
@@ -37,11 +62,15 @@
   --border-radius: 20px;
   padding: 0 10px;
   margin-bottom: 10px;
+  pointer-events: auto;
 }
 
-/* Estilos para la lista de contactos */
+/* Lista de contactos - Versión combinada */
 .contact-list {
   margin-top: 10px;
+  background: #f0f2f5;
+  position: relative;
+  z-index: 10;
 }
 
 .contact-item {
@@ -53,6 +82,17 @@
   --background: white;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  overflow: visible;
+  touch-action: manipulation;
+  --background-activated: #f5f5f5;
+  --background-hover: #f9f9f9;
+}
+
+.contact-item::part(native) {
+  pointer-events: auto !important;
 }
 
 .contact-item:active {
@@ -63,6 +103,8 @@
   width: 48px;
   height: 48px;
   position: relative;
+  pointer-events: none;
+  margin-right: 12px;
 }
 
 .contact-avatar img {
@@ -73,11 +115,16 @@
   position: absolute;
   bottom: 2px;
   right: 2px;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background-color: #4caf50;
   border-radius: 50%;
   border: 2px solid white;
+  pointer-events: none;
+}
+
+.contact-info {
+  pointer-events: none;
 }
 
 .contact-info h2 {
@@ -94,6 +141,7 @@
 .contact-actions {
   opacity: 0;
   transition: opacity 0.2s ease;
+  pointer-events: auto;
 }
 
 .contact-item:hover .contact-actions {
@@ -103,6 +151,7 @@
 .action-btn {
   --padding-start: 5px;
   --padding-end: 5px;
+  pointer-events: auto;
 }
 
 /* Estado vacío */
@@ -110,18 +159,21 @@
   text-align: center;
   padding: 40px 20px;
   margin-top: 30%;
+  pointer-events: auto;
 }
 
 .empty-icon {
   font-size: 64px;
   color: var(--ion-color-medium-shade);
   margin-bottom: 20px;
+  pointer-events: none;
 }
 
 .empty-state h3 {
   color: var(--ion-color-medium);
   font-weight: 500;
   margin-bottom: 15px;
+  pointer-events: none;
 }
 
 .add-btn {
@@ -129,18 +181,22 @@
   --border-style: solid;
   --border-color: var(--ion-color-primary);
   margin-top: 15px;
+  pointer-events: auto;
 }
 
 /* Botón flotante optimizado */
 .custom-fab {
-  bottom: 70px; /* Posición sobre la barra de pestañas */
+  bottom: 70px;
   right: 15px;
+  position: fixed;
+  z-index: 100;
 }
 
 ion-fab-button {
   --background: var(--ion-color-primary);
   --box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.3);
   transition: transform 0.2s ease;
+  pointer-events: auto;
 }
 
 ion-fab-button:active {
@@ -151,7 +207,7 @@ ion-fab-button:active {
   font-size: 1.5rem;
 }
 
-/* Barra de pestañas mejorada */
+/* Barra de pestañas mejorada - Versión combinada */
 .custom-tab-bar {
   --background: white;
   --border: 1px solid rgba(0, 0, 0, 0.1);
@@ -160,12 +216,24 @@ ion-fab-button:active {
   padding-top: 5px;
   padding-bottom: 5px;
   height: 60px;
+  position: relative;
+  z-index: 100;
+  touch-action: manipulation;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .tab-button {
   --color: var(--ion-color-medium);
   --color-selected: var(--ion-color-primary);
   --padding-bottom: 5px;
+  pointer-events: auto !important;
+  position: relative;
+  overflow: visible;
+  flex: 1;
+  max-width: 25%;
+  min-width: 0;
 }
 
 .tab-button::before {
@@ -178,10 +246,27 @@ ion-fab-button:active {
   height: 3px;
   background: var(--ion-color-primary);
   transition: width 0.2s ease;
+  pointer-events: none;
 }
 
 .tab-button.tab-selected::before {
   width: 40px;
+}
+
+.tab-button ion-icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.tab-button ion-label {
+  font-size: 12px;
+  font-weight: 400;
+  margin-top: 0;
+  text-transform: none;
+  pointer-events: none;
+  transition: all 0.2s ease;
 }
 
 /* Animaciones */
@@ -194,6 +279,21 @@ ion-fab-button:active {
   animation: fadeIn 0.3s ease-out forwards;
   animation-delay: calc(var(--index) * 0.05s);
   opacity: 0;
+}
+
+/* Elementos de bloqueo potencial */
+ion-backdrop {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+/* Asegurar que el contenido sea interactivo */
+ion-content {
+  --overflow: visible;
+  overflow: auto;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 1;
 }
 
 /* Ajustes responsivos */
@@ -209,5 +309,13 @@ ion-fab-button:active {
   
   .title-icon {
     font-size: 1.2rem;
+  }
+  
+  .tab-button ion-icon {
+    font-size: 20px;
+  }
+  
+  .tab-button ion-label {
+    font-size: 10px;
   }
 }

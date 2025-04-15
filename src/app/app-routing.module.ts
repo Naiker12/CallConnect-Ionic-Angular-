@@ -30,9 +30,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: ':room',
-    loadChildren: () => import('./presentation/pages/call/call.module').then( m => m.CallPageModule)
-  },
+    path: 'call',
+    loadChildren: () => import('./presentation/pages/call/call.module').then(m => m.CallPageModule)
+  }
+  
 ];
 
 @NgModule({

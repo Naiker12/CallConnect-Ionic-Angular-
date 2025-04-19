@@ -1,0 +1,44 @@
+<ion-content class="forgot-content">
+  <div class="gradient-header"></div>
+  
+  <div class="forgot-card">
+    <!-- Logo/Imagen centrada -->
+    <div class="image-container">
+      <img src="assets/icon/icon_1200.webp" alt="App Logo" class="center-image">
+    </div>
+
+    <div class="header-section">
+      <h2 class="forgot-title">Recuperar contraseña</h2>
+      <p class="forgot-subtitle">
+        Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+      </p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onRecover()" class="form-container">
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          type="email"
+          placeholder="Correo electrónico"
+          formControlName="email"
+          label="Correo electrónico"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+
+      <div class="error-message" *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+        <p *ngIf="form.get('email')?.errors?.['required']">El correo es obligatorio.</p>
+        <p *ngIf="form.get('email')?.errors?.['email']">Ingresa un correo válido.</p>
+      </div>
+
+      <ion-button expand="block" class="sign-in-button" type="submit" [disabled]="form.invalid">
+        Enviar enlace
+      </ion-button>
+    </form>
+
+    <p class="login-text">
+      ¿Ya la recordaste?
+      <a (click)="goToLogin()" class="login-link">Inicia sesión</a>
+    </p>
+  </div>
+</ion-content>

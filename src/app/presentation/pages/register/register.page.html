@@ -1,0 +1,112 @@
+<ion-content class="register-content">
+  <div class="gradient-header"></div>
+  
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-card">
+    <!-- Logo/Imagen centrada -->
+    <div class="image-container">
+      <img src="assets/icon/icon_1200.webp" alt="App Logo" class="center-image">
+    </div>
+
+    <div class="header-section">
+      <h2 class="register-title">Crear cuenta</h2>
+      <p class="register-subtitle">Regístrate para comenzar</p>
+    </div>
+
+    <div class="form-fields">
+      <!-- Campo: Nombre -->
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="nombre"
+          type="text"
+          placeholder="Nombre"
+          label="Nombre"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+
+      <!-- Campo: Apellido -->
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="apellido"
+          type="text"
+          placeholder="Apellido"
+          label="Apellido"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+
+      <!-- Campo: Correo -->
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="correo"
+          type="email"
+          placeholder="Correo electrónico"
+          label="Correo electrónico"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+
+      <!-- Campo: Teléfono -->
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="call-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="telefono"
+          type="tel"
+          placeholder="Teléfono"
+          label="Teléfono"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+
+      <!-- Campo: Contraseña -->
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input
+          formControlName="password"
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contraseña"
+          label="Contraseña"
+          labelPlacement="floating">
+        </ion-input>
+        <ion-icon 
+          [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+          slot="end"
+          (click)="togglePassword()"
+          class="password-toggle">
+        </ion-icon>
+      </ion-item>
+    </div>
+
+    <ion-button expand="block" class="sign-in-button" type="submit" [disabled]="form.invalid">
+      Registrarse
+    </ion-button>
+
+    <div class="social-section">
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">o continuar con</span>
+        <span class="divider-line"></span>
+      </div>
+    
+      <div class="social-buttons">
+        <ion-button fill="outline" class="google-button" shape="round">
+          <ion-icon slot="start" name="logo-google"></ion-icon>
+          Google
+        </ion-button>
+        
+        <ion-button fill="outline" class="github-button" shape="round">
+          <ion-icon slot="start" name="logo-github"></ion-icon>
+          GitHub
+        </ion-button>
+      </div>
+    </div>
+
+    <p class="login-text">
+      ¿Ya tienes una cuenta?
+      <a routerLink="/login" class="login-link">Inicia sesión</a>
+    </p>
+  </form>
+</ion-content>

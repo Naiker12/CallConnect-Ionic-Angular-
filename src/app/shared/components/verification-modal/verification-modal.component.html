@@ -1,0 +1,29 @@
+<ion-content class="modal-content">
+  <div class="modal-container">
+    <div class="header">
+      <ion-icon name="arrow-back-outline" (click)="closeModal()" class="back-icon"></ion-icon>
+      <h2 class="title">Verificar Correo</h2>
+    </div>
+
+    <div class="illustration">
+      <img src="assets/verify-img.png" alt="verify-email" />
+    </div>
+
+    <p class="description" *ngIf="email">
+      Hemos enviado un enlace de verificación a:<br>
+      <strong>{{ emailMasked }}</strong>
+    </p>
+
+    <p class="hint-text">
+      Por favor revisa tu bandeja de entrada y sigue las instrucciones.
+    </p>
+
+    <p class="resend-text">       
+      ¿No recibiste el correo? <strong (click)="resendCode()" class="resend">Reenviar</strong>
+    </p>
+
+    <ion-button expand="block" class="verify-btn" (click)="goToLogin()">
+      Entendido
+    </ion-button>
+  </div>
+</ion-content>

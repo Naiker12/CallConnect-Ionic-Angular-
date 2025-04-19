@@ -1,0 +1,7 @@
+{
+  "name": "CallConnect",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

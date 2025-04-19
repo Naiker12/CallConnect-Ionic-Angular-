@@ -1,0 +1,123 @@
+.forgot-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  --background: #f8f9fa;
+  box-sizing: border-box;
+}
+
+.gradient-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom-left-radius: 30% 20%;
+  border-bottom-right-radius: 30% 20%;
+  z-index: 0;
+}
+
+.forgot-card {
+  width: 100%;
+  max-width: 450px;
+  background: white;
+  border-radius: 20px;
+  padding: 30px 25px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  margin: 15vh auto 5vh;
+  position: relative;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: -80px;
+  margin-bottom: 20px;
+}
+
+.center-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: contain;
+  border: 5px solid white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  padding: 5px;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+
+.forgot-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.forgot-subtitle {
+  font-size: 15px;
+  color: #7f8c8d;
+  margin: 0;
+  line-height: 1.4;
+  padding: 0 10px;
+}
+
+.custom-input {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  --min-height: 55px;
+  margin-bottom: 15px;
+  
+  &:focus-within {
+    --background: #e8f4ff;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+  }
+}
+
+.input-icon {
+  color: #667eea;
+  font-size: 20px;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 13px;
+  margin: -10px 0 15px 15px;
+}
+
+.sign-in-button {
+  --background: #667eea;
+  --background-activated: #5a6fd1;
+  --border-radius: 12px;
+  --padding-top: 18px;
+  --padding-bottom: 18px;
+  font-weight: 600;
+  margin: 25px 0;
+  font-size: 16px;
+  --box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+
+.login-text {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.login-link {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
+}

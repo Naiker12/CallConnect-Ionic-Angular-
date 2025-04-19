@@ -1,0 +1,179 @@
+.login-content {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  --background: #f8f9fa;
+  box-sizing: border-box;
+}
+
+.gradient-header {
+  position: fixed; /* Cambiado a fixed para mejor control */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22vh; /* Altura ajustada */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom-left-radius: 30% 20%;
+  border-bottom-right-radius: 30% 20%;
+  z-index: 0;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  margin: 15vh auto 5vh; /* Centrado vertical mejorado */
+  position: relative;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-top: -80px; /* Ajuste para posición de la imagen */
+  margin-bottom: 20px;
+}
+
+.center-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: contain; /* Cambiado para mejor visualización */
+  border: 5px solid white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  padding: 5px; /* Espacio para logos con fondo blanco */
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 25px;
+  padding-top: 10px;
+}
+
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+
+.login-subtitle {
+  font-size: 15px;
+  color: #7f8c8d;
+  margin: 0;
+}
+
+.custom-input {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  --min-height: 55px;
+  margin-bottom: 18px;
+  
+  &:focus-within {
+    --background: #e8f4ff;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+  }
+}
+
+.input-icon {
+  color: #667eea;
+  font-size: 20px;
+}
+
+.password-toggle {
+  color: #95a5a6;
+  font-size: 20px;
+  cursor: pointer;
+  transition: color 0.2s;
+  
+  &:active {
+    color: #667eea;
+  }
+}
+
+.forgot-section {
+  text-align: right;
+  margin: -10px 0 20px;
+}
+
+.forgot-password {
+  color: #667eea;
+  font-size: 14px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sign-in-button {
+  --background: #667eea;
+  --background-activated: #5a6fd1;
+  --border-radius: 12px;
+  --padding-top: 18px;
+  --padding-bottom: 18px;
+  font-weight: 600;
+  margin: 20px 0;
+  font-size: 16px;
+  --box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 25px 0;
+  color: #95a5a6;
+  font-size: 14px;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: #ecf0f1;
+}
+
+.divider-text {
+  padding: 0 12px;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.google-button {
+  --border-color: #dd4b39;
+  --color: #dd4b39;
+  --border-radius: 50px;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+}
+
+.github-button {
+  --border-color: #333;
+  --color: #333;
+  --border-radius: 50px;
+  --padding-top: 15px;
+  --padding-bottom: 15px;
+}
+
+.register-text {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 15px;
+  margin-top: 20px;
+}
+
+.register-link {
+  color: #667eea;
+  font-weight: 600;
+  text-decoration: none;
+}

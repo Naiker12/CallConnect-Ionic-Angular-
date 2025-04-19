@@ -1,0 +1,99 @@
+<ion-header class="header">
+  <ion-toolbar class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-button class="menu-button">
+        <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="header-title">
+      <ion-icon name="people-circle-outline" class="title-icon"></ion-icon>
+      <span>Mis Contactos</span>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button class="profile-button" (click)="goToProfile()" aria-label="Perfil">
+        <ion-avatar class="profile-avatar">
+          <img src="assets/imagen-landing.png" alt="Foto de perfil">
+        </ion-avatar>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="search-toolbar">
+    <ion-searchbar 
+      class="custom-searchbar"
+      placeholder="Buscar contactos..."
+      animated
+      debounce="300"
+      mode="ios">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="contacts-content">
+
+  <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
+    <ion-item-sliding *ngFor="let contact of contacts; let i = index">
+      <ion-item 
+        class="contact-item" 
+        button 
+        lines="none"
+        (click)="openContactDetails(contact)"
+        style="--animation-order: {{i}}">
+        
+        <ion-avatar slot="start" class="contact-avatar">
+          <img src="assets/imagen-landing.png">
+          <div class="online-status"></div>
+        </ion-avatar>
+
+        <ion-label class="contact-info">
+          <h2 class="contact-name">{{ contact.nombre }}</h2>
+          <p class="contact-phone">{{ contact.telefono }}</p>
+        </ion-label>
+
+        <div class="action-buttons" slot="end">
+          <ion-button fill="clear" color="primary" (click)="goToCall(); $event.stopPropagation()">
+            <ion-icon name="call-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="primary" (click)="editContact(contact)">
+          <ion-icon slot="top" name="create-outline"></ion-icon>
+          Editar
+        </ion-item-option>
+        <ion-item-option color="danger" (click)="deleteContact(contact)">
+          <ion-icon slot="top" name="trash-outline"></ion-icon>
+          Eliminar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </div>
+  
+
+  <ng-template #noContacts>
+    <div class="empty-state">
+      <div class="empty-icon-container">
+        <ion-icon name="people-outline" class="empty-icon"></ion-icon>
+      </div>
+      <h3 class="empty-title">No tienes contactos aún</h3>
+      <ion-button 
+        (click)="openAddContactModal()" 
+        fill="solid" 
+        color="primary" 
+        class="add-btn"
+        shape="round">
+        <ion-icon name="person-add" slot="start"></ion-icon>
+        Agregar Contacto
+      </ion-button>
+    </div>
+  </ng-template>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
+    <ion-fab-button (click)="openAddContactModal()" color="primary" aria-label="Agregar contacto">
+      <ion-icon name="add" class="fab-icon"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,78 @@
+<ion-content class="login-content">
+  <div class="gradient-header"></div>
+  
+  <form [formGroup]="form" (ngSubmit)="onLogin()" class="login-card">
+    <!-- Logo/Imagen centrada -->
+    <div class="image-container">
+      <img src="assets/icon/icon_1200.webp" alt="App Logo" class="center-image">
+    </div>
+
+    <div class="header-section">
+      <h2 class="login-title">¡Bienvenido de nuevo!</h2>
+      <p class="login-subtitle">Inicia sesión para continuar</p>
+    </div>
+
+    <div class="form-fields">
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input 
+          formControlName="email" 
+          type="email"
+          placeholder="Correo electrónico"
+          label="Correo electrónico"
+          labelPlacement="floating">
+        </ion-input>
+      </ion-item>
+
+      <ion-item class="custom-input" lines="none">
+        <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
+        <ion-input 
+          formControlName="password" 
+          [type]="showPassword ? 'text' : 'password'"
+          placeholder="Contraseña"
+          label="Contraseña"
+          labelPlacement="floating">
+        </ion-input>
+        <ion-icon 
+          [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
+          slot="end"
+          (click)="togglePassword()"
+          class="password-toggle">
+        </ion-icon>
+      </ion-item>
+
+      <div class="forgot-section">
+        <a (click)="goToRecover()" class="forgot-password">¿Olvidaste tu contraseña?</a>
+      </div>
+    </div>
+
+    <ion-button expand="block" class="sign-in-button" type="submit" [disabled]="form.invalid">
+      Iniciar sesión
+    </ion-button>
+
+    <div class="social-section">
+      <div class="divider">
+        <span class="divider-line"></span>
+        <span class="divider-text">o continuar con</span>
+        <span class="divider-line"></span>
+      </div>
+    
+      <div class="social-buttons">
+        <ion-button fill="outline" class="google-button" shape="round">
+          <ion-icon slot="start" name="logo-google"></ion-icon>
+          Google
+        </ion-button>
+        
+        <ion-button fill="outline" class="github-button" shape="round">
+          <ion-icon slot="start" name="logo-github"></ion-icon>
+          GitHub
+        </ion-button>
+      </div>
+    </div>
+
+    <p class="register-text">
+      ¿No tienes una cuenta?
+      <a (click)="goToRegister()" class="register-link">Regístrate</a>
+    </p>
+  </form>
+</ion-content>

@@ -1,0 +1,23 @@
+.back-icon {
+  font-size: 28px;
+  cursor: pointer;
+  transition: transform 0.3s ease, color 0.3s ease, opacity 0.5s ease;
+  opacity: 0;
+  animation: fadeInSlide 0.5s forwards;
+
+  &:hover {
+    transform: translateX(-4px) scale(1.1);
+    color: #0056b3 !important;
+  }
+}
+
+@keyframes fadeInSlide {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

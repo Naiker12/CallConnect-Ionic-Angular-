@@ -1,0 +1,71 @@
+.modal-content {
+  --background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.back-icon {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0;
+}
+
+.illustration img {
+  width: 120px;
+  margin: 20px auto;
+}
+
+.description {
+  color: #444;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.code-box {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-size: 24px;
+  border: 2px solid #0056b3;
+  border-radius: 10px;
+}
+
+.resend-text {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.resend {
+  color: #0056b3;
+  cursor: pointer;
+}
+
+.verify-btn {
+  --background: #0056b3;
+  border-radius: 10px;
+}

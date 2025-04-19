@@ -1,0 +1,169 @@
+/* Modal lateral */
+.side-modal {
+  --width: 85%;
+  --max-width: 400px;
+  --height: 100%;
+  --border-radius: 0;
+  --box-shadow: -8px 0 24px rgba(0, 0, 0, 0.1);
+  animation: slideInLeft 0.3s ease-out;
+}
+
+.side-modal.modal-dismissing {
+  animation: slideOutLeft 0.3s ease-in;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideOutLeft {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
+
+/* Estilos del perfil */
+.profile-toolbar {
+  --background: linear-gradient(135deg, var(--ion-color-primary) 0%, #2c3e50 100%);
+  --color: white;
+  --border-width: 0;
+}
+
+.profile-title {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.close-btn {
+  --color: white;
+}
+
+.profile-content {
+  --background: #f8f9fa;
+  position: relative;
+}
+
+.profile-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 180px;
+  background: linear-gradient(135deg, var(--ion-color-primary) 0%, #2c3e50 100%);
+  z-index: 0;
+}
+
+.profile-card {
+  position: relative;
+  background: white;
+  margin: 120px 16px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.profile-header {
+  padding: 24px 16px;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+  border: 4px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.profile-avatar:hover {
+  transform: scale(1.05);
+}
+
+.edit-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: var(--ion-color-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  cursor: pointer;
+}
+
+.status-badge {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #4caf50;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  margin-top: 8px;
+}
+
+.user-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+  margin: 4px 0 0;
+}
+
+.profile-actions {
+  padding: 8px 0;
+}
+
+.profile-actions ion-item {
+  --padding-start: 20px;
+  --padding-end: 20px;
+  --min-height: 56px;
+  --background-activated: rgba(var(--ion-color-primary-rgb), 0.1);
+}
+
+.profile-actions ion-icon {
+  font-size: 1.2rem;
+}
+
+.logout-section {
+  padding: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.logout-btn {
+  --border-radius: 12px;
+  --background-activated: rgba(var(--ion-color-danger-rgb), 0.1);
+  font-weight: 500;
+}
+
+/* Animaciones */
+ion-item {
+  transition: transform 0.2s ease;
+}
+
+ion-item:active {
+  transform: scale(0.98);
+}

@@ -18,6 +18,7 @@ log.txt
 /coverage
 /android
 /my-custom-plugin
+/node_modules
 
 # Ionic
 /.ionic

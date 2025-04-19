@@ -9,13 +9,20 @@ import { VerificationModalComponent } from 'src/app/shared/components/verificati
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
+<<<<<<< HEAD
   standalone: false,
+=======
+  standalone: false
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 })
 export class LoginPage implements OnInit {
 
   form: FormGroup;
   currentUrl: string;
+<<<<<<< HEAD
   showPassword = false;
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
   constructor(
     private router: Router,
@@ -86,8 +93,11 @@ export class LoginPage implements OnInit {
       this.router.navigate(['/recover']);
     }
   }
+<<<<<<< HEAD
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }

@@ -13,7 +13,10 @@ import { RegisterService } from 'src/app/domain/use-cases/register.service';
 })
 export class RegisterPage {
   form: FormGroup;
+<<<<<<< HEAD
   showPassword = false;
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
   constructor(
     private fb: FormBuilder,
@@ -70,9 +73,12 @@ export class RegisterPage {
       await toast.present();
     }
   }
+<<<<<<< HEAD
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
   
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }

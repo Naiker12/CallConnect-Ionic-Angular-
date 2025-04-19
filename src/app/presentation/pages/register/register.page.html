@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-content class="register-content">
   <div class="gradient-header"></div>
   
@@ -6,12 +7,22 @@
     <div class="image-container">
       <img src="assets/icon/icon_1200.webp" alt="App Logo" class="center-image">
     </div>
+=======
+<ion-content class="ion-padding register-content">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-container">
+    <!-- Botón de regreso -->
+    <app-back-button></app-back-button>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
     <div class="header-section">
       <h2 class="register-title">Crear cuenta</h2>
       <p class="register-subtitle">Regístrate para comenzar</p>
     </div>
 
+<<<<<<< HEAD
+=======
+    <!-- Campos de formulario -->
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
     <div class="form-fields">
       <!-- Campo: Nombre -->
       <ion-item class="custom-input" lines="none">
@@ -20,6 +31,10 @@
           formControlName="nombre"
           type="text"
           placeholder="Nombre"
+<<<<<<< HEAD
+=======
+          clearInput
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           label="Nombre"
           labelPlacement="floating">
         </ion-input>
@@ -32,6 +47,10 @@
           formControlName="apellido"
           type="text"
           placeholder="Apellido"
+<<<<<<< HEAD
+=======
+          clearInput
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           label="Apellido"
           labelPlacement="floating">
         </ion-input>
@@ -44,6 +63,10 @@
           formControlName="correo"
           type="email"
           placeholder="Correo electrónico"
+<<<<<<< HEAD
+=======
+          clearInput
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           label="Correo electrónico"
           labelPlacement="floating">
         </ion-input>
@@ -56,6 +79,10 @@
           formControlName="telefono"
           type="tel"
           placeholder="Teléfono"
+<<<<<<< HEAD
+=======
+          clearInput
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           label="Teléfono"
           labelPlacement="floating">
         </ion-input>
@@ -66,6 +93,7 @@
         <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
           formControlName="password"
+<<<<<<< HEAD
           [type]="showPassword ? 'text' : 'password'"
           placeholder="Contraseña"
           label="Contraseña"
@@ -80,6 +108,19 @@
       </ion-item>
     </div>
 
+=======
+          type="password"
+          placeholder="Contraseña"
+          clearInput
+          label="Contraseña"
+          labelPlacement="floating">
+        </ion-input>
+        <ion-icon name="eye-off-outline" slot="end" class="password-toggle-icon"></ion-icon>
+      </ion-item>
+    </div>
+
+    <!-- Botón de Registro -->
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
     <ion-button expand="block" class="sign-in-button" type="submit" [disabled]="form.invalid">
       Registrarse
     </ion-button>
@@ -92,6 +133,7 @@
       </div>
     
       <div class="social-buttons">
+<<<<<<< HEAD
         <ion-button fill="outline" class="google-button" shape="round">
           <ion-icon slot="start" name="logo-google"></ion-icon>
           Google
@@ -99,14 +141,30 @@
         
         <ion-button fill="outline" class="github-button" shape="round">
           <ion-icon slot="start" name="logo-github"></ion-icon>
+=======
+        <ion-button expand="block" fill="outline" class="google-button" shape="round">
+          <ion-icon slot="start" name="logo-google" class="social-icon"></ion-icon>
+          Google
+        </ion-button>
+        
+        <ion-button expand="block" fill="outline" class="github-button" shape="round">
+          <ion-icon slot="start" name="logo-github" class="social-icon"></ion-icon>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           GitHub
         </ion-button>
       </div>
     </div>
 
+<<<<<<< HEAD
     <p class="login-text">
       ¿Ya tienes una cuenta?
       <a routerLink="/login" class="login-link">Inicia sesión</a>
+=======
+    <!-- Enlace a login -->
+    <p class="login-text">
+      ¿Ya tienes una cuenta?
+      <a routerLink="/login" class="link">Inicia sesión</a>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
     </p>
   </form>
 </ion-content>

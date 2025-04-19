@@ -7,8 +7,12 @@ import { VerificationModalComponent } from './components/verification-modal/veri
 import { AddContactModalComponent } from './components/add-contact-modal/add-contact-modal.component';
 import { ProfileComponent } from './components/profile/profile.component';
 
+<<<<<<< HEAD
 
  const MODULOS = [CommonModule , FormsModule, IonicModule, ReactiveFormsModule ];
+=======
+ const MODULOS = [CommonModule , FormsModule, IonicModule, ReactiveFormsModule];
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
  const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent , ProfileComponent];
 
 

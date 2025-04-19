@@ -19,8 +19,11 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit, OnDestroy {
   contacts: Contact[] = [];
   isLoading = false;
+<<<<<<< HEAD
   isContactMenuOpen = false;
   selectedContact: any
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
   
   
   private destroy$ = new Subject<void>();
@@ -130,6 +133,10 @@ export class HomePage implements OnInit, OnDestroy {
       await modal.present();
     } catch (error) {
       console.error('Error al abrir el perfil:', error);
+<<<<<<< HEAD
+=======
+      // Opcional: Mostrar feedback al usuario
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
       const toast = await this.toastCtrl.create({
         message: 'No se pudo abrir el perfil',
         duration: 2000,
@@ -145,6 +152,7 @@ export class HomePage implements OnInit, OnDestroy {
       this.router.navigate(['/call']);
     }
   }
+<<<<<<< HEAD
 
   openContactDetails(contact: any) {
     console.log('Mostrar detalles de:', contact);
@@ -171,3 +179,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
 }
+=======
+  
+}
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277

@@ -1,7 +1,14 @@
+<<<<<<< HEAD
 <ion-header class="header">
   <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
       <ion-button class="menu-button">
+=======
+<ion-header>
+  <ion-toolbar color="primary" class="header-toolbar">
+    <ion-buttons slot="start">
+      <ion-button>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
         <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,14 +19,21 @@
     </ion-title>
 
     <ion-buttons slot="end">
+<<<<<<< HEAD
       <ion-button class="profile-button" (click)="goToProfile()" aria-label="Perfil">
         <ion-avatar class="profile-avatar">
           <img src="assets/imagen-landing.png" alt="Foto de perfil">
+=======
+      <ion-button (click)="goToProfile()" aria-label="Ir al perfil">
+        <ion-avatar class="profile-avatar">
+          <img src="/src/assets/imagen-landing.png" alt="Perfil">
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
         </ion-avatar>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 
+<<<<<<< HEAD
   <ion-toolbar class="search-toolbar">
     <ion-searchbar 
       class="custom-searchbar"
@@ -27,10 +41,15 @@
       animated
       debounce="300"
       mode="ios">
+=======
+  <ion-toolbar color="primary" class="search-toolbar">
+    <ion-searchbar placeholder="Buscar contactos..." animated class="custom-searchbar" debounce="300">
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
+<<<<<<< HEAD
 <ion-content class="contacts-content">
 
   <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
@@ -44,10 +63,20 @@
         
         <ion-avatar slot="start" class="contact-avatar">
           <img src="assets/imagen-landing.png">
+=======
+<ion-content class="ion-padding">
+  <!-- Lista de contactos -->
+  <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
+    <div *ngFor="let contact of contacts" class="contact-item-wrapper">
+      <ion-item button class="contact-item" (click)="goToCall()">
+        <ion-avatar slot="start" class="contact-avatar">
+          <img src="/src/assets/imagen-landing.png" alt="{{ contact.nombre }}">
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           <div class="online-status"></div>
         </ion-avatar>
 
         <ion-label class="contact-info">
+<<<<<<< HEAD
           <h2 class="contact-name">{{ contact.nombre }}</h2>
           <p class="contact-phone">{{ contact.telefono }}</p>
         </ion-label>
@@ -85,15 +114,68 @@
         color="primary" 
         class="add-btn"
         shape="round">
+=======
+          <h2>{{ contact.nombre }}</h2>
+          <p>{{ contact.telefono }}</p>
+        </ion-label>
+
+        <ion-button slot="end" fill="clear" color="primary" (click)="goToCall()">
+          <ion-icon name="call-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </div>
+  </div>
+  
+  <ng-template #noContacts>
+    <div class="empty-state">
+      <ion-icon name="people-outline" class="empty-icon"></ion-icon>
+      <h3>No tienes contactos aún</h3>
+      <ion-button (click)="openAddContactModal()" fill="outline" color="primary" class="add-btn">
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
         <ion-icon name="person-add" slot="start"></ion-icon>
         Agregar Contacto
       </ion-button>
     </div>
   </ng-template>
 
+<<<<<<< HEAD
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
     <ion-fab-button (click)="openAddContactModal()" color="primary" aria-label="Agregar contacto">
       <ion-icon name="add" class="fab-icon"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
+=======
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="custom-fab">
+    <ion-fab-button (click)="openAddContactModal()" aria-label="Agregar contacto">
+      <ion-icon name="person-add" class="fab-icon"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-tabs>
+  <!-- Contenido de los tabs -->
+  
+  <ion-tab-bar slot="bottom" class="custom-tab-bar">
+    <ion-tab-button tab="chats" class="tab-button" >
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <ion-label>Chats</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="contacts" selected class="tab-button">
+      <ion-icon name="people-outline"></ion-icon>
+      <ion-label>Contactos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="calls" class="tab-button" (click)="goToCall()">
+      <ion-icon name="call-outline"></ion-icon>
+      <ion-label>Llamadas</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings" class="tab-button">
+      <ion-icon name="settings-outline"></ion-icon>
+      <ion-label>Ajustes</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277

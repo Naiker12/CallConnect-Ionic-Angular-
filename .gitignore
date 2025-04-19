@@ -16,17 +16,25 @@ log.txt
 /.sourcemaps
 /.versions
 /coverage
+<<<<<<< HEAD
 /android
 /my-custom-plugin
 /node_modules
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
 # Ionic
 /.ionic
 /www
 /platforms
+<<<<<<< HEAD
 
 
 
+=======
+/plugins
+/android
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
 # Angular
 /environments/environments.ts

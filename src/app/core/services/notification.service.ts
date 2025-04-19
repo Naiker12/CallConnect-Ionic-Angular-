@@ -2,11 +2,18 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+<<<<<<< HEAD
 import { NavController } from '@ionic/angular';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
   constructor(private firestore: AngularFirestore , private Controller : NavController ) {}
+=======
+
+@Injectable({ providedIn: 'root' })
+export class NotificationService {
+  constructor(private firestore: AngularFirestore) {}
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
   async registerPush(userId: string) {
     if (Capacitor.isNativePlatform()) {
@@ -26,6 +33,7 @@ export class NotificationService {
         PushNotifications.addListener('registrationError', (err) => {
           console.error('Registration error:', err);
         });
+<<<<<<< HEAD
 
         PushNotifications.addListener(
           'pushNotificationReceived',
@@ -55,6 +63,8 @@ export class NotificationService {
             console.log('Push notification action performed:', notification);
           },
         );
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
       }
     }
   }
@@ -62,5 +72,8 @@ export class NotificationService {
   private saveTokenToFirestore(userId: string, token: string) {
     return this.firestore.collection('users').doc(userId).update({ token });
   }
+<<<<<<< HEAD
   
+=======
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }

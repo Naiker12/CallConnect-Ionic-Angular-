@@ -1,4 +1,5 @@
 .register-content {
+<<<<<<< HEAD
   position: relative;
   display: flex;
   justify-content: center;
@@ -112,11 +113,80 @@
   margin: 20px 0;
   font-size: 16px;
   --box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+=======
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --background: #f8f9fa;
+    height: 100%;
+  }
+  
+  .register-container {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .back-icon {
+    font-size: 20px;
+    color: #007bff;
+    margin-bottom: 10px;
+  }
+  
+  .register-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #0a1d5e;
+    margin: 10px 0 6px;
+  }
+  
+  .register-subtitle {
+    font-size: 15px;
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .custom-input {
+    --background: #e9f4ff;
+    --border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  
+  .input-icon {
+    color: #007bff;
+  }
+  
+  .sign-in-button {
+    --background: #007bff;
+    --border-radius: 10px;
+    font-weight: bold;
+    margin-bottom: 18px;
+  }
+  
+  .login-text {
+    text-align: center;
+    font-size: 14px;
+  
+    a {
+      text-decoration: none;
+      color: #007bff;
+      margin-left: 4px;
+    }
+  }
+  
+  /* Estilos para la sección social */
+.social-section {
+  margin: 24px 0;
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }
 
 .divider {
   display: flex;
   align-items: center;
+<<<<<<< HEAD
   margin: 25px 0;
   color: #95a5a6;
   font-size: 14px;
@@ -126,31 +196,68 @@
   flex: 1;
   height: 1px;
   background: #ecf0f1;
+=======
+  margin: 0 0 20px;
+  color: #95a5a6;
+  font-size: 14px;
+  position: relative;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+  margin: 0 10px;
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }
 
 .divider-text {
   padding: 0 12px;
+<<<<<<< HEAD
+=======
+  background: white;
+  position: relative;
+  z-index: 1;
+  font-weight: 500;
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }
 
 .social-buttons {
   display: flex;
+<<<<<<< HEAD
   justify-content: center;
   gap: 15px;
   margin-bottom: 20px;
+=======
+  gap: 16px;
+  margin: 0;
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }
 
 .google-button {
   --border-color: #dd4b39;
   --color: #dd4b39;
   --border-radius: 50px;
+<<<<<<< HEAD
   --padding-top: 15px;
   --padding-bottom: 15px;
+=======
+  --background-activated: rgba(221, 75, 57, 0.1);
+  --border-width: 1.5px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  flex: 1;
+  transition: all 0.3s ease;
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }
 
 .github-button {
   --border-color: #333;
   --color: #333;
   --border-radius: 50px;
+<<<<<<< HEAD
   --padding-top: 15px;
   --padding-bottom: 15px;
 }
@@ -166,4 +273,34 @@
   color: #667eea;
   font-weight: 600;
   text-decoration: none;
+=======
+  --background-activated: rgba(51, 51, 51, 0.1);
+  --border-width: 1.5px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.social-icon {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+/* Efectos hover */
+.google-button:hover {
+  --background: rgba(221, 75, 57, 0.05);
+  transform: translateY(-2px);
+}
+
+.github-button:hover {
+  --background: rgba(51, 51, 51, 0.05);
+  transform: translateY(-2px);
+}
+
+/* Efecto al hacer clic */
+.google-button:active, 
+.github-button:active {
+  transform: translateY(0);
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }

@@ -4,6 +4,10 @@
     "@ionic/angular/standalone"
   ],
   "IDX.aI.enableInlineCompletion": true,
+<<<<<<< HEAD
   "IDX.aI.enableCodebaseIndexing": true,
   "java.configuration.updateBuildConfiguration": "interactive"
+=======
+  "IDX.aI.enableCodebaseIndexing": true
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 }

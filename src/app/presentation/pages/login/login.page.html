@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ion-content class="login-content">
   <div class="gradient-header"></div>
   
@@ -6,6 +7,12 @@
     <div class="image-container">
       <img src="assets/icon/icon_1200.webp" alt="App Logo" class="center-image">
     </div>
+=======
+<ion-content class="ion-padding login-content">
+  <form [formGroup]="form" (ngSubmit)="onLogin()" class="login-container">
+
+    <app-back-button></app-back-button>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
 
     <div class="header-section">
       <h2 class="login-title">¡Bienvenido de nuevo!</h2>
@@ -22,17 +29,26 @@
           label="Correo electrónico"
           labelPlacement="floating">
         </ion-input>
+<<<<<<< HEAD
+=======
+        <ion-icon *ngIf="form.get('email')?.valid" name="checkmark-outline" slot="end" color="success"></ion-icon>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
       </ion-item>
 
       <ion-item class="custom-input" lines="none">
         <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input 
           formControlName="password" 
+<<<<<<< HEAD
           [type]="showPassword ? 'text' : 'password'"
+=======
+          type="password" 
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           placeholder="Contraseña"
           label="Contraseña"
           labelPlacement="floating">
         </ion-input>
+<<<<<<< HEAD
         <ion-icon 
           [name]="showPassword ? 'eye-outline' : 'eye-off-outline'"
           slot="end"
@@ -44,6 +60,12 @@
       <div class="forgot-section">
         <a (click)="goToRecover()" class="forgot-password">¿Olvidaste tu contraseña?</a>
       </div>
+=======
+        <ion-icon name="eye-off-outline" slot="end" class="password-toggle"></ion-icon>
+      </ion-item>
+
+      <a (click)="goToRecover()" class="forgot-password">¿Olvidaste tu contraseña?</a>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
     </div>
 
     <ion-button expand="block" class="sign-in-button" type="submit" [disabled]="form.invalid">
@@ -58,6 +80,7 @@
       </div>
     
       <div class="social-buttons">
+<<<<<<< HEAD
         <ion-button fill="outline" class="google-button" shape="round">
           <ion-icon slot="start" name="logo-google"></ion-icon>
           Google
@@ -65,6 +88,15 @@
         
         <ion-button fill="outline" class="github-button" shape="round">
           <ion-icon slot="start" name="logo-github"></ion-icon>
+=======
+        <ion-button expand="block" fill="outline" class="google-button" shape="round">
+          <ion-icon slot="start" name="logo-google" class="social-icon"></ion-icon>
+          Google
+        </ion-button>
+        
+        <ion-button expand="block" fill="outline" class="github-button" shape="round">
+          <ion-icon slot="start" name="logo-github" class="social-icon"></ion-icon>
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
           GitHub
         </ion-button>
       </div>
@@ -72,7 +104,13 @@
 
     <p class="register-text">
       ¿No tienes una cuenta?
+<<<<<<< HEAD
       <a (click)="goToRegister()" class="register-link">Regístrate</a>
     </p>
+=======
+      <a (click)="goToRegister()">Regístrate</a>
+    </p>
+
+>>>>>>> 3be7a7f6861f1a9e0eee40380a97a7df1ad48277
   </form>
 </ion-content>

@@ -1,16 +1,17 @@
 <ion-content [fullscreen]="true" class="ion-padding landing-content">
+  <div class="gradient-header"></div>
+  <div class="gradient-footer"></div>
+  
   <div class="landing-wrapper">
     <img src="assets/imagen-landing.png" alt="Ilustración" class="landing-image" />
 
     <p class="landing-title">Bienvenido a <strong>CallConnect</strong></p>
     <p class="landing-description">
-      Una app para conectar estudiantes e instructores y gestionar sus actividades de forma fácil y eficiente.
+      La app de mensajería y llamadas premium que conecta a estudiantes e instructores de forma privada y segura.
     </p>
 
-    <!-- Cuenta regresiva -->
     <p *ngIf="!showButton" class="loading-text">Mostrando botón en: {{ countdown }}</p>
 
-    <!-- Botón que aparece al finalizar el tiempo -->
     <ion-button *ngIf="showButton" fill="solid" shape="round" class="next-button" (click)="goToLogin()">
       <ion-icon name="arrow-forward-outline" slot="icon-only"></ion-icon>
     </ion-button>

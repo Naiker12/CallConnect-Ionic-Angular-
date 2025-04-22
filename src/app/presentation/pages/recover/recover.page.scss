@@ -21,6 +21,18 @@
   z-index: 0;
 }
 
+.gradient-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 22vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-top-left-radius: 30% 20%;
+  border-top-right-radius: 30% 20%;
+  z-index: 0;
+}
+
 .forgot-card {
   width: 100%;
   max-width: 450px;
@@ -29,10 +41,11 @@
   padding: 30px 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin: 15vh auto 5vh;
+  margin: 15vh auto;
   position: relative;
 }
 
+/* El resto del CSS permanece igual */
 .image-container {
   display: flex;
   justify-content: center;

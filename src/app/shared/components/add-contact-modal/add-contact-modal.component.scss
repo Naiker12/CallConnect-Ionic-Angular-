@@ -1,9 +1,142 @@
+.gradient-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30vh; /* Aumentado para más espacio */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-bottom-left-radius: 30% 20%;
+  border-bottom-right-radius: 30% 20%;
+  z-index: 0;
+}
+
+.gradient-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30vh; /* Aumentado para más espacio */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-top-left-radius: 30% 20%;
+  border-top-right-radius: 30% 20%;
+  z-index: 0;
+}
+
+.form-container {
+  position: relative;
+  z-index: 1;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin: -15vh auto 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.center-image {
+  width: 200px; 
+  height: 200px;
+  border-radius: 50%;
+  object-fit: contain;
+  border: 5px solid white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); 
+  background-color: white;
+  padding: 8px;
+}
+
+.form-content {
+  background: white;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 10vh;
+}
+
+.form-fields {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.input-item {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  --min-height: 60px;
+  margin-bottom: 25px;
+  transition: all 0.3s ease;
+
+  ion-icon {
+    color: var(--ion-color-primary);
+    font-size: 1.2rem;
+    margin-right: 10px;
+  }
+
+  &:focus-within {
+    --background: #e8f4ff;
+    box-shadow: 0 0 0 2px rgba(var(--ion-color-primary-rgb), 0.2);
+  }
+}
+
 ion-input.invalid {
-    border: 1px solid var(--ion-color-danger);
-  }
+  border: 1px solid var(--ion-color-danger);
+  border-radius: 12px;
+}
+
+ion-text small {
+  display: block;
+  margin: -15px 0 20px 15px;
+  font-size: 12px;
+}
+
+.submit-button {
+  --border-radius: 12px;
+  --padding-top: 18px;
+  --padding-bottom: 18px;
+  margin-top: 30px;
+  font-weight: 600;
   
-  ion-text small {
-    font-size: 12px;
-    color: var(--ion-color-danger);
+  ion-spinner {
+    margin-right: 8px;
   }
-  
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  ion-modal {
+    --width: 90%;
+    --min-width: 90%;
+    --height: auto;
+    --border-radius: 16px;
+    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    animation: modalEnter 0.3s ease-out;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .gradient-header, .gradient-footer {
+    height: 20vh;
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

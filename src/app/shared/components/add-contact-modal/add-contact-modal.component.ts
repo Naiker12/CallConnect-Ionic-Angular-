@@ -1,40 +1,31 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController, ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-contact',
   templateUrl: './add-contact-modal.component.html',
   styleUrls: ['./add-contact-modal.component.scss'],
-  standalone: false
+  standalone : false
 })
 export class AddContactModalComponent {
   form: FormGroup;
   isSubmitting = false;
 
-  readonly MESSAGES = {
-    CONTACT_NOT_FOUND: 'Contacto no encontrado.',
-    CONTACT_ADDED: 'Contacto agregado exitosamente.',
-    ERROR: 'Ocurrió un error al agregar el contacto.',
-    PHONE_REQUIRED: 'El número de teléfono es obligatorio.',
-    PHONE_INVALID: 'Por favor, ingresa un número de teléfono válido.',
-  };
-
   constructor(
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private firebaseContactService: FirebaseContactService,
-    private authService: AuthService,
-    private toastController: ToastController
+    private authService: AuthService
   ) {
     this.form = this.fb.group({
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
     });
   }
 
-  
   async onSubmit(): Promise<void> {
     if (this.form.invalid || this.isSubmitting) return;
 
@@ -44,7 +35,7 @@ export class AddContactModalComponent {
     const userId = this.authService.getUserId();
 
     if (!userId) {
-      await this.showToast(this.MESSAGES.ERROR, 'danger');
+      this.showErrorAlert('Error de autenticación');
       this.isSubmitting = false;
       return;
     }
@@ -53,45 +44,56 @@ export class AddContactModalComponent {
       const contact = await this.firebaseContactService.searchUserByPhone(telefono);
 
       if (!contact) {
-        await this.showToast(this.MESSAGES.CONTACT_NOT_FOUND, 'danger');
+        this.showErrorAlert('Contacto no encontrado');
         return;
       }
 
       await this.firebaseContactService.addContact(userId, contact);
-      await this.showToast(this.MESSAGES.CONTACT_ADDED, 'success');
+      this.showSuccessAlert('Contacto agregado exitosamente');
       this.form.reset();
-      this.modalCtrl.dismiss(true); 
+      this.modalCtrl.dismiss(true);
     } catch (error) {
-      await this.showToast(this.MESSAGES.ERROR, 'danger');
+      this.showErrorAlert('Error al agregar contacto');
     } finally {
       this.isSubmitting = false;
     }
   }
 
-  /**
-   * Muestra un mensaje en pantalla (toast)
-   * @param  mensaje a mostrar
-   * @param color del toast
-   */
-  private async showToast(message: string, color: 'success' | 'danger'): Promise<void> {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000,
-      color,
-      position: 'bottom'
+  private showSuccessAlert(message: string): void {
+    Swal.fire({
+      icon: 'success',
+      title: '¡Éxito!',
+      text: message,
+      timer: 2000,
+      showConfirmButton: false,
+      position: 'center',
+      backdrop: 'rgba(0,0,0,0.4)',
+      background: 'var(--ion-color-light)',
+      color: 'var(--ion-color-dark)',
+      customClass: {
+        popup: 'animated tada',
+        title: 'swal2-title-custom',
+        icon: 'swal2-icon-custom'
+      }
     });
-    await toast.present();
   }
-
-  /**
-   * Getter para acceder al control del teléfono desde el HTML
-   */
-  get telefonoControl() {
-    return this.form.get('telefono');
+  
+  private showErrorAlert(message: string): void {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+      timer: 2000,
+      showConfirmButton: false,
+      position: 'center',
+      backdrop: 'rgba(0,0,0,0.4)',
+      background: 'var(--ion-color-light)',
+      color: 'var(--ion-color-dark)',
+      iconColor: 'var(--ion-color-danger)'
+    });
   }
 
   dismiss() {
-    this.modalCtrl.dismiss(); 
+    this.modalCtrl.dismiss();
   }
-
 }

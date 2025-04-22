@@ -1,34 +1,51 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Agregar contacto</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">Cerrar</ion-button>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" fill="clear">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
+    <ion-title>Agregar contacto</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label position="stacked" for="telefono">Número de celular</ion-label>
-      <ion-input
-        id="telefono"
-        type="tel"
-        formControlName="telefono"
-        placeholder=""
-        [class.invalid]="form.get('telefono')?.invalid && form.get('telefono')?.touched"
-      ></ion-input>
-      <ion-text color="danger" *ngIf="form.get('telefono')?.invalid && form.get('telefono')?.touched">
-        <small>El número de celular es requerido y debe ser válido.</small>
-      </ion-text>
-    </ion-item>
+  <div class="gradient-header"></div>
+  <div class="gradient-footer"></div>
+  
+  <div class="form-container">
+    <div class="image-container">
+      <img src="assets/icon/icon_1200.webp" alt="CallConnect Logo" class="center-image">
+    </div>
 
-    <!-- Botón para agregar el contacto -->
-    <ion-button 
-      expand="full" 
-      (click)="onSubmit()" 
-      [disabled]="form.invalid || isSubmitting">
-      Agregar contacto
-    </ion-button>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+      <div class="form-fields">
+        <ion-item lines="none" class="input-item">
+          <ion-label position="floating">Número de celular</ion-label>
+          <ion-input
+            type="tel"
+            formControlName="telefono"
+            inputmode="numeric"
+            [class.invalid]="form.get('telefono')?.invalid && form.get('telefono')?.touched"
+          ></ion-input>
+          <ion-icon name="call-outline" slot="start"></ion-icon>
+        </ion-item>
+        
+        <ion-text color="danger" *ngIf="form.get('telefono')?.invalid && form.get('telefono')?.touched">
+          <small>El número debe tener 10 dígitos</small>
+        </ion-text>
+
+        <ion-button 
+          expand="block" 
+          type="submit" 
+          [disabled]="form.invalid || isSubmitting"
+          class="submit-button"
+        >
+          <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+          <span *ngIf="!isSubmitting">Agregar contacto</span>
+        </ion-button>
+      </div>
+    </form>
+    
+  </div>
 </ion-content>

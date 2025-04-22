@@ -52,6 +52,7 @@
     "ngx-lottie": "^8.0.1",
     "rxjs": "~7.8.0",
     "socket.io": "^4.8.1",
+    "sweetalert2": "^11.19.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

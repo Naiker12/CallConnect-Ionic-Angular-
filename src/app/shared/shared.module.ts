@@ -9,7 +9,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 
 
  const MODULOS = [CommonModule , FormsModule, IonicModule, ReactiveFormsModule ];
- const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent , ProfileComponent];
+ const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent , ProfileComponent ];
 
 
 

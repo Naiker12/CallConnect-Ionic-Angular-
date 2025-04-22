@@ -37,12 +37,10 @@ export class ProfileComponent implements OnInit {
   }
 
   editProfile() {
-    // Lógica para editar perfil
     console.log('Editar perfil');
   }
 
   editPhoto() {
-    // Lógica para cambiar foto
     console.log('Cambiar foto');
   }
 }

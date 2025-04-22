@@ -12,7 +12,6 @@ import { ModalController } from '@ionic/angular';
 export class VerificationModalComponent  implements OnInit {
 
   @Input() email!: string;
-
   @Input() title: string = 'Verifica tu correo';
   @Input() message: string = 'Hemos enviado un enlace de verificación a tu correo electrónico. Verifícalo para poder acceder.';
 

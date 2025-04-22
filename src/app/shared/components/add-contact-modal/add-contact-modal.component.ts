@@ -34,9 +34,7 @@ export class AddContactModalComponent {
     });
   }
 
-  /**
-   * Envía el formulario y busca/agrega el contacto si es válido
-   */
+  
   async onSubmit(): Promise<void> {
     if (this.form.invalid || this.isSubmitting) return;
 
@@ -64,7 +62,6 @@ export class AddContactModalComponent {
       this.form.reset();
       this.modalCtrl.dismiss(true); 
     } catch (error) {
-      console.error('Error al agregar contacto:', error);
       await this.showToast(this.MESSAGES.ERROR, 'danger');
     } finally {
       this.isSubmitting = false;

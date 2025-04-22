@@ -45,7 +45,6 @@ export class HomePage implements OnInit, OnDestroy {
   loadContacts(): void {
     const userId = this.authService.getUserId?.();
     if (!userId) {
-      console.warn('Usuario no autenticado');
       return;
     }
 
@@ -58,23 +57,19 @@ export class HomePage implements OnInit, OnDestroy {
           this.isLoading = false;
         },
         error: (error) => {
-          console.error('Error al obtener contactos:', error);
           this.isLoading = false;
         }
       });
   }
   async openAddContactModal() {
-    console.log('Intentando abrir el modal');
     const modal = await this.modalCtrl.create({
       component: AddContactModalComponent
     });
   
     modal.onDidDismiss().then((result) => {
-      console.log('Modal cerrado', result);
     });
   
     await modal.present();
-    console.log('Modal presentado');
   }
   
   async goToProfile(): Promise<void> {
@@ -83,13 +78,11 @@ export class HomePage implements OnInit, OnDestroy {
         component: ProfileComponent,
         cssClass: 'side-modal',
         enterAnimation: (baseEl: HTMLElement) => {
-          // Solución compatible con Ionic 6+
           const root = baseEl.shadowRoot || baseEl;
           const backdrop = root.querySelector('ion-backdrop');
           const wrapper = root.querySelector('.modal-wrapper') as HTMLElement;
   
           if (!backdrop || !wrapper) {
-            console.error('No se encontraron elementos de animación');
             return createAnimation();
           }
   
@@ -129,7 +122,6 @@ export class HomePage implements OnInit, OnDestroy {
   
       await modal.present();
     } catch (error) {
-      console.error('Error al abrir el perfil:', error);
       const toast = await this.toastCtrl.create({
         message: 'No se pudo abrir el perfil',
         duration: 2000,
@@ -148,7 +140,6 @@ export class HomePage implements OnInit, OnDestroy {
 
   openContactDetails(contact: any) {
     console.log('Mostrar detalles de:', contact);
-
   }
 
 

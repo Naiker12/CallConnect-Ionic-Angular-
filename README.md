@@ -68,12 +68,10 @@ npx cap add android
 ```bash
 ionic serve
 ```
-6. Estructura del Proyecto
-![WhatsApp Image 2025-04-08 at 2 24 54 PM](https://github.com/user-attachments/assets/40409160-1671-4e6b-b710-dc576f02db0a)
 
-8. Documentación API 📚
+6. Documentación API 📚
    
 La documentación completa de la API está disponible en:
 https://ravishing-courtesy-production.up.railway.app/documentation
 
-9. Despliegue
+7. Despliegue

@@ -20,11 +20,11 @@ import { AuthRepository } from './domain/repositories/auth-repository';
 import { FirebaseAuthRepository } from './data/repositories/firebase-auth.repository';
 
 
-
-
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule , CoreModule , HttpClientModule],
+  imports: [ BrowserModule, IonicModule.forRoot(), AppRoutingModule, CoreModule, HttpClientModule ],
+
+
   providers: [{ provide: RouteReuseStrategy , useClass: IonicRouteStrategy  },
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideFirestore(() => getFirestore()),
@@ -35,5 +35,6 @@ import { FirebaseAuthRepository } from './data/repositories/firebase-auth.reposi
   ],
 
   bootstrap: [AppComponent],
+
 })
 export class AppModule {}

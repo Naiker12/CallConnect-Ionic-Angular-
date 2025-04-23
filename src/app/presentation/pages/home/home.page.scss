@@ -15,7 +15,7 @@
   --header-height: 180px;
   --avatar-border: 2px solid rgba(255, 255, 255, 0.3);
 }
-/
+
 ion-content.contacts-content {
   --background: #f8f9fa;
   --padding-top: calc(var(--header-height) + 10px);
@@ -75,7 +75,7 @@ ion-content.contacts-content {
   }
 }
 
-/* Lista de contactos */
+
 .contact-list {
   padding: 0 15px 15px;
   
@@ -162,7 +162,7 @@ ion-content.contacts-content {
   }
 }
 
-/* Estado vacío */
+
 .empty-state {
   text-align: center;
   padding: 40px 20px;
@@ -201,7 +201,7 @@ ion-content.contacts-content {
   }
 }
 
-/* Botón flotante */
+
 .custom-fab {
   bottom: 25px;
   right: 20px;
@@ -220,7 +220,7 @@ ion-content.contacts-content {
   }
 }
 
-/* Animaciones */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -237,7 +237,7 @@ ion-content.contacts-content {
   animation-delay: calc(var(--animation-order) * 0.05s);
 }
 
-/* Responsive */
+
 @media (max-width: 480px) {
   :root {
     --header-height: 160px;

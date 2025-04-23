@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" class="back-button"></ion-back-button>
+    </ion-buttons>
+
+    <div class="contact-header" *ngIf="contact">
+      <ion-avatar class="contact-avatar">
+        <img src="assets/imagen-landing.png">
+      </ion-avatar>
+      <div class="contact-info">
+        <h1 class="contact-name">{{contact.nombre}}</h1>
+        <div class="online-status">
+          <span class="status-dot"></span>
+          <span class="status-text">En línea</span>
+        </div>
+      </div>
+    </div>
+
+    <ion-buttons slot="end" class="action-buttons">
+      <ion-button fill="clear" color="light" (click)="goToCall(); $event.stopPropagation()">
+        <ion-icon name="call-outline"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="light" (click)="goToCall(); $event.stopPropagation()">
+        <ion-icon name="videocam-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="showOptions()" fill="clear" class="options-button">
+        <ion-icon name="ellipsis-vertical" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="chat-content">
+  <div class="maintenance-container">
+    <div class="maintenance-message">
+      <div class="tool-icon">
+        <ion-icon name="construct"></ion-icon>
+      </div>
+      <h2>Chat en mantenimiento</h2>
+      <p>Estamos trabajando para mejorar tu experiencia de mensajería</p>
+    </div>
+  </div>
+
+  <div class="message-input-container">
+    <ion-item class="message-input">
+      <ion-input placeholder="Escribe un mensaje..." readonly></ion-input>
+      <ion-buttons slot="end">
+        <ion-button fill="clear" disabled>
+          <ion-icon name="mic-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" disabled>
+          <ion-icon name="image-outline"></ion-icon>
+        </ion-button>
+        <ion-button fill="clear" disabled>
+          <ion-icon name="happy-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </div>
+</ion-content>

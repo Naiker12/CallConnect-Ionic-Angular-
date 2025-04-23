@@ -30,7 +30,6 @@ export class HomePage implements OnInit, OnDestroy {
     private authService: AuthService,
     private modalCtrl: ModalController,
     private toastCtrl: ToastController,
-    private router: Router, 
   ) {}
 
   ngOnInit() {
@@ -128,13 +127,6 @@ export class HomePage implements OnInit, OnDestroy {
         color: 'danger'
       });
       await toast.present();
-    }
-  }
-
-
-  goToCall() {
-    if (this.router.url !== '/call') {
-      this.router.navigate(['/call']);
     }
   }
 

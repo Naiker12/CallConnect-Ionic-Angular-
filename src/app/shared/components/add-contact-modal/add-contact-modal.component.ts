@@ -4,16 +4,18 @@ import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
 import Swal from 'sweetalert2';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-add-contact',
   templateUrl: './add-contact-modal.component.html',
   styleUrls: ['./add-contact-modal.component.scss'],
-  standalone : false
+  standalone: false
 })
 export class AddContactModalComponent {
   form: FormGroup;
   isSubmitting = false;
+  userPhotoPreview: string | undefined;
 
   constructor(
     private fb: FormBuilder,
@@ -22,8 +24,28 @@ export class AddContactModalComponent {
     private authService: AuthService
   ) {
     this.form = this.fb.group({
+      nombre: ['', [Validators.required, Validators.minLength(2)]],
       telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      foto: ['']
     });
+  }
+
+  async changePhoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: true,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Photos
+      });
+      
+      if (image.dataUrl) {
+        this.userPhotoPreview = image.dataUrl;
+        this.form.patchValue({ foto: image.dataUrl });
+      }
+    } catch (error) {
+      console.log('Usuario canceló la selección de foto');
+    }
   }
 
   async onSubmit(): Promise<void> {
@@ -31,7 +53,7 @@ export class AddContactModalComponent {
 
     this.isSubmitting = true;
 
-    const telefono = this.form.value.telefono;
+    const { nombre, telefono, foto } = this.form.value;
     const userId = this.authService.getUserId();
 
     if (!userId) {
@@ -48,12 +70,20 @@ export class AddContactModalComponent {
         return;
       }
 
-      await this.firebaseContactService.addContact(userId, contact);
+      // Agregar nombre y foto al contacto
+      const contactWithDetails = {
+        ...contact,
+        nombre: nombre,
+        foto: foto || contact.foto || 'assets/icon/icon_1200.webp'
+      };
+
+      await this.firebaseContactService.addContact(userId, contactWithDetails);
       this.showSuccessAlert('Contacto agregado exitosamente');
       this.form.reset();
       this.modalCtrl.dismiss(true);
     } catch (error) {
       this.showErrorAlert('Error al agregar contacto');
+      console.error(error);
     } finally {
       this.isSubmitting = false;
     }

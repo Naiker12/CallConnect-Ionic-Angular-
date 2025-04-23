@@ -55,8 +55,9 @@ export class FirebaseContactService {
 
       return {
         uid: userDoc.id,
-        nombre: data['nombre'],
-        telefono: data['telefono'],
+        nombre: data['nombre'] || '', 
+        telefono: data['telefono'] || '',
+        foto: data['foto'] || 'assets/icon/icon_1200.webp'
       };
     } catch (error) {
       console.error('Error buscando usuario por teléfono:', error);
@@ -75,6 +76,7 @@ export class FirebaseContactService {
       await setDoc(contactRef, contact);
     } catch (error) {
       console.error('Error al agregar contacto:', error);
+      throw error; 
     }
   }
 }

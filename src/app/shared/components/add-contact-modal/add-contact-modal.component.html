@@ -16,10 +16,27 @@
   <div class="form-container">
     <div class="image-container">
       <img src="assets/icon/icon_1200.webp" alt="CallConnect Logo" class="center-image">
+      <ion-button fill="clear" class="photo-button" (click)="changePhoto()">
+        <ion-icon name="camera-outline"></ion-icon>
+      </ion-button>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
       <div class="form-fields">
+        <ion-item lines="none" class="input-item">
+          <ion-label position="floating">Nombre del contacto</ion-label>
+          <ion-input
+            type="text"
+            formControlName="nombre"
+            [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched"
+          ></ion-input>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+        </ion-item>
+        
+        <ion-text color="danger" *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched">
+          <small>El nombre es requerido</small>
+        </ion-text>
+
         <ion-item lines="none" class="input-item">
           <ion-label position="floating">Número de celular</ion-label>
           <ion-input
@@ -46,6 +63,5 @@
         </ion-button>
       </div>
     </form>
-    
   </div>
 </ion-content>

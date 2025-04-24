@@ -1,16 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
-import Swal from 'sweetalert2';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Toast } from '@capacitor/toast';
+import { Filesystem, Directory } from '@capacitor/filesystem';
 
 @Component({
   selector: 'app-add-contact',
   templateUrl: './add-contact-modal.component.html',
   styleUrls: ['./add-contact-modal.component.scss'],
-  standalone: false
+  standalone : false
 })
 export class AddContactModalComponent {
   form: FormGroup;
@@ -21,7 +22,8 @@ export class AddContactModalComponent {
     private fb: FormBuilder,
     private modalCtrl: ModalController,
     private firebaseContactService: FirebaseContactService,
-    private authService: AuthService
+    private authService: AuthService,
+    private platform: Platform
   ) {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -32,19 +34,57 @@ export class AddContactModalComponent {
 
   async changePhoto() {
     try {
+      const permission = await this.checkCameraPermissions();
+      if (!permission) {
+        await this.showError('Se necesitan permisos de cámara');
+        return;
+      }
+
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,
         resultType: CameraResultType.DataUrl,
-        source: CameraSource.Photos
+        source: CameraSource.Prompt,
+        promptLabelPhoto: 'Seleccionar de galería',
+        promptLabelPicture: 'Tomar foto'
       });
       
       if (image.dataUrl) {
         this.userPhotoPreview = image.dataUrl;
         this.form.patchValue({ foto: image.dataUrl });
+        
+        // Opcional: Guardar la imagen localmente
+        if (this.platform.is('capacitor')) {
+          await this.saveImageToDevice(image.dataUrl);
+        }
       }
     } catch (error) {
-      console.log('Usuario canceló la selección de foto');
+      console.log('Usuario canceló la selección de foto:', error);
+    }
+  }
+
+  private async checkCameraPermissions(): Promise<boolean> {
+    if (this.platform.is('capacitor')) {
+      try {
+        const status = await Camera.checkPermissions();
+        return status.camera === 'granted' && status.photos === 'granted';
+      } catch {
+        return false;
+      }
+    }
+    return true; // Para web
+  }
+
+  private async saveImageToDevice(dataUrl: string): Promise<void> {
+    try {
+      const fileName = `contact_photo_${new Date().getTime()}.jpeg`;
+      await Filesystem.writeFile({
+        path: fileName,
+        data: dataUrl,
+        directory: Directory.Data
+      });
+    } catch (error) {
+      console.error('Error guardando imagen:', error);
     }
   }
 
@@ -53,77 +93,58 @@ export class AddContactModalComponent {
 
     this.isSubmitting = true;
 
-    const { nombre, telefono, foto } = this.form.value;
-    const userId = this.authService.getUserId();
-
-    if (!userId) {
-      this.showErrorAlert('Error de autenticación');
-      this.isSubmitting = false;
-      return;
-    }
-
     try {
-      const contact = await this.firebaseContactService.searchUserByPhone(telefono);
+      const { nombre, telefono, foto } = this.form.value;
+      const userId = this.authService.getUserId();
 
-      if (!contact) {
-        this.showErrorAlert('Contacto no encontrado');
+      if (!userId) {
+        await this.showError('Error de autenticación');
         return;
       }
 
-      // Agregar nombre y foto al contacto
-      const contactWithDetails = {
+      const contact = await this.firebaseContactService.searchUserByPhone(telefono);
+      if (!contact) {
+        await this.showError('No se encontró un usuario con ese número');
+        return;
+      }
+
+      const contactData = {
         ...contact,
-        nombre: nombre,
-        foto: foto || contact.foto || 'assets/icon/icon_1200.webp'
+        nombre: nombre.trim(),
+        telefono: telefono,
+        foto: foto || contact.foto || 'assets/icon/user-default.png',
+        fechaCreacion: new Date().toISOString()
       };
 
-      await this.firebaseContactService.addContact(userId, contactWithDetails);
-      this.showSuccessAlert('Contacto agregado exitosamente');
-      this.form.reset();
-      this.modalCtrl.dismiss(true);
+      await this.firebaseContactService.addContact(userId, contactData);
+      await this.showSuccess('Contacto agregado exitosamente');
+      this.modalCtrl.dismiss({ success: true, contact: contactData });
     } catch (error) {
-      this.showErrorAlert('Error al agregar contacto');
-      console.error(error);
+      console.error('Error al agregar contacto:', error);
+      await this.showError('Error al agregar contacto. Intenta nuevamente.');
     } finally {
       this.isSubmitting = false;
     }
   }
 
-  private showSuccessAlert(message: string): void {
-    Swal.fire({
-      icon: 'success',
-      title: '¡Éxito!',
+  private async showSuccess(message: string): Promise<void> {
+    await Toast.show({
       text: message,
-      timer: 2000,
-      showConfirmButton: false,
-      position: 'center',
-      backdrop: 'rgba(0,0,0,0.4)',
-      background: 'var(--ion-color-light)',
-      color: 'var(--ion-color-dark)',
-      customClass: {
-        popup: 'animated tada',
-        title: 'swal2-title-custom',
-        icon: 'swal2-icon-custom'
-      }
+      duration: 'long',
+      position: 'bottom'
     });
   }
   
-  private showErrorAlert(message: string): void {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
+  private async showError(message: string): Promise<void> {
+    await Toast.show({
       text: message,
-      timer: 2000,
-      showConfirmButton: false,
-      position: 'center',
-      backdrop: 'rgba(0,0,0,0.4)',
-      background: 'var(--ion-color-light)',
-      color: 'var(--ion-color-dark)',
-      iconColor: 'var(--ion-color-danger)'
+      duration: 'long',
+      position: 'bottom',
+      // color: 'danger'
     });
   }
 
-  dismiss() {
+  dismiss(): void {
     this.modalCtrl.dismiss();
   }
 }

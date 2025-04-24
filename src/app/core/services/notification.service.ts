@@ -1,66 +1,86 @@
+import { FirebaseMessaging } from '@capacitor-firebase/messaging';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Capacitor } from '@capacitor/core';
-import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Inject, Injectable } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { doc, updateDoc, getFirestore, Firestore } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService {
-  constructor(private firestore: AngularFirestore , private Controller : NavController ) {}
+  private db = getFirestore(initializeApp(environment.firebaseConfig));
+
+  constructor(private navCtrl: NavController) {
+    this.setupListeners(); 
+  }
 
   async registerPush(userId: string) {
-    if (Capacitor.isNativePlatform()) {
-      let permStatus = await PushNotifications.checkPermissions();
+    if (!Capacitor.isNativePlatform()) {
+      console.log('No es plataforma nativa, saliendo...');
+      return;
+    }
+  
+    try {
+      console.log('Solicitando token FCM...');
+      
+      // Verifica permisos primero
+      const permStatus = await PushNotifications.checkPermissions();
+      console.log('Estado de permisos:', permStatus);
+  
       if (permStatus.receive !== 'granted') {
-        permStatus = await PushNotifications.requestPermissions();
+        const newStatus = await PushNotifications.requestPermissions();
+        console.log('Nuevo estado de permisos:', newStatus);
+        if (newStatus.receive !== 'granted') {
+          throw new Error('Permisos no concedidos');
+        }
       }
-
-      if (permStatus.receive === 'granted') {
-        await PushNotifications.register();
-
-        PushNotifications.addListener('registration', async (token) => {
-          console.log('FCM Token:', token.value);
-          await this.saveTokenToFirestore(userId, token.value);
-        });
-
-        PushNotifications.addListener('registrationError', (err) => {
-          console.error('Registration error:', err);
-        });
-
-        PushNotifications.addListener(
-          'pushNotificationReceived',
-          (notification) => {
-            console.log('Push notification received:', notification);
-
-            const meetingId = notification.data?.meetingId;
-            const name = notification.data?.name;
-            // const user = this.auth.currentUser;
-
-            // if (user != null) {
-              if (meetingId && name) {
-                this.Controller.navigateForward(['/incoming-call'], {
-                  state: {
-                    meetingId: meetingId,
-                    callerName: name,
-                  },
-                });
-              }
-            }
-          // },
-        );
-
-        PushNotifications.addListener(
-          'pushNotificationActionPerformed',
-          (notification) => {
-            console.log('Push notification action performed:', notification);
-          },
-        );
+  
+      const { token } = await FirebaseMessaging.getToken();
+      console.log('Token FCM obtenido:', token);
+      
+      if (!token) {
+        throw new Error('Token vacío recibido');
       }
+  
+      await this.saveTokenToFirestore(userId, token);
+      
+    } catch (error) {
+      console.error('Error completo en registerPush:', error);
     }
   }
 
-  private saveTokenToFirestore(userId: string, token: string) {
-    return this.firestore.collection('users').doc(userId).update({ token });
+  private setupListeners() {
+ 
+    FirebaseMessaging.addListener('notificationReceived', (event) => {
+      console.log('Notificación en primer plano:', event);
+      this.handleNotification(event.notification.data);
+    });
+
+
+    FirebaseMessaging.addListener('notificationActionPerformed', (event) => {
+      console.log('Notificación en segundo plano:', event);
+      this.handleNotification(event.notification.data);
+    });
   }
-  
+
+  private handleNotification(data: any) {
+    if (data?.meetingId && data?.name) {
+      this.navCtrl.navigateForward(['/incoming-call'], {
+        state: { 
+          meetingId: data.meetingId, 
+          callerName: data.name 
+        },
+      });
+    }
+  }
+
+  private async saveTokenToFirestore(userId: string, token: string) {
+    try {
+      await updateDoc(doc(this.db, 'users', userId), { token });
+      console.log('Token guardado correctamente');
+    } catch (error) {
+      console.error('Error guardando token:', error);
+    }
+  }
 }

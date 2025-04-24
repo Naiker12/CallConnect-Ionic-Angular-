@@ -70,7 +70,6 @@ export class AddContactModalComponent {
         return;
       }
 
-      // Agregar nombre y foto al contacto
       const contactWithDetails = {
         ...contact,
         nombre: nombre,
@@ -126,4 +125,5 @@ export class AddContactModalComponent {
   dismiss() {
     this.modalCtrl.dismiss();
   }
+  
 }

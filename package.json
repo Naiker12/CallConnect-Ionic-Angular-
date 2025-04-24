@@ -41,7 +41,6 @@
     "@ionic/angular": "^8.5.4",
     "animate.css": "^4.1.1",
     "capacitor-jitsi-meet": "^7.0.0",
-    "cordova-plugin-firebase-messaging": "^8.0.1",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "firebase": "^11.6.0",

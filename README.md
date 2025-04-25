@@ -2,6 +2,9 @@
 
 Aplicación de videollamadas desarrollada con Ionic Angular y Firebase.
 
+# Video de parcial 
+https://drive.google.com/drive/folders/12x0eoSTAIdx9Fz5js-ZQ7f1nDmQk8hd9
+
 ![CallConnect Logo](https://ravishing-courtesy-production.up.railway.app/assets/logo.png)
 
 ## Características ✨

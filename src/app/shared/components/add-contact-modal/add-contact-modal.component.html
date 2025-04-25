@@ -9,48 +9,50 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="gradient-header"></div>
-  <div class="gradient-footer"></div>
+<ion-content class="ion-padding-horizontal">
+  <div class="header-background"></div>
   
-  <div class="form-container">
-    <div class="image-container">
-      <img src="assets/icon/icon_1200.webp" alt="CallConnect Logo" class="center-image">
-      <ion-button fill="clear" class="photo-button" (click)="changePhoto()">
-        <ion-icon name="camera-outline"></ion-icon>
-      </ion-button>
+  <div class="content-wrapper">
+    <div class="avatar-section">
+      <div class="avatar-wrapper">
+        <img 
+          [src]="userPhotoPreview || 'assets/icon/user-default.png'" 
+          alt="Foto de perfil" 
+          class="user-avatar"
+        >
+        <ion-button fill="clear" class="avatar-button" (click)="changePhoto()">
+          <ion-icon name="camera" slot="icon-only"></ion-icon>
+        </ion-button>
+        <div class="avatar-label">Foto de perfil</div>
+      </div>
     </div>
 
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
-      <div class="form-fields">
-        <ion-item lines="none" class="input-item">
-          <ion-label position="floating">Nombre del contacto</ion-label>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="contact-form">
+      <ion-list lines="none" class="form-fields">
+        <ion-item class="form-item">
+          <ion-label position="stacked">Nombre completo</ion-label>
           <ion-input
             type="text"
             formControlName="nombre"
             [class.invalid]="form.get('nombre')?.invalid && form.get('nombre')?.touched"
           ></ion-input>
-          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-note slot="error" *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched">
+            El nombre es requerido (mínimo 2 caracteres)
+          </ion-note>
         </ion-item>
-        
-        <ion-text color="danger" *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched">
-          <small>El nombre es requerido</small>
-        </ion-text>
 
-        <ion-item lines="none" class="input-item">
-          <ion-label position="floating">Número de celular</ion-label>
+        <ion-item class="form-item">
+          <ion-label position="stacked">Número de celular</ion-label>
           <ion-input
             type="tel"
             formControlName="telefono"
             inputmode="numeric"
             [class.invalid]="form.get('telefono')?.invalid && form.get('telefono')?.touched"
           ></ion-input>
-          <ion-icon name="call-outline" slot="start"></ion-icon>
+          <ion-note slot="error" *ngIf="form.get('telefono')?.invalid && form.get('telefono')?.touched">
+            El número debe tener 10 dígitos
+          </ion-note>
         </ion-item>
-        
-        <ion-text color="danger" *ngIf="form.get('telefono')?.invalid && form.get('telefono')?.touched">
-          <small>El número debe tener 10 dígitos</small>
-        </ion-text>
 
         <ion-button 
           expand="block" 
@@ -58,10 +60,10 @@
           [disabled]="form.invalid || isSubmitting"
           class="submit-button"
         >
-          <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
-          <span *ngIf="!isSubmitting">Agregar contacto</span>
+          <ion-spinner *ngIf="isSubmitting" name="lines"></ion-spinner>
+          <span *ngIf="!isSubmitting">AGREGAR CONTACTO</span>
         </ion-button>
-      </div>
+      </ion-list>
     </form>
   </div>
 </ion-content>

@@ -1,161 +1,153 @@
-.gradient-header {
+/* Estructura principal */
+.header-background {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 30vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-bottom-left-radius: 30% 20%;
-  border-bottom-right-radius: 30% 20%;
+  height: 180px;
+  background: var(--ion-color-primary);
   z-index: 0;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
-.gradient-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 30vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-top-left-radius: 30% 20%;
-  border-top-right-radius: 30% 20%;
-  z-index: 0;
-}
-
-.form-container {
+.content-wrapper {
   position: relative;
   z-index: 1;
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  height: 100%;
+  padding-top: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  height: 100%;
 }
 
-.image-container {
+
+.avatar-section {
   display: flex;
   justify-content: center;
-  margin: -15vh auto 20px;
-  position: relative;
+  margin-bottom: 20px;
   z-index: 2;
 }
 
-.center-image {
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 5px solid white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  background-color: white;
-  padding: 8px;
+.avatar-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 140px;
 }
 
-.photo-button {
+.user-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  background-color: #f8f9fa;
+}
+
+.avatar-button {
   position: absolute;
-  bottom: 10px;
-  right: calc(50% - 100px + 20px);
-  --border-radius: 50%;
+  bottom: 0;
+  right: 0;
   --padding: 8px;
   --background: var(--ion-color-primary);
   --color: white;
+  --border-radius: 50%;
+  width: 40px;
+  height: 40px;
 }
 
-.form-content {
+.avatar-label {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  text-align: center;
+}
+
+
+.contact-form {
   background: white;
   border-radius: 16px;
-  padding: 25px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin-top: 10vh;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin: 0 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .form-fields {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  background: transparent;
+  flex-grow: 1;
 }
 
-.input-item {
-  --background: #f8f9fa;
+.form-item {
   --border-radius: 12px;
-  --padding-start: 15px;
-  --padding-end: 15px;
-  --min-height: 60px;
-  margin-bottom: 25px;
+  --background: #f8f9fa;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --min-height: 70px;
+  margin-bottom: 20px;
   transition: all 0.3s ease;
 
-  ion-icon {
-    color: var(--ion-color-primary);
-    font-size: 1.2rem;
-    margin-right: 10px;
+  ion-label {
+    color: var(--ion-color-medium);
+    font-weight: 500;
+    margin-bottom: 8px;
   }
 
   &:focus-within {
     --background: #e8f4ff;
     box-shadow: 0 0 0 2px rgba(var(--ion-color-primary-rgb), 0.2);
   }
+
+  ion-note {
+    font-size: 12px;
+    margin-top: 4px;
+  }
 }
 
 ion-input.invalid {
-  border: 1px solid var(--ion-color-danger);
-  border-radius: 12px;
-}
-
-ion-text small {
-  display: block;
-  margin: -15px 0 20px 15px;
-  font-size: 12px;
+  border-bottom: 2px solid var(--ion-color-danger);
 }
 
 .submit-button {
   --border-radius: 12px;
   --padding-top: 18px;
   --padding-bottom: 18px;
-  margin-top: 30px;
+  height: 50px;
   font-weight: 600;
+  margin-top: auto;
+  margin-bottom: 10px;
   
+  &:not([disabled]) {
+    --box-shadow: 0 4px 8px rgba(var(--ion-color-primary-rgb), 0.3);
+  }
+
   ion-spinner {
     margin-right: 8px;
   }
 }
 
-/* Ajustes responsivos */
-@media (max-width: 768px) {
-  ion-modal {
-    --width: 90%;
-    --min-width: 90%;
-    --height: auto;
-    --border-radius: 16px;
-    --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    animation: modalEnter 0.3s ease-out;
+
+@media (max-width: 576px) {
+  .header-background {
+    height: 160px;
   }
 
-  .form-container {
-    padding: 15px;
+  .user-avatar {
+    width: 100px;
+    height: 100px;
   }
 
-  .gradient-header, .gradient-footer {
-    height: 20vh;
+  .contact-form {
+    margin: 0 8px;
+    padding: 16px;
   }
 
-  .center-image {
-    width: 150px;
-    height: 150px;
-  }
-
-  .photo-button {
-    right: calc(50% - 75px + 15px);
-  }
-}
-
-@keyframes modalEnter {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
+  .form-item {
+    --min-height: 60px;
+    margin-bottom: 16px;
   }
 }

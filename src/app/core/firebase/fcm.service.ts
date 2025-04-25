@@ -20,12 +20,12 @@ export class FcmService {
       });
 
       if (token) {
-        console.log('🔐 Token de FCM:', token);
+        console.log(' Token de FCM:', token);
       } else {
-        console.log('⚠️ No se obtuvo el token');
+        console.log(' No se obtuvo el token');
       }
     } catch (err) {
-      console.error('🚫 Error al obtener el token:', err);
+      console.error(' Error al obtener el token:', err);
     }
   }
 }

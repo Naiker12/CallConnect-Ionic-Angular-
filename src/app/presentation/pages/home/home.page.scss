@@ -282,3 +282,7 @@ ion-content.contacts-content {
     }
   }
 }
+
+ion-content {
+  --padding-top: env(safe-area-inset-top);
+}

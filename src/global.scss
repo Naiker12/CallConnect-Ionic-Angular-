@@ -59,6 +59,81 @@ ion-header {
 ion-footer {
   padding-bottom: var(--ion-safe-area-bottom, 0);
 }
+
+
+/* Toast personalizados */
+.custom-toast {
+  --width: 90%;
+  --max-width: 500px;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+
+  &::part(message) {
+    padding: 12px 0;
+  }
+
+  &::part(header) {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+}
+
+/* Toast de éxito */
+.success-toast {
+  --background: var(--ion-color-success);
+  --color: white;
+}
+
+/* Toast de error */
+.error-toast {
+  --background: var(--ion-color-danger);
+  --color: white;
+}
+
+/* Toast de advertencia */
+.warning-toast {
+  --background: var(--ion-color-warning);
+  --color: black;
+}
+
+/* Toast informativo */
+.info-toast {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+/* Toast elegante con animación */
+.fancy-toast {
+  --background: rgba(0, 0, 0, 0.8);
+  --color: #fff;
+  animation: fadeInDown 0.3s, fadeOutUp 0.3s 2.2s forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
   
 
 /**

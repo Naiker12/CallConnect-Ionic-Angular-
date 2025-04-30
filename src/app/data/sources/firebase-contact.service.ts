@@ -94,6 +94,58 @@ export class FirebaseContactService {
     } catch (error) {
       console.error('Error al agregar contacto:', error);
       throw error;
+<<<<<<< HEAD
+=======
+    }
+  }
+
+  /**
+   * Actualiza un contacto
+   * @param userId ID del usuario actual
+   * @param contactId ID del contacto a actualizar
+   * @param contactData Datos parciales del contacto
+   */
+  async updateContact(userId: string, contactId: string, contactData: Partial<Contact>): Promise<void> {
+    try {
+      const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);
+      await updateDoc(contactRef, contactData);
+    } catch (error) {
+      console.error('Error actualizando contacto:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Elimina un contacto
+   * @param userId ID del usuario actual
+   * @param contactId ID del contacto a eliminar
+   */
+  deleteContact(userId: string, contactId: string): Observable<void> {
+    return new Observable<void>(observer => {
+      (async () => {
+        try {
+          const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);
+          await deleteDoc(contactRef);
+          observer.next();
+          observer.complete();
+        } catch (error) {
+          observer.error(error);
+        }
+      })();
+    });
+  }
+
+  /**
+   * Versión con Promise para eliminar contacto
+   */
+  async deleteContactPromise(userId: string, contactId: string): Promise<void> {
+    try {
+      const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);
+      await deleteDoc(contactRef);
+    } catch (error) {
+      console.error('Error eliminando contacto:', error);
+      throw error;
+>>>>>>> 204142c0cfb1e200008d8996628fac21acf89481
     }
   }
 

@@ -1,10 +1,17 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController } from '@ionic/angular';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { User } from 'src/app/core/models/user';
 import { RegisterService } from 'src/app/domain/use-cases/register.service';
+import { LoadingController } from '@ionic/angular';
+import { FirebaseError } from 'firebase/app';
 
-
+/**
+ * Página de registro de usuarios
+ * 
+ * Permite a los nuevos usuarios crear una cuenta en la aplicación
+ * con sus datos personales y credenciales de acceso.
+ */
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -12,67 +19,161 @@ import { RegisterService } from 'src/app/domain/use-cases/register.service';
   standalone: false,
 })
 export class RegisterPage {
-  form: FormGroup;
+  form!: FormGroup;
   showPassword = false;
+  isLoading = false;
 
   constructor(
     private fb: FormBuilder,
     private registerService: RegisterService,
-    private toastController: ToastController
+    private toastService: CustomToastService,
+    private loadingCtrl: LoadingController
   ) {
-    this.form = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      correo: ['', [Validators.required, Validators.email]],
-      telefono: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-    });    
+    this.initializeForm();
   }
 
-  async onSubmit() {
-    if (this.form.invalid) return;
+  /** Inicializa el formulario con validaciones */
+  private initializeForm(): void {
+    this.form = this.fb.group({
+      nombre: ['', [Validators.required, Validators.pattern('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*')]],
+      apellido: ['', [Validators.required, Validators.pattern('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*')]],
+      correo: ['', [Validators.required, Validators.email]],
+      telefono: ['', [Validators.required, Validators.pattern('[0-9]{10}')]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
 
-    const { nombre, apellido, correo, telefono, password } = this.form.value;
+  /** Maneja el envío del formulario de registro */
+  async onSubmit(): Promise<void> {
+    if (this.form.invalid) {
+      this.showFormErrors();
+      return;
+    }
 
-    const user: User = {
-      nombre,
-      apellido,
-      correo,
-      telefono,
-    };
-    console.log('Enviando a Firebase:', { correo, password });
-
+    this.isLoading = true;
+    const loading = await this.showLoading();
 
     try {
-      await this.registerService.registerUser(user, password);
-
-      const toast = await this.toastController.create({
-        message: 'Usuario registrado exitosamente.',
-        duration: 3000,
-        color: 'success',
-      });
-      await toast.present();
-
+      const userData = this.prepareUserData();
+      await this.registerService.registerUser(userData.user, userData.password);
+      
+      await loading.dismiss();
+      this.isLoading = false;
       this.form.reset();
-    } catch (error: any) {
-      // console.log('Error en registro:', error);
-
-      let message = 'Ocurrió un error en el registro.';
-      if (error.code === 'auth/email-already-in-use') {
-        message = 'El correo ya está registrado.';
-      }
-
-      const toast = await this.toastController.create({
-        message,
-        duration: 2000,
-        color: 'danger',
-      });
-      await toast.present();
+      
+      this.toastService.success(
+        'Verifica tu correo electrónico para activar tu cuenta',
+        4000,
+        '¡Registro exitoso!'
+      );
+    } catch (error: unknown) {
+      await loading.dismiss();
+      this.isLoading = false;
+      this.handleRegistrationError(error);
     }
   }
 
-  togglePassword() {
+  /** Prepara los datos del usuario para el registro */
+  private prepareUserData(): { user: User; password: string } {
+    const { nombre, apellido, correo, telefono, password } = this.form.value;
+    
+    return {
+      user: {
+        nombre,
+        apellido,
+        correo,
+        telefono,
+      },
+      password
+    };
+  }
+
+  /** Muestra errores de validación del formulario */
+  private showFormErrors(): void {
+    if (this.form.get('nombre')?.invalid) {
+      this.toastService.warning('Por favor ingresa un nombre válido (solo letras)');
+    } else if (this.form.get('apellido')?.invalid) {
+      this.toastService.warning('Por favor ingresa un apellido válido (solo letras)');
+    } else if (this.form.get('correo')?.invalid) {
+      this.toastService.warning('Por favor ingresa un correo electrónico válido');
+    } else if (this.form.get('telefono')?.invalid) {
+      this.toastService.warning('El teléfono debe tener 10 dígitos');
+    } else if (this.form.get('password')?.invalid) {
+      this.toastService.warning('La contraseña debe tener al menos 6 caracteres');
+    }
+  }
+
+  /** Muestra el loading indicator */
+  private async showLoading() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Creando tu cuenta...',
+      spinner: 'crescent',
+      translucent: true
+    });
+    await loading.present();
+    return loading;
+  }
+
+  /** Maneja errores durante el registro */
+  private handleRegistrationError(error: unknown): void {
+    if (error instanceof FirebaseError) {
+      this.handleFirebaseError(error);
+    } else {
+      console.error('Error desconocido en registro:', error);
+      this.toastService.error(
+        'Ocurrió un error inesperado durante el registro',
+        3000,
+        'Error técnico'
+      );
+    }
+  }
+
+  /** Maneja errores específicos de Firebase */
+  private handleFirebaseError(error: FirebaseError): void {
+    switch (error.code) {
+      case 'auth/email-already-in-use':
+        this.toastService.error(
+          'Este correo electrónico ya está registrado',
+          3000,
+          'Correo en uso'
+        );
+        break;
+        
+      case 'auth/weak-password':
+        this.toastService.warning(
+          'La contraseña debe tener al menos 6 caracteres',
+          3000,
+          'Contraseña débil'
+        );
+        break;
+        
+      case 'auth/invalid-email':
+        this.toastService.error(
+          'El formato del correo electrónico es inválido',
+          3000,
+          'Correo inválido'
+        );
+        break;
+        
+      case 'auth/operation-not-allowed':
+        this.toastService.error(
+          'Operación no permitida. Contacta al soporte técnico',
+          4000,
+          'Error de configuración'
+        );
+        break;
+        
+      default:
+        this.toastService.error(
+          `Error durante el registro: ${error.message}`,
+          4000,
+          'Error inesperado'
+        );
+    }
+  }
+
+  /** Alterna la visibilidad de la contraseña */
+  togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
-  
 }

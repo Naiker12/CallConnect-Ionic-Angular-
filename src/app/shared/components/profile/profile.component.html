@@ -1,63 +1,91 @@
-<ion-header>
-  <ion-toolbar color="primary" class="profile-toolbar">
-    <ion-buttons slot="start">
-      <ion-button (click)="close()" class="close-btn">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title class="profile-title">Mi Perfil</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="profile-content" [scrollY]="false">
-  <div class="profile-background"></div>
-  
-  <div class="profile-card">
+<div class="profile-container">
     <div class="profile-header">
-      <div class="avatar-container">
-        <ion-avatar class="profile-avatar">
-          <img [src]="user?.photoURL || 'assets/imagen-landing.png'" />
-          <div class="edit-overlay" (click)="editPhoto()">
+      <div class="profile-background">
+        <div class="profile-overlay"></div>
+      </div>
+      
+      <div class="profile-avatar-container">
+        <div class="avatar-wrapper" (click)="editPhoto()">
+          <ion-avatar class="profile-avatar">
+            <img [src]="user?.photoURL || 'assets/imagen-landing.png'" alt="Foto de perfil">
+          </ion-avatar>
+          <div class="edit-photo-badge">
             <ion-icon name="camera-outline"></ion-icon>
           </div>
-        </ion-avatar>
-        <div class="status-badge">En línea</div>
+        </div>
+        <h2 class="profile-name">{{ user?.displayName || 'Usuario' }}</h2>
+        <p class="profile-email">{{ user?.email || 'usuario@ejemplo.com' }}</p>
       </div>
-
-      <div class="user-info">
-        <h2 class="user-name">{{ user?.displayName || 'Usuario' }}</h2>
-        <p class="user-email">{{ user?.email }}</p>
-      </div>
-    </div>
-
-    <ion-list lines="none" class="profile-actions">
-      <ion-item button detail (click)="editProfile()">
-        <ion-icon slot="start" name="person-circle-outline" color="primary"></ion-icon>
-        <ion-label>Editar perfil</ion-label>
-      </ion-item>
       
-      <ion-item button detail>
-        <ion-icon slot="start" name="notifications-outline" color="primary"></ion-icon>
-        <ion-label>Notificaciones</ion-label>
-        <ion-toggle slot="end" checked></ion-toggle>
-      </ion-item>
-      
-      <ion-item button detail>
-        <ion-icon slot="start" name="lock-closed-outline" color="primary"></ion-icon>
-        <ion-label>Privacidad</ion-label>
-      </ion-item>
-      
-      <ion-item button detail>
-        <ion-icon slot="start" name="help-circle-outline" color="primary"></ion-icon>
-        <ion-label>Ayuda</ion-label>
-      </ion-item>
-    </ion-list>
-
-    <div class="logout-section">
-      <ion-button expand="block" fill="clear" color="danger" (click)="logout()" class="logout-btn">
-        <ion-icon slot="start" name="log-out-outline"></ion-icon>
-        Cerrar sesión
+      <ion-button fill="clear" class="close-button" (click)="close()">
+        <ion-icon name="close"></ion-icon>
       </ion-button>
     </div>
+  
+    <div class="profile-content">
+      <div class="profile-section">
+        <h3 class="section-title">Información Personal</h3>
+        <ion-list lines="none" class="profile-form">
+          <ion-item class="form-item">
+            <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input 
+              type="text" 
+              [value]="user?.displayName || ''" 
+              placeholder="Nombre completo"
+              readonly
+            ></ion-input>
+          </ion-item>
+          
+          <ion-item class="form-item">
+            <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input 
+              type="email" 
+              [value]="user?.email || ''" 
+              placeholder="Correo electrónico"
+              readonly
+            ></ion-input>
+          </ion-item>
+          
+          <ion-item class="form-item">
+            <ion-icon name="chatbubble-ellipses-outline" slot="start" class="input-icon"></ion-icon>
+            <ion-input 
+              type="text" 
+              placeholder="Estado"
+              value="Disponible"
+              readonly
+            ></ion-input>
+            <ion-button fill="clear" slot="end" class="edit-status-btn">
+              <ion-icon name="pencil-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </div>
+  
+      <div class="profile-actions">
+        <ion-button 
+          expand="block" 
+          shape="round" 
+          class="update-button"
+          (click)="editProfile()"
+        >
+          <ion-icon name="save-outline" slot="start"></ion-icon>
+          Guardar Cambios
+        </ion-button>
+        
+        <ion-button 
+          expand="block" 
+          fill="outline" 
+          shape="round" 
+          class="logout-button"
+          (click)="logout()"
+        >
+          <ion-icon name="log-out-outline" slot="start"></ion-icon>
+          Cerrar Sesión
+        </ion-button>
+      </div>
+  
+      <div class="profile-footer">
+        <p class="app-version">CallConnect v2.4.1</p>
+      </div>
+    </div>
   </div>
-</ion-content>

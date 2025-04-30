@@ -1,7 +1,7 @@
 <ion-header class="header">
   <ion-toolbar class="header-toolbar">
     <ion-buttons slot="start">
-      <ion-button class="menu-button">
+      <ion-button class="menu-button" (click)="openMenu()">
         <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,7 +12,7 @@
     </ion-title>
 
     <ion-buttons slot="end">
-      <ion-button class="profile-button" (click)="goToProfile()" aria-label="Perfil">
+      <ion-button class="profile-button" aria-label="Perfil" (click)="goToProfile()">
         <ion-avatar class="profile-avatar">
           <img src="assets/imagen-landing.png" alt="Foto de perfil">
         </ion-avatar>
@@ -26,7 +26,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="contacts-content">
+<ion-content class="contacts-content"(ionScroll)="onScroll($event)"> 
 
   <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
     <ion-item-sliding *ngFor="let contact of contacts; let i = index">

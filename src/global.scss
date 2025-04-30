@@ -134,6 +134,23 @@ ion-footer {
     transform: translateY(-30px);
   }
 }
+
+.side-menu-modal {
+  --width: 85%;
+  --max-width: 320px;
+  --height: 100%;
+  --border-radius: 0;
+  --box-shadow: none;
+  
+  .modal-wrapper {
+    right: unset;
+    left: 0;
+  }
+  
+  ion-backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+}
   
 
 /**

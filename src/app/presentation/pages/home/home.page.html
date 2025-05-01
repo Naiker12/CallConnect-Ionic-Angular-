@@ -6,10 +6,9 @@
       </ion-button>
     </ion-buttons>
 
-    <ion-title class="header-title">
-      <ion-icon name="people-circle-outline" class="title-icon"></ion-icon>
-      <span>Mis Contactos</span>
-    </ion-title>
+    <div class="logo-container">
+      <img src="assets/icon/icon_1200.webp" alt="Logo de la aplicación" class="app-logo">
+    </div>
 
     <ion-buttons slot="end">
       <ion-button class="profile-button" aria-label="Perfil" (click)="goToProfile()">
@@ -26,8 +25,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="contacts-content"(ionScroll)="onScroll($event)"> 
-
+<ion-content class="contacts-content" (ionScroll)="onScroll($event)"> 
   <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
     <ion-item-sliding *ngFor="let contact of contacts; let i = index">
       <ion-item class="contact-item" button lines="none" [routerLink]="['/chat', contact.uid]" routerDirection="forward"
@@ -35,17 +33,22 @@
 
         <ion-avatar slot="start" class="contact-avatar">
           <img src="assets/imagen-landing.png">
-          <div class="online-status"></div>
+          <div class="online-status" ></div>
         </ion-avatar>
 
         <ion-label class="contact-info">
           <h2 class="contact-name">{{ contact.nombre }}</h2>
-          <p class="contact-phone">{{ contact.telefono }}</p>
+          <p class="contact-last-message"></p>
         </ion-label>
+
+        <div slot="end" class="message-meta">
+          <span class="message-time"></span>
+          <ion-badge class="unread-count" >
+          </ion-badge>
+        </div>
       </ion-item>
     </ion-item-sliding>
   </div>
-
 
   <ng-template #noContacts>
     <div class="empty-state">

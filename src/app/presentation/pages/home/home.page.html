@@ -26,11 +26,9 @@
   </ion-toolbar>
 </ion-header>
 
-<<<<<<< HEAD
+
 <ion-content class="contacts-content" >
-=======
 <ion-content class="contacts-content"(ionScroll)="onScroll($event)"> 
->>>>>>> 204142c0cfb1e200008d8996628fac21acf89481
 
   <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
     <ion-item-sliding *ngFor="let contact of contacts; let i = index">

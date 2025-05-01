@@ -1,21 +1,17 @@
-<ion-content [fullscreen]="true" class="ion-padding landing-content">
+<ion-content [fullscreen]="true" class="landing-content">
   <div class="gradient-header"></div>
   <div class="gradient-footer"></div>
   
   <div class="landing-wrapper">
-    <img src="assets/imagen-landing.png" alt="Ilustración" class="landing-image" />
+    <img src="assets/imagen-landing.png" alt="CallConnect" class="landing-image" />
 
-    <p class="landing-title">Bienvenido a <strong>CallConnect</strong></p>
+    <h1 class="landing-title">Bienvenido a <strong>CallConnect</strong></h1>
     <p class="landing-description">
       La app de mensajería y llamadas premium que conecta a estudiantes e instructores de forma privada y segura.
     </p>
 
-    <p *ngIf="!showButton" class="loading-text">Mostrando botón en: {{ countdown }}</p>
-
-    <ion-button *ngIf="showButton" fill="solid" shape="round" class="next-button" (click)="goToLogin()">
-      <ion-icon name="arrow-forward-outline" slot="icon-only"></ion-icon>
+    <ion-button expand="block" class="action-button" (click)="goToLogin()">
+      Comenzar
     </ion-button>
-
-    <p *ngIf="showButton" class="skip-text" (click)="goToLogin()">Omitir</p>
   </div>
 </ion-content>

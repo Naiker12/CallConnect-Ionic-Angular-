@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
@@ -7,25 +7,11 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./landing.page.scss'],
   standalone : false
 })
-export class LandingPage implements OnInit {
-  
-  showButton = false;
-  countdown = 10;
+export class LandingPage {
 
-  constructor(private navCtrl: NavController) { }
-
-  ngOnInit() {
-    const interval = setInterval(() => {
-      this.countdown--;
-      if (this.countdown === 0) {
-        this.showButton = true;
-        clearInterval(interval);
-      }
-    }, 1000);
-  }
+  constructor(private router: Router) { }
 
   goToLogin() {
-    this.navCtrl.navigateForward('/login');
+    this.router.navigate(['/login']);
   }
-
 }

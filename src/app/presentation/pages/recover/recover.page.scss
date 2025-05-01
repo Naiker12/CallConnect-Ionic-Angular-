@@ -1,3 +1,24 @@
+:host {
+  /* Nueva paleta de colores */
+  --primary-color: #007B83;       /* Azul petróleo */
+  --primary-light: #4DA8B0;       /* Versión más clara del primario */
+  --primary-dark: #005D66;        /* Versión más oscura del primario */
+  --secondary-color: #00B27A;     /* Verde jade */
+  --secondary-light: #4DCB9D;     /* Versión más clara del secundario */
+  --secondary-dark: #008A5E;      /* Versión más oscura del secundario */
+  --tertiary-color: #0A3D62;      /* Azul noche */
+  --tertiary-light: #3C6B8F;      /* Versión más clara del terciario */
+  --tertiary-dark: #072A47;       /* Versión más oscura del terciario */
+  --error-color: #FF5A5F;         /* Color para errores */
+  --light-bg: #FFFFFF;            /* Blanco */
+  --light-text: #333333;          /* Gris oscuro */
+  --light-text-alt: #666666;      /* Gris medio */
+  --dark-bg: #000000;             /* Negro puro */
+  --dark-bg-alt: #1A1A1A;         /* Fondo más claro para elementos */
+  --dark-text: #D9D9D9;           /* Gris claro */
+  --dark-text-alt: #A0A0A0;       /* Gris claro alternativo */
+}
+
 .forgot-content {
   position: relative;
   display: flex;
@@ -5,7 +26,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  --background: #f8f9fa;
+  --background: var(--light-bg);
   box-sizing: border-box;
 }
 
@@ -15,7 +36,7 @@
   left: 0;
   right: 0;
   height: 22vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
   border-bottom-left-radius: 30% 20%;
   border-bottom-right-radius: 30% 20%;
   z-index: 0;
@@ -27,7 +48,7 @@
   left: 0;
   right: 0;
   height: 22vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
   border-top-left-radius: 30% 20%;
   border-top-right-radius: 30% 20%;
   z-index: 0;
@@ -41,11 +62,10 @@
   padding: 30px 25px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   z-index: 1;
-  margin: 15vh auto;
+  margin: 10vh auto; /* Reducido de 15vh para bajar la tarjeta */
   position: relative;
 }
 
-/* El resto del CSS permanece igual */
 .image-container {
   display: flex;
   justify-content: center;
@@ -73,64 +93,190 @@
 .forgot-title {
   font-size: 24px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--light-text);
   margin-bottom: 8px;
 }
 
 .forgot-subtitle {
   font-size: 15px;
-  color: #7f8c8d;
+  color: var(--light-text-alt);
   margin: 0;
   line-height: 1.4;
   padding: 0 10px;
 }
 
 .custom-input {
-  --background: #f8f9fa;
+  --background: var(--light-bg);
   --border-radius: 12px;
   --padding-start: 15px;
   --padding-end: 15px;
   --min-height: 55px;
   margin-bottom: 15px;
+  --color: var(--light-text);
   
   &:focus-within {
     --background: #e8f4ff;
-    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 123, 131, 0.2);
+  }
+
+  ion-label {
+    color: var(--light-text-alt);
   }
 }
 
 .input-icon {
-  color: #667eea;
+  color: var(--primary-color);
   font-size: 20px;
 }
 
 .error-message {
-  color: #e74c3c;
+  color: var(--error-color);
   font-size: 13px;
   margin: -10px 0 15px 15px;
 }
 
 .sign-in-button {
-  --background: #667eea;
-  --background-activated: #5a6fd1;
+  --background: var(--primary-color);
+  --background-activated: var(--primary-dark);
   --border-radius: 12px;
   --padding-top: 18px;
   --padding-bottom: 18px;
   font-weight: 600;
   margin: 25px 0;
   font-size: 16px;
-  --box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+  --box-shadow: 0 4px 10px rgba(0, 123, 131, 0.3);
+}
+
+.social-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0 20px;
+}
+
+.social-divider {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  color: var(--light-text-alt);
+  font-size: 14px;
+}
+
+.social-divider-line {
+  flex: 1;
+  height: 1px;
+  background: #ecf0f1;
+}
+
+.social-divider-text {
+  padding: 0 12px;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.social-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--light-bg);
+  color: var(--light-text);
+  font-size: 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon.facebook {
+  color: #1877F2;
+}
+
+.social-icon.instagram {
+  background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+  color: white;
+}
+
+.social-icon.tiktok {
+  color: #000000;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
 .login-text {
   text-align: center;
-  color: #7f8c8d;
+  color: var(--light-text-alt);
   font-size: 15px;
   margin-top: 20px;
 }
 
 .login-link {
-  color: #667eea;
+  color: var(--primary-color);
   font-weight: 600;
   text-decoration: none;
+}
+
+/* Modo oscuro mejorado */
+@media (prefers-color-scheme: dark) {
+  .forgot-content {
+    --background: var(--dark-bg);
+  }
+  
+  .forgot-card {
+    background: var(--dark-bg-alt);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .forgot-title {
+    color: var(--dark-text);
+  }
+  
+  .forgot-subtitle {
+    color: var(--dark-text-alt);
+  }
+  
+  .custom-input {
+    --background: #2D2D2D;
+    --color: var(--dark-text);
+    
+    &:focus-within {
+      --background: #3A3A3A;
+      box-shadow: 0 0 0 2px rgba(0, 123, 131, 0.3);
+    }
+    
+    ion-label {
+      color: var(--dark-text-alt);
+    }
+  }
+  
+  .center-image {
+    border-color: var(--dark-bg-alt);
+    background-color: var(--dark-bg-alt);
+  }
+  
+  .error-message {
+    color: var(--secondary-light);
+  }
+  
+  .social-icon {
+    background: var(--dark-bg-alt);
+    color: var(--dark-text);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .social-divider-line {
+    background: #444;
+  }
+  
+  .login-text {
+    color: var(--dark-text-alt);
+  }
 }

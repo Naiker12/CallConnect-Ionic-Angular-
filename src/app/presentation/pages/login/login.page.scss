@@ -1,3 +1,23 @@
+:host {
+  /* Nueva paleta de colores */
+  --primary-color: #007B83;       /* Azul petróleo */
+  --primary-light: #4DA8B0;       /* Versión más clara del primario */
+  --primary-dark: #005D66;        /* Versión más oscura del primario */
+  --secondary-color: #00B27A;     /* Verde jade */
+  --secondary-light: #4DCB9D;     /* Versión más clara del secundario */
+  --secondary-dark: #008A5E;      /* Versión más oscura del secundario */
+  --tertiary-color: #0A3D62;      /* Azul noche */
+  --tertiary-light: #3C6B8F;      /* Versión más clara del terciario */
+  --tertiary-dark: #072A47;       /* Versión más oscura del terciario */
+  --light-bg: #FFFFFF;            /* Blanco */
+  --light-text: #333333;          /* Gris oscuro */
+  --light-text-alt: #666666;      /* Gris medio */
+  --dark-bg: #000000;             /* Negro puro */
+  --dark-bg-alt: #1A1A1A;         /* Fondo más claro para elementos */
+  --dark-text: #D9D9D9;           /* Gris claro */
+  --dark-text-alt: #A0A0A0;       /* Gris claro alternativo */
+}
+
 .login-content {
   position: relative;
   display: flex;
@@ -5,7 +25,7 @@
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  --background: #f8f9fa;
+  --background: var(--light-bg);
   box-sizing: border-box;
 }
 
@@ -15,20 +35,19 @@
   left: 0;
   right: 0;
   height: 22vh; 
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
   border-bottom-left-radius: 30% 20%;
   border-bottom-right-radius: 30% 20%;
   z-index: 0;
 }
 
-/* Nuevo gradiente para el footer */
 .gradient-footer {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   height: 22vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
   border-top-left-radius: 30% 20%;
   border-top-right-radius: 30% 20%;
   z-index: 0;
@@ -46,7 +65,6 @@
   position: relative;
 }
 
-/* El resto de tu CSS permanece exactamente igual */
 .image-container {
   display: flex;
   justify-content: center;
@@ -74,43 +92,49 @@
 .login-title {
   font-size: 24px;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--light-text);
   margin-bottom: 8px;
 }
 
 .login-subtitle {
   font-size: 15px;
-  color: #7f8c8d;
+  color: var(--light-text-alt);
   margin: 0;
 }
 
 .custom-input {
-  --background: #f8f9fa;
-  --border-radius: 12px;
+  --background: var(--light-bg);
+  --border-radius: 20px;
   --padding-start: 15px;
   --padding-end: 15px;
   --min-height: 55px;
   margin-bottom: 18px;
+  --color: var(--light-text);
+  --highlight-color-focused: var(--primary-color);
   
   &:focus-within {
     --background: #e8f4ff;
-    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 123, 131, 0.2);
+  }
+
+  ion-label {
+    color: var(--light-text-alt);
   }
 }
 
 .input-icon {
-  color: #667eea;
+  color: var(--primary-color);
   font-size: 20px;
 }
 
 .password-toggle {
-  color: #95a5a6;
+  color: var(--light-text-alt);
   font-size: 20px;
   cursor: pointer;
   transition: color 0.2s;
   
   &:active {
-    color: #667eea;
+    color: var(--primary-color);
   }
 }
 
@@ -120,29 +144,29 @@
 }
 
 .forgot-password {
-  color: #667eea;
+  color: var(--primary-color);
   font-size: 14px;
   text-decoration: none;
   font-weight: 500;
 }
 
 .sign-in-button {
-  --background: #667eea;
-  --background-activated: #5a6fd1;
+  --background: var(--primary-color);
+  --background-activated: var(--primary-dark);
   --border-radius: 12px;
   --padding-top: 18px;
   --padding-bottom: 18px;
   font-weight: 600;
   margin: 20px 0;
   font-size: 16px;
-  --box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+  --box-shadow: 0 4px 10px rgba(0, 123, 131, 0.3);
 }
 
 .divider {
   display: flex;
   align-items: center;
   margin: 25px 0;
-  color: #95a5a6;
+  color: var(--light-text-alt);
   font-size: 14px;
 }
 
@@ -181,13 +205,74 @@
 
 .register-text {
   text-align: center;
-  color: #7f8c8d;
+  color: var(--light-text-alt);
   font-size: 15px;
   margin-top: 20px;
 }
 
 .register-link {
-  color: #667eea;
+  color: var(--primary-color);
   font-weight: 600;
   text-decoration: none;
+}
+
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  .login-content {
+    --background: var(--dark-bg);
+  }
+  
+  .login-card {
+    background: var(--dark-bg-alt);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+  }
+  
+  .login-title {
+    color: var(--dark-text);
+  }
+  
+  .login-subtitle {
+    color: var(--dark-text-alt);
+  }
+  
+  .custom-input {
+    --background: #2D2D2D; 
+    --color: var(--dark-text); 
+    
+    &:focus-within {
+      --background: #3A3A3A;
+      box-shadow: 0 0 0 2px rgba(0, 123, 131, 0.3);
+    }
+    
+    ion-label {
+      color: var(--dark-text-alt);
+    }
+  }
+  
+  .center-image {
+    border-color: var(--dark-bg-alt);
+    background-color: var(--dark-bg-alt);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .password-toggle {
+    color: var(--dark-text-alt);
+  }
+  
+  .divider {
+    color: var(--dark-text-alt);
+    
+    .divider-line {
+      background: #444;
+    }
+  }
+  
+  .register-text {
+    color: var(--dark-text-alt);
+  }
+  
+  .google-button, .github-button {
+    --background: var(--dark-bg-alt);
+    --border-color: #444;
+  }
 }

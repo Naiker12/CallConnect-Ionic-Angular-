@@ -26,8 +26,6 @@
   </ion-toolbar>
 </ion-header>
 
-
-<ion-content class="contacts-content" >
 <ion-content class="contacts-content"(ionScroll)="onScroll($event)"> 
 
   <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">

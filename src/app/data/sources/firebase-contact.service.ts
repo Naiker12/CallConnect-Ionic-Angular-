@@ -112,12 +112,12 @@ export class FirebaseContactService {
       throw error;
     }
   }
-
-  /**
-   * Elimina un contacto
-   * @param userId ID del usuario actual
-   * @param contactId ID del contacto a eliminar
-   */
+/**
+ * Elimina un contacto
+ * @param userId ID del usuario actual
+ * @param contactId ID del contacto a eliminar
+ */
+  
   deleteContact(userId: string, contactId: string): Observable<void> {
     return new Observable<void>(observer => {
       (async () => {
@@ -132,10 +132,9 @@ export class FirebaseContactService {
       })();
     });
   }
-
-  /**
-   * Versión con Promise para eliminar contacto
-   */
+/**
+* Versión con Promise para eliminar contacto
+*/
   async deleteContactPromise(userId: string, contactId: string): Promise<void> {
     try {
       const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);

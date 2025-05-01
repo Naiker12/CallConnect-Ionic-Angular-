@@ -1,71 +1,187 @@
+:host {
+  /* Paleta de colores mejorada */
+  --primary-color: #00C2FF;
+  --primary-light: #66E3FF;
+  --primary-dark: #0090C0;
+  --secondary-color: #FF5A5F;
+  --secondary-light: #FF8A8E;
+  --secondary-dark: #C03F44;
+  --tertiary-color: #7B61FF;
+  --tertiary-light: #A992FF;
+  --tertiary-dark: #4D3DC2;
+  
+  /* Colores claros mejorados */
+  --light-bg: #F8FAFC;
+  --light-card: #FFFFFF;
+  --light-text: #2D3748;
+  --light-text-alt: #718096;
+  
+  /* Colores oscuros mejorados (menos contrastes agresivos) */
+  --dark-bg: #121826;
+  --dark-card: #1E293B;
+  --dark-text: #F1F5F9;
+  --dark-text-alt: #94A3B8;
+}
+
 .modal-content {
-  --background: white;
+  --background: var(--light-bg);
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: var(--background);
 }
 
 .modal-container {
-  padding: 20px;
+  width: 100%;
+  max-width: 420px;
+  background: var(--light-card);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   text-align: center;
+  margin: auto;
+  transition: all 0.3s ease;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  position: relative;
 }
 
 .back-icon {
+  position: absolute;
+  left: 0;
   font-size: 24px;
   cursor: pointer;
+  color: var(--light-text);
+  transition: color 0.2s;
+}
+
+.back-icon:hover {
+  color: var(--primary-color);
 }
 
 .title {
-  font-weight: bold;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: 22px;
   margin: 0;
+  color: var(--light-text);
+  line-height: 1.4;
+}
+
+.illustration {
+  margin: 24px 0 32px;
 }
 
 .illustration img {
-  width: 120px;
-  margin: 20px auto;
+  width: 160px;
+  height: auto;
+  object-fit: contain;
 }
 
 .description {
-  color: #444;
+  color: var(--light-text-alt);
   font-size: 16px;
-  margin-bottom: 20px;
+  line-height: 1.6;
+  margin-bottom: 16px;
 }
 
-.code-inputs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
+.description strong {
+  color: var(--light-text);
+  font-weight: 600;
+  word-break: break-all;
 }
 
-.code-box {
-  width: 50px;
-  height: 50px;
-  text-align: center;
-  font-size: 24px;
-  border: 2px solid #0056b3;
-  border-radius: 10px;
+.hint-text {
+  color: var(--light-text-alt);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 32px;
 }
 
 .resend-text {
   font-size: 14px;
-  margin-bottom: 20px;
+  color: var(--light-text-alt);
+  margin-bottom: 24px;
 }
 
 .resend {
-  color: #0056b3;
+  color: var(--primary-color);
   cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.resend:hover {
+  color: var(--primary-dark);
+  text-decoration: underline;
 }
 
 .verify-btn {
-  --background: #0056b3;
-  border-radius: 10px;
+  --background: var(--primary-color);
+  --background-activated: var(--primary-dark);
+  --background-hover: var(--primary-light);
+  --border-radius: 12px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  --box-shadow: 0 4px 12px rgba(0, 194, 255, 0.25);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  height: 48px;
+  transition: all 0.3s ease;
+}
+
+.verify-btn:hover {
+  --box-shadow: 0 6px 16px rgba(0, 194, 255, 0.35);
+}
+
+/* Modo oscuro mejorado */
+@media (prefers-color-scheme: dark) {
+  .modal-content {
+    --background: var(--dark-bg);
+  }
+  
+  .modal-container {
+    background: var(--dark-card);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+  
+  .back-icon,
+  .title,
+  .description strong {
+    color: var(--dark-text);
+  }
+  
+  .description,
+  .hint-text,
+  .resend-text {
+    color: var(--dark-text-alt);
+  }
+  
+  .back-icon:hover {
+    color: var(--primary-light);
+  }
+  
+  .resend {
+    color: var(--primary-light);
+  }
+  
+  .resend:hover {
+    color: var(--primary-color);
+  }
+  
+  .verify-btn {
+    --box-shadow: 0 4px 12px rgba(0, 144, 192, 0.3);
+  }
+  
+  .verify-btn:hover {
+    --box-shadow: 0 6px 16px rgba(0, 144, 192, 0.4);
+  }
 }

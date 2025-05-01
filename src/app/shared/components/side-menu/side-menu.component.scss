@@ -1,10 +1,38 @@
-/* Estilos mejorados - Modernos */
+:host {
+  /* Paleta de colores del chat */
+  --primary-color: #007B83;       /* Azul petróleo */
+  --primary-light: #4DA8B0;       /* Versión más clara del primario */
+  --primary-dark: #005D66;        /* Versión más oscura del primario */
+  --secondary-color: #00B27A;     /* Verde jade */
+  --secondary-light: #4DCB9D;     /* Versión más clara del secundario */
+  --secondary-dark: #008A5E;      /* Versión más oscura del secundario */
+  --tertiary-color: #0A3D62;      /* Azul noche */
+  --tertiary-light: #3C6B8F;      /* Versión más clara del terciario */
+  --tertiary-dark: #072A47;       /* Versión más oscura del terciario */
+  --accent-color: #FF5A5F;        /* Color para alertas/éxito */
+  --success-color: #00B27A;       /* Verde jade para éxito */
+  
+  /* Variables de modo claro */
+  --menu-bg-gradient: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-dark) 100%);
+  --menu-bg-overlay: rgba(0, 0, 0, 0.1);
+  --text-primary: rgba(255, 255, 255, 0.95);
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
+  --item-hover: rgba(255, 255, 255, 0.15);
+  --item-active: rgba(255, 255, 255, 0.2);
+  --divider-color: rgba(255, 255, 255, 0.15);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.3);
+  --toggle-bg: rgba(255, 255, 255, 0.2);
+  --toggle-bg-checked: rgba(255, 255, 255, 0.3);
+  --footer-gradient: linear-gradient(to top, var(--primary-color) 0%, transparent 100%);
+}
+
 .menu-container {
   height: 100vh;
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 300px;
+  width: 280px;
   overflow: hidden;
   padding-top: env(safe-area-inset-top);
 }
@@ -15,7 +43,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--menu-bg-gradient);
   opacity: 0.95;
   z-index: -1;
 
@@ -26,7 +54,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--menu-bg-overlay);
   }
 }
 
@@ -54,10 +82,11 @@
 }
 
 .menu-avatar {
-  width: 90px;
-  height: 90px;
+  width: 80px;
+  height: 80px;
   margin-bottom: 15px;
   border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
 
@@ -70,15 +99,15 @@
 .menu-username {
   margin: 0;
   font-weight: 600;
-  font-size: 1.3rem;
-  color: white;
+  font-size: 1.2rem;
+  color: var(--text-primary);
   letter-spacing: 0.5px;
 }
 
 .menu-userstatus {
   margin: 5px 0 0;
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   position: relative;
   padding-left: 12px;
 
@@ -91,7 +120,7 @@
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #4caf50;
+    background: var(--success-color);
   }
 }
 
@@ -101,20 +130,20 @@
   justify-content: center;
   width: 100%;
   padding: 12px 0;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--toggle-bg);
   border-radius: 12px;
   margin-top: 10px;
 
   ion-label {
     margin-left: 10px;
-    font-size: 0.95rem;
-    color: white;
+    font-size: 0.9rem;
+    color: var(--text-primary);
     font-weight: 500;
   }
 
   .custom-toggle {
-    --background: rgba(255, 255, 255, 0.2);
-    --background-checked: rgba(255, 255, 255, 0.3);
+    --background: var(--toggle-bg);
+    --background-checked: var(--toggle-bg-checked);
     --handle-background: white;
     --handle-background-checked: white;
     padding: 5px;
@@ -123,7 +152,7 @@
 
 .menu-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--divider-color);
   margin: 15px 0;
   position: relative;
 
@@ -147,7 +176,7 @@
     margin-bottom: 15px;
 
     .group-title {
-      color: rgba(255, 255, 255, 0.6);
+      color: var(--text-tertiary);
       font-size: 0.75rem;
       text-transform: uppercase;
       letter-spacing: 1px;
@@ -158,10 +187,10 @@
 
   .menu-item {
     --background: transparent;
-    --color: white;
+    --color: var(--text-primary);
     --padding-start: 15px;
     --padding-end: 15px;
-    --min-height: 50px;
+    --min-height: 48px;
     margin: 3px 0;
     border-radius: 10px;
     transition: all 0.25s ease;
@@ -169,8 +198,8 @@
     overflow: hidden;
 
     ion-icon {
-      color: white;
-      font-size: 1.2rem;
+      color: var(--text-primary);
+      font-size: 1.1rem;
       margin-right: 15px;
       transition: all 0.3s ease;
     }
@@ -181,7 +210,7 @@
     }
 
     .badge {
-      background: #ff4081;
+      background: var(--accent-color);
       color: white;
       font-size: 0.7rem;
       font-weight: bold;
@@ -204,7 +233,7 @@
     }
 
     &:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--item-hover);
 
       ion-icon {
         transform: scale(1.1);
@@ -216,7 +245,7 @@
     }
 
     &.activated {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--item-active);
 
       &::before {
         transform: scaleY(1);
@@ -226,14 +255,14 @@
 
   .logout-item {
     --background: rgba(255, 255, 255, 0.1);
-    margin-top: 10px;
+    margin-top: 15px;
 
     ion-icon {
-      color: #ff6b6b;
+      color: var(--accent-color);
     }
 
     &:hover {
-      --background: rgba(255, 107, 107, 0.2);
+      --background: rgba(255, 90, 95, 0.2);
     }
   }
 }
@@ -242,10 +271,8 @@
   flex: 1;
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
   padding-right: 5px;
-
-
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -256,7 +283,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: var(--scrollbar-thumb);
     border-radius: 3px;
 
     &:hover {
@@ -264,7 +291,6 @@
     }
   }
 
-  /* Suavizar el scroll en iOS */
   -webkit-overflow-scrolling: touch;
 }
 
@@ -273,53 +299,75 @@
   text-align: center;
   padding: 15px 0 5px;
   margin-top: auto;
-  background: linear-gradient(to top, rgba(102, 126, 234, 0.7) 0%, transparent 100%);
+  background: var(--footer-gradient);
 
   .time-section {
     margin-bottom: 10px;
 
     .menu-time {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 600;
-      color: white;
+      color: var(--text-primary);
       margin: 0;
     }
 
     .menu-date {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
       margin: 3px 0 0;
     }
   }
 
   .app-version {
     font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-tertiary);
     letter-spacing: 0.5px;
   }
 }
 
-/* Efecto moderno para los iconos */
+/* Efectos para iconos */
 ion-icon {
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
-/* Estilos responsivos */
+/* Modo oscuro */
+@media (prefers-color-scheme: dark) {
+  :host {
+    --menu-bg-gradient: linear-gradient(135deg, var(--tertiary-dark) 0%, var(--primary-dark) 100%);
+    --menu-bg-overlay: rgba(0, 0, 0, 0.2);
+    --text-primary: rgba(255, 255, 255, 0.95);
+    --text-secondary: rgba(255, 255, 255, 0.75);
+    --text-tertiary: rgba(255, 255, 255, 0.6);
+    --item-hover: rgba(255, 255, 255, 0.12);
+    --item-active: rgba(255, 255, 255, 0.18);
+    --divider-color: rgba(255, 255, 255, 0.1);
+    --scrollbar-thumb: rgba(255, 255, 255, 0.25);
+    --toggle-bg: rgba(255, 255, 255, 0.15);
+    --toggle-bg-checked: rgba(255, 255, 255, 0.25);
+    --footer-gradient: linear-gradient(to top, rgba(10, 61, 98, 0.6) 0%, transparent 100%);
+  }
+
+  .menu-background {
+    opacity: 0.98;
+  }
+
+  .menu-item.logout-item {
+    --background: rgba(255, 255, 255, 0.08);
+    
+    &:hover {
+      --background: rgba(255, 90, 95, 0.15);
+    }
+  }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .menu-container {
     width: 100%;
   }
 
-  .menu-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 20px 15px;
-    backdrop-filter: blur(5px);
-  }
-
   .menu-avatar {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
   }
 }

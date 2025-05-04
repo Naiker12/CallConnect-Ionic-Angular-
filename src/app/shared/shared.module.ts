@@ -5,12 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { VerificationModalComponent } from './components/verification-modal/verification-modal.component';
 import { AddContactModalComponent } from './components/add-contact-modal/add-contact-modal.component';
-import { ProfileComponent } from './components/profile/profile.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
 
 
  const MODULOS = [CommonModule , FormsModule, IonicModule, ReactiveFormsModule ];
- const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent , ProfileComponent , SideMenuComponent];
+ const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent  , SideMenuComponent];
 
 
 

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, } from '@angular/core';
-import { ModalController, ToastController, } from '@ionic/angular';
+import { ModalController, } from '@ionic/angular';
 import { Contact } from 'src/app/core/models/contact';
 import { ContactService } from 'src/app/core/services/contact.service';
 import { AuthService } from 'src/app/core/services/auth.service';
@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MenuService } from 'src/app/core/services/Menu.Service';
 import { Router } from '@angular/router';
-import { ProfileComponent } from 'src/app/shared/components/profile/profile.component';
+
 
 
 
@@ -33,7 +33,6 @@ export class HomePage implements OnInit, OnDestroy {
     private contactService: ContactService,
     private authService: AuthService,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController,
     private menuService: MenuService,
     private router: Router,
 
@@ -98,16 +97,10 @@ export class HomePage implements OnInit, OnDestroy {
     this.scrolled = scrollTop > 50;
   }
 
-  async goToProfile(): Promise<void> {
-
-    const modal = await this.modalCtrl.create({
-      component: ProfileComponent,
-      componentProps: {
-      },
-      cssClass: 'profile-modal',
-      breakpoints: [0, 0.5, 1],
-      initialBreakpoint: 1
-    });
-    await modal.present();
+  goToProfile(): void {
+    if (this.router.url !== '/profile') {
+      this.router.navigate(['/profile']);
+    }
   }
+
 }

@@ -1,70 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Agregar contacto</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="contact-content">
-  <!-- Gradientes idénticos al login -->
-  <div class="gradient-header"></div>
-  <div class="gradient-footer"></div>
-  
-  <!-- Tarjeta central con mismo diseño -->
-  <div class="contact-card">
-    <!-- Avatar circular como en login -->
-    <div class="image-container">
-      <img [src]="userPhotoPreview || 'assets/icon/user-default.png'" 
-           alt="Foto de contacto" 
-           class="center-image">
-      <ion-button fill="clear" class="avatar-button" (click)="changePhoto()">
-        <ion-icon name="camera" slot="icon-only"></ion-icon>
-      </ion-button>
+  <!-- Cabecera con imagen y título -->
+  <div class="contact-header">
+    <div class="contact-avatar-container">
+      <ion-img class="contact-avatar" src="assets/imagen-landing.png"></ion-img>
     </div>
+    <div class="contact-name">Nuevo contacto</div>
+  </div>
 
-    <!-- Títulos con mismo estilo -->
-    <div class="header-section">
-      <h2 class="contact-title">Agregar Nuevo Contacto</h2>
-      <p class="contact-subtitle">Completa la información requerida</p>
-    </div>
-
-    <!-- Formulario con inputs idénticos al login -->
+  <!-- Formulario -->
+  <div class="contact-details">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <ion-item class="custom-input" lines="none">
-        <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
-        <ion-input 
-          formControlName="nombre" 
-          type="text"
-          placeholder="Nombre completo"
-          label="Nombre completo"
-          labelPlacement="floating">
-        </ion-input>
-      </ion-item>
+      <ion-list lines="none">
+        <ion-item class="modern-input">
+          <ion-icon name="person-outline" slot="start" class="detail-icon"></ion-icon>
+          <ion-input formControlName="nombre" placeholder="Nombre completo"></ion-input>
+        </ion-item>
 
-      <ion-item class="custom-input" lines="none">
-        <ion-icon name="call-outline" slot="start" class="input-icon"></ion-icon>
-        <ion-input 
-          formControlName="telefono" 
-          type="tel"
-          inputmode="numeric"
-          placeholder="Número de celular"
-          label="Número de celular"
-          labelPlacement="floating">
-        </ion-input>
-      </ion-item>
+        <ion-item class="modern-input">
+          <ion-icon name="call-outline" slot="start" class="detail-icon"></ion-icon>
+          <ion-input formControlName="telefono" type="tel" maxlength="10" placeholder="Teléfono"></ion-input>
+        </ion-item>
+      </ion-list>
 
-      <!-- Botón con mismo estilo -->
-      <ion-button expand="block" class="submit-button" type="submit" [disabled]="form.invalid">
-        AGREGAR CONTACTO
-      </ion-button>
-
-      <!-- Divisor como en login -->
-      <div class="divider">
-        <span class="divider-line"></span>
-        <span class="divider-text">o agregar desde</span>
-        <span class="divider-line"></span>
-      </div>
-
-      <!-- Botón social como en login -->
-      <div class="social-buttons">
-        <ion-button fill="outline" class="google-button" shape="round">
-          <ion-icon slot="start" name="logo-google"></ion-icon>
-          Google Contacts
+      <div class="contact-actions">
+        <ion-button expand="block" type="submit" [disabled]="isSubmitting" class="edit-button">
+          <ion-icon slot="start" name="save-outline"></ion-icon>
+          Guardar contacto
         </ion-button>
       </div>
     </form>
   </div>
+
+  <!-- Gradiente inferior -->
+  <div class="footer-gradient"></div>
 </ion-content>

@@ -6,6 +6,7 @@ import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.se
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { Router } from '@angular/router';
 
 /**
  * Componente modal para agregar nuevos contactos
@@ -32,7 +33,8 @@ export class AddContactModalComponent {
     private authService: AuthService,
     private platform: Platform,
     private toastService: CustomToastService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private router: Router,
   ) {
     this.initializeForm();
   }
@@ -232,5 +234,9 @@ export class AddContactModalComponent {
   dismiss(): void {
     this.modalCtrl.dismiss();
   }
-  
+
+  goBack() {
+    this.router.navigate(['/home']);
+  }
+
 }

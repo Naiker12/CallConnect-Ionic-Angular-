@@ -11,120 +11,138 @@
   --light-bg: #FFFFFF;            /* Blanco */
   --light-text: #333333;          /* Gris oscuro */
   --light-text-alt: #666666;      /* Gris medio */
-  --dark-bg: #000000;             /* Negro puro */
-  --dark-bg-alt: #1A1A1A;         /* Fondo más claro para elementos */
-  --dark-text: #D9D9D9;           /* Gris claro */
+  --dark-bg: #121212;             /* Negro más claro para mejor legibilidad */
+  --dark-bg-alt: #1E1E1E;         /* Fondo más claro para elementos */
+  --dark-text: #E0E0E0;           /* Gris claro */
   --dark-text-alt: #A0A0A0;       /* Gris claro alternativo */
-  
-  --header-height: 180px;
-  --header-shrink-height: 100px;
-  --logo-size: 70px;
-  --logo-shrink-size: 50px;
 }
 
-/* Header rediseñado con tus colores exactos */
+/* Header moderno con colores */
 .header {
-  height: var(--header-height);
   background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  
-  &.scrolled {
-    height: var(--header-shrink-height);
-    
-    .header-toolbar {
-      padding-top: 5px;
-    }
-    
-    .search-toolbar {
-      padding-bottom: 5px;
-    }
-    
-    .app-logo {
-      width: var(--logo-shrink-size);
-      height: var(--logo-shrink-size);
-      top: 5px;
-    }
-    
-    .logo-container {
-      height: calc(var(--logo-shrink-size) / 2 + 10px);
-    }
-  }
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   
   .header-toolbar {
     --background: transparent;
     --border-width: 0;
-    padding-top: 20px;
-    position: relative;
-    transition: padding 0.3s ease;
+    --min-height: 56px;
     
-    .logo-container {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: calc(var(--logo-size) + 20px);
-      height: calc(var(--logo-size) / 2 + 15px);
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      overflow: hidden;
-      border-bottom-left-radius: 50%;
-      border-bottom-right-radius: 50%;
-      background: linear-gradient(135deg, var(--tertiary-dark) 0%, var(--primary-dark) 100%);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      transition: all 0.3s ease;
+    ion-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--light-bg);
     }
     
-    .app-logo {
-      width: var(--logo-size);
-      height: var(--logo-size);
-      object-fit: contain;
-      position: relative;
-      top: 5px;
-      transition: all 0.3s ease;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-    
-    .profile-avatar {
-      width: 60px;
-      height: 50px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      transition: transform 0.2s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    .menu-button {
+      --color: var(--light-bg);
       
-      &:active {
-        transform: scale(0.9);
+      ion-icon {
+        font-size: 24px;
       }
     }
     
-    .menu-button ion-icon {
-      color: var(--light-bg);
-      font-size: 24px;
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      margin-right: 8px;
     }
   }
   
   .search-toolbar {
     --background: transparent;
     --border-width: 0;
-    padding: 10px 15px 20px;
-    transition: padding 0.3s ease;
+    padding: 0 12px 8px;
     
     .custom-searchbar {
       --background: rgba(255, 255, 255, 0.2);
       --color: var(--light-bg);
       --placeholder-color: rgba(255, 255, 255, 0.8);
-      --border-radius: 18px;
-      --box-shadow: none;
       --icon-color: var(--light-bg);
-      backdrop-filter: blur(10px);
+      --border-radius: 16px;
+      --box-shadow: none;
+      --placeholder-opacity: 0.7;
+      margin: 0;
+      padding: 0;
+      height: 38px;
+      backdrop-filter: blur(5px);
     }
   }
 }
 
+/* Secciones */
+.section-container {
+  padding: 16px 0;
+  
+  .section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin: 0 16px 12px;
+  }
+}
 
-/* Lista de contactos estilo WhatsApp */
+/* Maintenance Card Styles */
+.maintenance-section {
+  margin-bottom: 0;
+}
+
+.maintenance-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 25px 20px;
+  background-color: var(--light-bg);
+  margin: 0 16px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.blue-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: var(--primary-color);
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.maintenance-card ion-icon {
+  font-size: 40px;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+}
+
+.maintenance-card h3 {
+  color: var(--primary-dark);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.maintenance-card p {
+  color: var(--light-text-alt);
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Section Divider */
+.section-divider {
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin: 0 16px;
+}
+
+/* Lista de contactos estilo moderno */
 .contact-list {
-  padding: 0;
+  background-color: var(--light-bg);
   
   ion-item-sliding {
     margin-bottom: 1px;
@@ -135,21 +153,20 @@
   }
   
   .contact-item {
-    --background: var(--ion-color-background);
-    --padding-start: 12px;
-    --padding-end: 12px;
+    --background: var(--light-bg);
+    --padding-start: 16px;
+    --padding-end: 16px;
     --inner-padding-end: 8px;
-    --min-height: 72px;
+    --min-height: 70px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    transition: background 0.2s ease;
     
     &:active {
-      background: rgba(0, 0, 0, 0.03);
+      --background: rgba(0, 0, 0, 0.03);
     }
     
     .contact-avatar {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       margin-right: 12px;
       position: relative;
       
@@ -160,27 +177,27 @@
       
       .online-status {
         position: absolute;
-        bottom: 2px;
-        right: 2px;
+        bottom: 0;
+        right: 0;
         width: 12px;
         height: 12px;
-        background: var(--ion-color-secondary);
+        background: var(--secondary-color);
         border-radius: 50%;
-        border: 2px solid var(--ion-color-background);
+        border: 2px solid var(--light-bg);
       }
     }
     
     .contact-info {
       .contact-name {
         font-weight: 500;
-        color: var(--ion-color-medium);
+        color: var(--light-text);
         margin-bottom: 4px;
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
       
       .contact-last-message {
-        color: var(--ion-color-light);
-        font-size: 0.9rem;
+        color: var(--light-text-alt);
+        font-size: 0.85rem;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
@@ -194,89 +211,43 @@
       flex-direction: column;
       align-items: flex-end;
       justify-content: center;
+      min-width: 45px;
       
       .message-time {
         font-size: 0.75rem;
-        color: var(--ion-color-light);
+        color: var(--light-text-alt);
         margin-bottom: 4px;
       }
       
       .unread-count {
-        --background: var(--ion-color-secondary);
+        --background: var(--secondary-color);
         --color: white;
         font-size: 0.7rem;
         font-weight: 600;
-        border-radius: 50%;
-        width: 20px;
+        border-radius: 12px;
+        min-width: 20px;
         height: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0 6px;
       }
     }
-  }
-}
-
-/* Estado vacío */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-  margin-top: 30%;
-  
-  .empty-icon-container {
-    background: rgba(var(--ion-color-primary-rgb), 0.1);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 25px;
-    
-    .empty-icon {
-      font-size: 50px;
-      color: var(--ion-color-primary);
-    }
-  }
-  
-  .empty-title {
-    color: var(--ion-color-medium);
-    font-weight: 500;
-    margin-bottom: 30px;
-    font-size: 1.2rem;
-  }
-  
-  .add-btn {
-    --background: var(--ion-color-primary);
-    --border-radius: 18px;
-    --padding-top: 16px;
-    --padding-bottom: 16px;
-    --padding-start: 24px;
-    --padding-end: 24px;
-    font-weight: 500;
-    text-transform: none;
-    letter-spacing: 0.5px;
-    box-shadow: 0 4px 12px rgba(var(--ion-color-primary-rgb), 0.2);
   }
 }
 
 /* Botón flotante */
 .custom-fab {
-  bottom: 25px;
+  bottom: 20px;
   right: 20px;
   
   ion-fab-button {
-    --background: var(--ion-color-primary);
-    --background-activated: var(--ion-color-primary-shade);
-    --box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.3);
-    --transition: transform 0.2s ease;
-    
-    &:active {
-      transform: scale(0.9);
-    }
+    --background: var(--primary-color);
+    --background-activated: var(--primary-dark);
+    --box-shadow: 0 4px 16px rgba(0, 123, 131, 0.3);
     
     .fab-icon {
-      font-size: 1.8rem;
+      font-size: 24px;
     }
   }
 }
@@ -285,7 +256,7 @@
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(5px);
   }
   to {
     opacity: 1;
@@ -294,101 +265,11 @@
 }
 
 .contact-item {
-  animation: fadeIn 0.3s ease-out both;
-  animation-delay: calc(var(--animation-order) * 0.05s);
+  animation: fadeIn 0.2s ease-out both;
+  animation-delay: calc(var(--animation-order) * 0.02s);
 }
 
-/* Responsive */
-@media (max-width: 480px) {
-  :root {
-    --header-height: 150px;
-  }
-  
-  .header {
-    &.scrolled {
-      height: 80px;
-    }
-    
-    .header-toolbar {
-      padding-top: 10px;
-      
-      .header-title {
-        font-size: 1.2rem;
-        
-        .title-icon {
-          font-size: 1.4rem;
-        }
-      }
-      
-      .profile-avatar {
-        width: 36px;
-        height: 36px;
-      }
-    }
-  }
-  
-  .contact-list .contact-item {
-    --min-height: 68px;
-    
-    .contact-avatar {
-      width: 48px;
-      height: 48px;
-    }
-    
-    .contact-info {
-      .contact-name {
-        font-size: 1rem;
-      }
-      
-      .contact-last-message {
-        font-size: 0.8rem;
-      }
-    }
-  }
-  
-  .empty-state {
-    margin-top: 20%;
-    
-    .empty-icon-container {
-      width: 80px;
-      height: 80px;
-      
-      .empty-icon {
-        font-size: 40px;
-      }
-    }
-  }
-}
-
-/* Ajustes para iOS */
-.ios {
-  .header {
-    padding-top: env(safe-area-inset-top);
-  }
-  
-  .contact-item {
-    --border-radius: 0;
-  }
-}
-
-/* Modo oscuro */
-@media (prefers-color-scheme: dark) {
-  .header {
-    .header-toolbar {
-      .logo-container {
-        background: linear-gradient(135deg, var(--tertiary-light) 0%, var(--primary-light) 100%);
-      }
-      
-      .menu-button ion-icon {
-        color: var(--dark-text);
-      }
-    }
-    
-    .search-toolbar .custom-searchbar {
-      --background: rgba(26, 26, 26, 0.5);
-      --color: var(--dark-text);
-      --placeholder-color: rgba(217, 217, 217, 0.7);
-      --icon-color: var(--dark-text);
-    }
-  }
+/* Estilos para el contenido */
+.contacts-content {
+  --background: #f5f5f5;
 }

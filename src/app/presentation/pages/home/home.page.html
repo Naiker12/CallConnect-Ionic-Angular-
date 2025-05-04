@@ -5,11 +5,9 @@
         <ion-icon name="menu-outline" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
-
-    <div class="logo-container">
-      <img src="assets/icon/icon_1200.webp" alt="Logo de la aplicación" class="app-logo">
-    </div>
-
+    
+    <ion-title class="ion-text-center">Chat</ion-title>
+    
     <ion-buttons slot="end">
       <ion-button class="profile-button" aria-label="Perfil" (click)="goToProfile()">
         <ion-avatar class="profile-avatar">
@@ -18,53 +16,58 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
+  
   <ion-toolbar class="search-toolbar">
     <ion-searchbar class="custom-searchbar" placeholder="Buscar contactos..." animated debounce="300" mode="ios">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="contacts-content" (ionScroll)="onScroll($event)"> 
-  <div class="contact-list" *ngIf="contacts.length > 0; else noContacts">
-    <ion-item-sliding *ngFor="let contact of contacts; let i = index">
-      <ion-item class="contact-item" button lines="none" [routerLink]="['/chat', contact.uid]" routerDirection="forward"
-        style="--animation-order: {{i}}">
-
-        <ion-avatar slot="start" class="contact-avatar">
-          <img src="assets/imagen-landing.png">
-          <div class="online-status" ></div>
-        </ion-avatar>
-
-        <ion-label class="contact-info">
-          <h2 class="contact-name">{{ contact.nombre }}</h2>
-          <p class="contact-last-message"></p>
-        </ion-label>
-
-        <div slot="end" class="message-meta">
-          <span class="message-time"></span>
-          <ion-badge class="unread-count" >
-          </ion-badge>
-        </div>
-      </ion-item>
-    </ion-item-sliding>
-  </div>
-
-  <ng-template #noContacts>
-    <div class="empty-state">
-      <div class="empty-icon-container">
-        <ion-icon name="people-outline" class="empty-icon"></ion-icon>
-      </div>
-      <h3 class="empty-title">No tienes contactos aún</h3>
-      <ion-button (click)="openAddContactModal()" fill="solid" color="primary" class="add-btn" shape="round">
-        <ion-icon name="person-add" slot="start"></ion-icon>
-        Agregar Contacto
-      </ion-button>
+<ion-content class="contacts-content">
+  <!-- Sección de Grupos con mensaje de mantenimiento -->
+  <div class="section-container maintenance-section">
+    <h2 class="section-title">Grupos</h2>
+    <div class="maintenance-card">
+      <div class="blue-line"></div>
+      <ion-icon name="construct-outline"></ion-icon>
+      <h3>Chat en mantenimiento</h3>
+      <p>Estamos trabajando para mejorar tu experiencia de mensajería</p>
     </div>
-  </ng-template>
-
+  </div>
+  
+  <!-- Divider line between sections -->
+  <div class="section-divider"></div>
+  
+  <!-- Sección de Mensajes -->
+  <div class="section-container">
+    <h2 class="section-title">Mensajes</h2>
+    <div class="contact-list">
+      <ion-item-sliding *ngFor="let contact of contacts; let i = index">
+        <ion-item class="contact-item" button lines="none" [routerLink]="['/chat', contact.uid]" routerDirection="forward"
+          style="--animation-order: {{i}}">
+          
+          <ion-avatar slot="start" class="contact-avatar">
+            <img src="assets/imagen-landing.png">
+            <div class="online-status"></div>
+          </ion-avatar>
+          
+          <ion-label class="contact-info">
+            <h2 class="contact-name">{{ contact.nombre }}</h2>
+            <p class="contact-last-message"></p>
+          </ion-label>
+          
+          <div slot="end" class="message-meta">
+            <span class="message-time"></span>
+            <ion-badge class="unread-count"></ion-badge>
+          </div>
+        </ion-item>
+      </ion-item-sliding>
+    </div>
+  </div>
+  
+  <!-- Botón flotante para agregar contacto -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="custom-fab">
-    <ion-fab-button (click)="openAddContactModal()" color="primary" aria-label="Agregar contacto">
+    <ion-fab-button color="primary" (click)="openAddContactModal()" aria-label="Agregar contacto">
       <ion-icon name="add" class="fab-icon"></ion-icon>
     </ion-fab-button>
   </ion-fab>

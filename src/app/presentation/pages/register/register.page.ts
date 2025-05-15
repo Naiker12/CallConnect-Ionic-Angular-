@@ -5,6 +5,7 @@ import { User } from 'src/app/core/models/user';
 import { RegisterService } from 'src/app/domain/use-cases/register.service';
 import { LoadingController } from '@ionic/angular';
 import { FirebaseError } from 'firebase/app';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,8 @@ export class RegisterPage {
     private fb: FormBuilder,
     private registerService: RegisterService,
     private toastService: CustomToastService,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    private navService: NavigationService
   ) {
     this.initializeForm();
   }
@@ -162,4 +164,8 @@ export class RegisterPage {
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
+
+  goToLogin(): void {
+    this.navService.goToLogin();
+ }
 }

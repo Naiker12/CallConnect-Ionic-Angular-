@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-landing',
@@ -9,9 +9,9 @@ import { Router } from '@angular/router';
 })
 export class LandingPage {
 
-  constructor(private router: Router) { }
+  constructor(private navService: NavigationService) { }
 
   goToLogin() {
-    this.router.navigate(['/login']);
+    this.navService.goToLogin();
   }
 }

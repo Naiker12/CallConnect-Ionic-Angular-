@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {  Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-verification-modal',
@@ -15,7 +16,7 @@ export class VerificationModalComponent  implements OnInit {
   @Input() title: string = 'Verifica tu correo';
   @Input() message: string = 'Hemos enviado un enlace de verificación a tu correo electrónico. Verifícalo para poder acceder.';
 
-  constructor(private modalCtrl: ModalController , private router: Router) {}
+  constructor(private modalCtrl: ModalController , private router: Router , private navService: NavigationService) {}
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -32,9 +33,7 @@ export class VerificationModalComponent  implements OnInit {
 
   goToLogin() {
     this.closeModal();
-    if (this.router.url !== '/login') {
-      this.router.navigate(['/login']);
-    }
+    this.navService.goToLogin();
   }
 
   resendCode() {

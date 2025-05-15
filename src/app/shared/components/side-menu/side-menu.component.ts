@@ -6,6 +6,7 @@ import { Auth, signOut } from '@angular/fire/auth';
 import { UserService } from 'src/app/core/services/User.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/models/user';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 
 @Component({
@@ -23,8 +24,9 @@ export class SideMenuComponent  {
   constructor(
     private modalCtrl: ModalController,
     private auth: Auth,
-    private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private modalController: ModalController,
+    private navService: NavigationService
   ) {}
 
   ngOninit(){
@@ -61,8 +63,7 @@ export class SideMenuComponent  {
   logout() {
     signOut(this.auth).then(() => {
       this.modalCtrl.dismiss();
-      this.router.navigateByUrl('/login', { replaceUrl: true });
+      this.navService.logoutAndRedirect();
     });
   }
-
 }

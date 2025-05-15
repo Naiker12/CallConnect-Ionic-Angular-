@@ -5,6 +5,7 @@ import { RecoverPasswordService } from 'src/app/domain/use-cases/recover-passwor
 import { FirebaseError } from 'firebase/app';
 import { LoadingController } from '@ionic/angular';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-recover',
@@ -22,8 +23,9 @@ export class RecoverPage implements OnInit {
     private fb: FormBuilder,
     private recoverService: RecoverPasswordService,
     private toastService: CustomToastService,
-    private loadingCtrl: LoadingController
-  ) {
+    private loadingCtrl: LoadingController,
+    private navService : NavigationService
+    ) {
     this.currentUrl = this.router.url;
     this.initializeForm();
   }
@@ -37,9 +39,7 @@ export class RecoverPage implements OnInit {
   }
 
   goToLogin(): void {
-    if (this.router.url !== '/login') {
-      this.router.navigate(['/login']);
-    }
+     this.navService.goToLogin();
   }
 
   async onRecover(): Promise<void> {

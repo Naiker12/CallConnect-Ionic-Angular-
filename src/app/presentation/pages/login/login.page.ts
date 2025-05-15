@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/domain/use-cases/login.service';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { VerificationModalComponent } from 'src/app/shared/components/verification-modal/verification-modal.component';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,8 @@ export class LoginPage implements OnInit {
     private loginService: LoginService,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
-    private toastService: CustomToastService
+    private toastService: CustomToastService,
+    private navService: NavigationService
   ) {
     this.currentUrl = this.router.url;
     this.initializeForm();
@@ -53,7 +55,7 @@ export class LoginPage implements OnInit {
       this.form.reset();
 
       if (isVerified) {
-        this.router.navigate(['/home']);
+        this.navService.goToHome();
       } else {
         this.handleUnverifiedUser();
       }
@@ -121,15 +123,11 @@ export class LoginPage implements OnInit {
   }
 
   goToRegister(): void {
-    if (this.router.url !== '/register') {
-      this.router.navigate(['/register']);
-    }
+    this.navService.goToRegister();
   }
 
   goToRecover(): void {
-    if (this.router.url !== '/recover') {
-      this.router.navigate(['/recover']);
-    }
+    this.navService.goToRecover();
   }
   
   togglePassword(): void {

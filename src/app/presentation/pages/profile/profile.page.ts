@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Auth, signOut } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { EditProfileModalComponent } from 'src/app/shared/components/edit-profile-modal/edit-profile-modal.component';
 import { ChangePasswordModalComponent } from 'src/app/shared/components/change-password-modal/change-password-modal.component';
@@ -8,6 +7,8 @@ import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { Subscription } from 'rxjs';
 import { User } from 'src/app/core/models/user';
 import { UserService } from 'src/app/core/services/User.service';
+import { NavigationService } from 'src/app/core/services/navigation.service';
+
 
 @Component({
   selector: 'app-profile',
@@ -21,10 +22,10 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   constructor(
     private auth: Auth,
-    private router: Router,
     private modalCtrl: ModalController,
     private toastService: CustomToastService,
-    private userService: UserService
+    private userService: UserService,
+    private navService: NavigationService
   ) {}
 
   ngOnInit() {
@@ -40,13 +41,13 @@ export class ProfilePage implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['/home']);
+    this.navService.goToHome();
   }
 
   logout() {
     signOut(this.auth).then(() => {
       this.toastService.success('Sesión cerrada correctamente');
-      this.router.navigateByUrl('/login', { replaceUrl: true });
+      this.navService.logoutAndRedirect();
     }).catch(error => {
       console.error('Error al cerrar sesión', error);
       this.toastService.error('Error al cerrar sesión');

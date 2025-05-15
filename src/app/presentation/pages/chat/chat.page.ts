@@ -9,6 +9,7 @@ import { AddContactModalComponent } from 'src/app/shared/components/add-contact-
 import { ContactService } from 'src/app/core/services/contact.service';
 import { Capacitor } from '@capacitor/core';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-chat',
@@ -26,12 +27,11 @@ export class ChatPage implements OnInit, OnDestroy {
     private firebaseContactService: FirebaseContactService,
     private authService: AuthService,
     private actionSheetCtrl: ActionSheetController,
-    private navCtrl: NavController,
-    private router: Router,
     private modalCtrl: ModalController,
     private loadingCtrl: LoadingController,
     private contactService: ContactService,
-    private toastService: CustomToastService
+    private toastService: CustomToastService,
+    private navService: NavigationService
   ) {}
 
   ngOnInit() {
@@ -200,7 +200,7 @@ export class ChatPage implements OnInit, OnDestroy {
   }
 
   private navigateToContacts(): void {
-    this.navCtrl.navigateBack('/contacts');
+    this.navService.goToContacts();
   }
 
   goToCall(): void {

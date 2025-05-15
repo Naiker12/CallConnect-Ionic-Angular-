@@ -7,6 +7,7 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { Router } from '@angular/router';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -28,6 +29,7 @@ export class AddContactModalComponent {
     private toastService: CustomToastService,
     private loadingCtrl: LoadingController,
     private router: Router,
+    private navService: NavigationService
   ) {
     this.initializeForm();
   }
@@ -190,7 +192,7 @@ export class AddContactModalComponent {
   }
 
   goBack() {
-    this.router.navigate(['/home']);
+    this.navService.goToHome();
   }
 
 }

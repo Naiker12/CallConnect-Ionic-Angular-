@@ -5,6 +5,9 @@ import { ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class CustomToastService {
+  handleError(error: unknown) {
+    throw new Error('Method not implemented.');
+  }
 
   private defaultOptions = {
     duration: 3000,

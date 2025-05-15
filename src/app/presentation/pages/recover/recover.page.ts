@@ -1,36 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RecoverPasswordService } from 'src/app/domain/use-cases/recover-password.service';
-import { FirebaseError } from 'firebase/app';
 import { LoadingController } from '@ionic/angular';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
+import { ValidationService } from 'src/app/core/validation/services/validation.service';
+import { RecoverPasswordService } from 'src/app/domain/use-cases/recover-password.service';
+
 
 @Component({
   selector: 'app-recover',
   templateUrl: './recover.page.html',
   styleUrls: ['./recover.page.scss'],
-  standalone: false
+  standalone : false
 })
-export class RecoverPage implements OnInit {
+export class RecoverPage {
   form!: FormGroup;
-  currentUrl: string;
   isLoading = false;
 
   constructor(
-    private router: Router,
     private fb: FormBuilder,
     private recoverService: RecoverPasswordService,
     private toastService: CustomToastService,
     private loadingCtrl: LoadingController,
-    private navService : NavigationService
-    ) {
-    this.currentUrl = this.router.url;
+    private navService: NavigationService,
+    private validationService: ValidationService
+  ) {
     this.initializeForm();
   }
-
-  ngOnInit() {}
 
   private initializeForm(): void {
     this.form = this.fb.group({
@@ -38,26 +34,18 @@ export class RecoverPage implements OnInit {
     });
   }
 
-  goToLogin(): void {
-     this.navService.goToLogin();
-  }
-
   async onRecover(): Promise<void> {
-    if (this.form.invalid) {
-      this.toastService.error('Por favor ingresa un correo electrónico válido');
-      return;
-    }
-
-    this.isLoading = true;
-    const loading = await this.showLoading();
-
     try {
-      const email = this.form.value.email;
-      await this.recoverService.recover(email);
+      this.validationService.validateEmail(this.form.get('email'));
       
-      this.form.reset();
+      this.isLoading = true;
+      const loading = await this.showLoading();
+
+      await this.recoverService.recover(this.form.value.email);
+      
       await loading.dismiss();
       this.isLoading = false;
+      this.form.reset();
       
       this.toastService.success(
         'Enlace de recuperación enviado. Revisa tu correo.',
@@ -65,68 +53,22 @@ export class RecoverPage implements OnInit {
         '¡Correo enviado!'
       );
       
-    } catch (error: unknown) {
-      await loading.dismiss();
+    } catch (error) {
       this.isLoading = false;
-      this.handleRecoveryError(error);
+      this.toastService.handleError(error);
     }
   }
 
   private async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Enviando enlace...',
-      spinner: 'crescent',
-      translucent: true
+      spinner: 'crescent'
     });
     await loading.present();
     return loading;
   }
 
-  private handleRecoveryError(error: unknown): void {
-    if (error instanceof FirebaseError) {
-      this.handleFirebaseError(error);
-    } else {
-      console.error('Error desconocido en recuperación:', error);
-      this.toastService.error(
-        'Error al enviar el enlace. Por favor intenta nuevamente.',
-        3000,
-        'Error inesperado'
-      );
-    }
-  }
-
-  private handleFirebaseError(error: FirebaseError): void {
-    switch (error.code) {
-      case 'auth/user-not-found':
-        this.toastService.warning(
-          'Este correo no está registrado en nuestro sistema',
-          3000,
-          'Correo no encontrado'
-        );
-        break;
-        
-      case 'auth/too-many-requests':
-        this.toastService.error(
-          'Demasiados intentos. Por favor espera antes de intentar nuevamente',
-          4000,
-          'Solicitud bloqueada'
-        );
-        break;
-        
-      case 'auth/invalid-email':
-        this.toastService.error(
-          'El formato del correo electrónico es inválido',
-          3000,
-          'Correo inválido'
-        );
-        break;
-        
-      default:
-        this.toastService.error(
-          'Error al procesar tu solicitud: ' + error.message,
-          4000,
-          'Error técnico'
-        );
-    }
+  goToLogin(): void {
+    this.navService.goToLogin();
   }
 }

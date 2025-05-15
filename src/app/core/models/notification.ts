@@ -1,4 +1,3 @@
-// src/models/notification.ts
 export interface Notification {
     title: string;
     body: string;

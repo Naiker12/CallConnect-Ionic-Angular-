@@ -6,13 +6,6 @@ import { ModalController, LoadingController } from '@ionic/angular';
 import { VerificationModalComponent } from 'src/app/shared/components/verification-modal/verification-modal.component';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 
-
-/**
- * Página de inicio de sesión
- * 
- * Maneja la autenticación de usuarios, validación de formularios
- * y redirección a otras páginas relacionadas con la autenticación.
- */
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -38,7 +31,6 @@ export class LoginPage implements OnInit {
 
   ngOnInit() { }
 
-  /** Inicializa el formulario con validaciones */
   private initializeForm(): void {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -46,7 +38,6 @@ export class LoginPage implements OnInit {
     });
   }
 
-  /** Maneja el proceso de inicio de sesión */
   async onLogin(): Promise<void> {
     if (this.form.invalid) {
       this.toastService.error('Por favor completa todos los campos correctamente');
@@ -73,15 +64,11 @@ export class LoginPage implements OnInit {
     }
   }
 
-
-
-  /** Muestra el modal de verificación de email */
   private async handleUnverifiedUser(): Promise<void> {
     await this.presentVerificationModal();
     this.toastService.warning('Por favor verifica tu correo electrónico');
   }
 
-  /** Maneja errores durante el login */
   private handleLoginError(error: unknown): void {
     this.form.reset();
 
@@ -113,7 +100,6 @@ export class LoginPage implements OnInit {
       message.includes('correo');
   }
 
-  /** Muestra el loading indicator */
   private async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Iniciando sesión...',
@@ -123,7 +109,6 @@ export class LoginPage implements OnInit {
     return loading;
   }
 
-  /** Muestra el modal de verificación */
   private async presentVerificationModal(): Promise<void> {
     const modal = await this.modalCtrl.create({
       component: VerificationModalComponent,
@@ -135,21 +120,18 @@ export class LoginPage implements OnInit {
     await modal.present();
   }
 
-  /** Navega a la página de registro */
   goToRegister(): void {
     if (this.router.url !== '/register') {
       this.router.navigate(['/register']);
     }
   }
 
-  /** Navega a la página de recuperación de contraseña */
   goToRecover(): void {
     if (this.router.url !== '/recover') {
       this.router.navigate(['/recover']);
     }
   }
-
-  /** Alterna la visibilidad de la contraseña */
+  
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }

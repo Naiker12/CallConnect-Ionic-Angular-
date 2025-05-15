@@ -9,9 +9,6 @@ import { takeUntil } from 'rxjs/operators';
 import { MenuService } from 'src/app/core/services/Menu.Service';
 import { Router } from '@angular/router';
 
-
-
-
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -24,8 +21,6 @@ export class HomePage implements OnInit, OnDestroy {
   isContactMenuOpen = false;
   selectedContact: any
   scrolled = false;
-
-
 
   private destroy$ = new Subject<void>();
 

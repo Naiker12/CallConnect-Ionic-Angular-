@@ -1,4 +1,3 @@
-<!-- profile.page.html -->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -14,15 +13,15 @@
   <div class="profile-header">
     <div class="profile-avatar-container" (click)="editPhoto()">
       <ion-avatar class="profile-avatar">
-        <img [src]="user?.photoURL || 'assets/imagen-landing.png'" alt="Foto de perfil">
+        <img src="assets/imagen-landing.png" alt="Foto de perfil">
       </ion-avatar>
       <div class="edit-photo-badge">
         <ion-icon name="camera-outline"></ion-icon>
       </div>
     </div>
     
-    <h1 class="profile-name">{{ user?.displayName || 'Usuario' }}</h1>
-    <p class="profile-email">{{ user?.email || 'usuario@ejemplo.com' }}</p>
+    <h1 class="profile-name">{{ userData ? (userData.nombre + ' ' + userData.apellido) : 'Usuario' }}</h1>
+    <p class="profile-email">{{ userData?.correo || 'usuario@ejemplo.com' }}</p>
   </div>
 
   <div class="profile-details">
@@ -30,7 +29,7 @@
       <ion-icon name="person-outline" slot="start" class="detail-icon"></ion-icon>
       <ion-label>
         <h3>Nombre completo</h3>
-        <p>{{ user?.displayName || 'No especificado' }}</p>
+        <p>{{ userData ? (userData.nombre + ' ' + userData.apellido) : 'No especificado' }}</p>
       </ion-label>
     </ion-item>
 
@@ -38,7 +37,7 @@
       <ion-icon name="mail-outline" slot="start" class="detail-icon"></ion-icon>
       <ion-label>
         <h3>Correo electrónico</h3>
-        <p>{{ user?.email || 'No especificado' }}</p>
+        <p>{{ userData?.correo || 'No especificado' }}</p>
       </ion-label>
     </ion-item>
 
@@ -46,7 +45,7 @@
       <ion-icon name="call-outline" slot="start" class="detail-icon"></ion-icon>
       <ion-label>
         <h3>Teléfono</h3>
-        <p>{{ user?.phoneNumber || 'No especificado' }}</p>
+        <p>{{ userData?.telefono || 'No especificado' }}</p>
       </ion-label>
     </ion-item>
   </div>
@@ -57,7 +56,7 @@
       Editar Perfil
     </ion-button>
     
-    <ion-button expand="block" shape="round" class="action-button" fill="outline">
+    <ion-button expand="block" shape="round" class="action-button" fill="outline"  (click)="changePassword()" >
       <ion-icon name="key-outline" slot="start"></ion-icon>
       Cambiar Contraseña
     </ion-button>

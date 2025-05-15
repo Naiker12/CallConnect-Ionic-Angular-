@@ -10,7 +10,6 @@
 </ion-header>
 
 <ion-content class="contact-content">
-  <!-- Cabecera con imagen y título -->
   <div class="contact-header">
     <div class="contact-avatar-container">
       <ion-img class="contact-avatar" src="assets/imagen-landing.png"></ion-img>
@@ -18,7 +17,6 @@
     <div class="contact-name">Nuevo contacto</div>
   </div>
 
-  <!-- Formulario -->
   <div class="contact-details">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <ion-list lines="none">
@@ -42,6 +40,5 @@
     </form>
   </div>
 
-  <!-- Gradiente inferior -->
   <div class="footer-gradient"></div>
 </ion-content>

@@ -1,21 +1,20 @@
 :host {
-  /* Nueva paleta de colores */
-  --primary-color: #007B83;       /* Azul petróleo */
-  --primary-light: #4DA8B0;       /* Versión más clara del primario */
-  --primary-dark: #005D66;        /* Versión más oscura del primario */
-  --secondary-color: #00B27A;     /* Verde jade */
-  --secondary-light: #4DCB9D;     /* Versión más clara del secundario */
-  --secondary-dark: #008A5E;      /* Versión más oscura del secundario */
-  --tertiary-color: #0A3D62;      /* Azul noche */
-  --tertiary-light: #3C6B8F;      /* Versión más clara del terciario */
-  --tertiary-dark: #072A47;       /* Versión más oscura del terciario */
-  --light-bg: #FFFFFF;            /* Blanco */
-  --light-text: #333333;          /* Gris oscuro */
-  --light-text-alt: #666666;      /* Gris medio */
-  --dark-bg: #000000;             /* Negro puro */
-  --dark-bg-alt: #1A1A1A;         /* Fondo más claro para elementos */
-  --dark-text: #D9D9D9;           /* Gris claro */
-  --dark-text-alt: #A0A0A0;       /* Gris claro alternativo */
+  --primary-color: #007B83;    
+  --primary-light: #4DA8B0;       
+  --primary-dark: #005D66;       
+  --secondary-color: #00B27A;     
+  --secondary-light: #4DCB9D;     
+  --secondary-dark: #008A5E;      
+  --tertiary-color: #0A3D62;     
+  --tertiary-light: #3C6B8F;      
+  --tertiary-dark: #072A47;       
+  --light-bg: #FFFFFF;           
+  --light-text: #333333;          
+  --light-text-alt: #666666;      
+  --dark-bg: #000000;             
+  --dark-bg-alt: #1A1A1A;         
+  --dark-text: #D9D9D9;           
+  --dark-text-alt: #A0A0A0;       
 }
 
 .login-content {
@@ -216,7 +215,6 @@
   text-decoration: none;
 }
 
-/* Modo oscuro */
 @media (prefers-color-scheme: dark) {
   .login-content {
     --background: var(--dark-bg);

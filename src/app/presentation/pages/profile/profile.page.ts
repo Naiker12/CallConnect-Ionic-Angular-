@@ -1,28 +1,42 @@
-// profile.page.ts
-import { Component, OnInit } from '@angular/core';
-import { Auth, onAuthStateChanged, signOut, User } from '@angular/fire/auth';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Auth, signOut } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { EditProfileModalComponent } from 'src/app/shared/components/edit-profile-modal/edit-profile-modal.component';
+import { ChangePasswordModalComponent } from 'src/app/shared/components/change-password-modal/change-password-modal.component';
+import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { Subscription } from 'rxjs';
+import { User } from 'src/app/core/models/user';
+import { UserService } from 'src/app/core/services/User.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
-  standalone : false
+  standalone: false
 })
-export class ProfilePage implements OnInit {
-  user: User | null = null;
+export class ProfilePage implements OnInit, OnDestroy {
+  userData: User | null = null;
+  private userSubscription: Subscription | null = null;
 
   constructor(
     private auth: Auth,
     private router: Router,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastService: CustomToastService,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    onAuthStateChanged(this.auth, (user) => {
-      this.user = user;
+    this.userSubscription = this.userService.currentUser$.subscribe(user => {
+      this.userData = user;
     });
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
   }
 
   goBack() {
@@ -31,16 +45,41 @@ export class ProfilePage implements OnInit {
 
   logout() {
     signOut(this.auth).then(() => {
-      this.modalCtrl.dismiss();
+      this.toastService.success('Sesión cerrada correctamente');
       this.router.navigateByUrl('/login', { replaceUrl: true });
+    }).catch(error => {
+      console.error('Error al cerrar sesión', error);
+      this.toastService.error('Error al cerrar sesión');
     });
   }
 
-  editProfile() {
-    console.log('Editar perfil');
+  async editProfile() {
+    const modal = await this.modalCtrl.create({
+      component: EditProfileModalComponent,
+      componentProps: {
+        userData: this.userData
+      },
+      cssClass: 'custom-modal',
+      backdropDismiss: false
+    });
+
+    await modal.present();
+  }
+
+  async changePassword() {
+    const modal = await this.modalCtrl.create({
+      component: ChangePasswordModalComponent,
+      componentProps: {
+        userEmail: this.userData?.correo || ''
+      },
+      cssClass: 'custom-modal',
+      backdropDismiss: false
+    });
+
+    await modal.present();
   }
 
   editPhoto() {
-    console.log('Cambiar foto');
+    this.toastService.info('Función de cambio de foto en desarrollo');
   }
 }

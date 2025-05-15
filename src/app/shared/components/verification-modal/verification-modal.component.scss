@@ -1,5 +1,4 @@
 :host {
-  /* Paleta de colores mejorada */
   --primary-color: #00C2FF;
   --primary-light: #66E3FF;
   --primary-dark: #0090C0;
@@ -9,14 +8,10 @@
   --tertiary-color: #7B61FF;
   --tertiary-light: #A992FF;
   --tertiary-dark: #4D3DC2;
-  
-  /* Colores claros mejorados */
   --light-bg: #F8FAFC;
   --light-card: #FFFFFF;
   --light-text: #2D3748;
   --light-text-alt: #718096;
-  
-  /* Colores oscuros mejorados (menos contrastes agresivos) */
   --dark-bg: #121826;
   --dark-card: #1E293B;
   --dark-text: #F1F5F9;
@@ -142,7 +137,6 @@
   --box-shadow: 0 6px 16px rgba(0, 194, 255, 0.35);
 }
 
-/* Modo oscuro mejorado */
 @media (prefers-color-scheme: dark) {
   .modal-content {
     --background: var(--dark-bg);

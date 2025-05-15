@@ -1,23 +1,22 @@
 :host {
-  --primary-color: #007B83;       /* Azul petróleo */
-  --primary-light: #4DA8B0;       /* Versión más clara del primario */
-  --primary-dark: #005D66;        /* Versión más oscura del primario */
-  --secondary-color: #00B27A;     /* Verde jade */
-  --secondary-light: #4DCB9D;     /* Versión más clara del secundario */
-  --secondary-dark: #008A5E;      /* Versión más oscura del secundario */
-  --tertiary-color: #0A3D62;      /* Azul noche */
-  --tertiary-light: #3C6B8F;      /* Versión más clara del terciario */
-  --tertiary-dark: #072A47;       /* Versión más oscura del terciario */
-  --light-bg: #FFFFFF;            /* Blanco */
-  --light-text: #333333;          /* Gris oscuro */
-  --light-text-alt: #666666;      /* Gris medio */
-  --dark-bg: #121212;             /* Negro más claro para mejor legibilidad */
-  --dark-bg-alt: #1E1E1E;         /* Fondo más claro para elementos */
-  --dark-text: #E0E0E0;           /* Gris claro */
-  --dark-text-alt: #A0A0A0;       /* Gris claro alternativo */
+  --primary-color: #007B83;       
+  --primary-light: #4DA8B0;       
+  --primary-dark: #005D66;        
+  --secondary-color: #00B27A;     
+  --secondary-light: #4DCB9D;     
+  --secondary-dark: #008A5E;     
+  --tertiary-color: #0A3D62;      
+  --tertiary-light: #3C6B8F;      
+  --tertiary-dark: #072A47;       
+  --light-bg: #FFFFFF;            
+  --light-text: #333333;          
+  --light-text-alt: #666666;      
+  --dark-bg: #121212;             
+  --dark-bg-alt: #1E1E1E;         
+  --dark-text: #E0E0E0;          
+  --dark-text-alt: #A0A0A0;       
 }
 
-/* Header moderno con colores */
 .header {
   background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 100%);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -70,7 +69,6 @@
   }
 }
 
-/* Secciones */
 .section-container {
   padding: 16px 0;
   
@@ -82,7 +80,6 @@
   }
 }
 
-/* Maintenance Card Styles */
 .maintenance-section {
   margin-bottom: 0;
 }
@@ -133,14 +130,12 @@
   line-height: 1.4;
 }
 
-/* Section Divider */
 .section-divider {
   height: 1px;
   background-color: rgba(0, 0, 0, 0.1);
   margin: 0 16px;
 }
 
-/* Lista de contactos estilo moderno */
 .contact-list {
   background-color: var(--light-bg);
   
@@ -236,7 +231,6 @@
   }
 }
 
-/* Botón flotante */
 .custom-fab {
   bottom: 20px;
   right: 20px;
@@ -252,7 +246,7 @@
   }
 }
 
-/* Animaciones */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -269,7 +263,6 @@
   animation-delay: calc(var(--animation-order) * 0.02s);
 }
 
-/* Estilos para el contenido */
 .contacts-content {
   --background: #f5f5f5;
 }

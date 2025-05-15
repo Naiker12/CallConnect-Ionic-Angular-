@@ -21,7 +21,7 @@ export class AppComponent {
     private notificationService: NotificationService,
   ) {
     this.platform.ready().then(() => {
-      this.initializeApp(); // 👈 AQUÍ LO LLAMAS!!
+      this.initializeApp(); 
 
       this.auth.onAuthStateChanged((user) => {
         if (user) {
@@ -37,8 +37,8 @@ export class AppComponent {
   }
 
   async initializeApp() {
-    await StatusBar.setOverlaysWebView({ overlay: false }); // 🚀 Respeta el espacio
-    await StatusBar.setStyle({ style: Style.Dark });         // 🎨 Íconos oscuros
-    await StatusBar.setBackgroundColor({ color: '#ffffff' }); // 🎨 Fondo blanco
+    await StatusBar.setOverlaysWebView({ overlay: false });
+    await StatusBar.setStyle({ style: Style.Dark });         
+    await StatusBar.setBackgroundColor({ color: '#ffffff' }); 
   }
 }

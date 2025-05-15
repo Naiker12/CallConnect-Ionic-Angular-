@@ -6,12 +6,6 @@ import { RegisterService } from 'src/app/domain/use-cases/register.service';
 import { LoadingController } from '@ionic/angular';
 import { FirebaseError } from 'firebase/app';
 
-/**
- * Página de registro de usuarios
- * 
- * Permite a los nuevos usuarios crear una cuenta en la aplicación
- * con sus datos personales y credenciales de acceso.
- */
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -32,7 +26,6 @@ export class RegisterPage {
     this.initializeForm();
   }
 
-  /** Inicializa el formulario con validaciones */
   private initializeForm(): void {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.pattern('[a-zA-ZáéíóúÁÉÍÓÚñÑ ]*')]],
@@ -43,7 +36,6 @@ export class RegisterPage {
     });
   }
 
-  /** Maneja el envío del formulario de registro */
   async onSubmit(): Promise<void> {
     if (this.form.invalid) {
       this.showFormErrors();
@@ -73,7 +65,6 @@ export class RegisterPage {
     }
   }
 
-  /** Prepara los datos del usuario para el registro */
   private prepareUserData(): { user: User; password: string } {
     const { nombre, apellido, correo, telefono, password } = this.form.value;
     
@@ -88,7 +79,6 @@ export class RegisterPage {
     };
   }
 
-  /** Muestra errores de validación del formulario */
   private showFormErrors(): void {
     if (this.form.get('nombre')?.invalid) {
       this.toastService.warning('Por favor ingresa un nombre válido (solo letras)');
@@ -103,7 +93,6 @@ export class RegisterPage {
     }
   }
 
-  /** Muestra el loading indicator */
   private async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Creando tu cuenta...',
@@ -114,7 +103,6 @@ export class RegisterPage {
     return loading;
   }
 
-  /** Maneja errores durante el registro */
   private handleRegistrationError(error: unknown): void {
     if (error instanceof FirebaseError) {
       this.handleFirebaseError(error);
@@ -128,7 +116,6 @@ export class RegisterPage {
     }
   }
 
-  /** Maneja errores específicos de Firebase */
   private handleFirebaseError(error: FirebaseError): void {
     switch (error.code) {
       case 'auth/email-already-in-use':
@@ -171,8 +158,7 @@ export class RegisterPage {
         );
     }
   }
-
-  /** Alterna la visibilidad de la contraseña */
+  
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }

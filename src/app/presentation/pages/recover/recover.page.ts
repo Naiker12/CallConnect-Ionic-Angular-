@@ -6,12 +6,6 @@ import { FirebaseError } from 'firebase/app';
 import { LoadingController } from '@ionic/angular';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 
-/**
- * Página de recuperación de contraseña
- * 
- * Permite a los usuarios solicitar un enlace para restablecer su contraseña
- * mediante su correo electrónico registrado.
- */
 @Component({
   selector: 'app-recover',
   templateUrl: './recover.page.html',
@@ -36,21 +30,18 @@ export class RecoverPage implements OnInit {
 
   ngOnInit() {}
 
-  /** Inicializa el formulario con validaciones */
   private initializeForm(): void {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
   }
 
-  /** Navega a la página de login */
   goToLogin(): void {
     if (this.router.url !== '/login') {
       this.router.navigate(['/login']);
     }
   }
 
-  /** Maneja el proceso de recuperación de contraseña */
   async onRecover(): Promise<void> {
     if (this.form.invalid) {
       this.toastService.error('Por favor ingresa un correo electrónico válido');
@@ -81,7 +72,6 @@ export class RecoverPage implements OnInit {
     }
   }
 
-  /** Muestra el loading indicator */
   private async showLoading() {
     const loading = await this.loadingCtrl.create({
       message: 'Enviando enlace...',
@@ -92,7 +82,6 @@ export class RecoverPage implements OnInit {
     return loading;
   }
 
-  /** Maneja errores durante la recuperación */
   private handleRecoveryError(error: unknown): void {
     if (error instanceof FirebaseError) {
       this.handleFirebaseError(error);
@@ -106,7 +95,6 @@ export class RecoverPage implements OnInit {
     }
   }
 
-  /** Maneja errores específicos de Firebase */
   private handleFirebaseError(error: FirebaseError): void {
     switch (error.code) {
       case 'auth/user-not-found':

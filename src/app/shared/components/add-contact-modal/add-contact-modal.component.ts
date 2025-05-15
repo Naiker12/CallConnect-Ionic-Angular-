@@ -8,13 +8,6 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { Router } from '@angular/router';
 
-/**
- * Componente modal para agregar nuevos contactos
- * 
- * Permite al usuario agregar un nuevo contacto incluyendo:
- * - Información básica (nombre, teléfono)
- * - Foto del contacto (desde cámara o galería)
- */
 @Component({
   selector: 'app-add-contact',
   templateUrl: './add-contact-modal.component.html',
@@ -39,9 +32,6 @@ export class AddContactModalComponent {
     this.initializeForm();
   }
 
-  /**
-   * Inicializa el formulario con validaciones
-   */
   private initializeForm(): void {
     this.form = this.fb.group({
       nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -50,9 +40,6 @@ export class AddContactModalComponent {
     });
   }
 
-  /**
-   * Maneja el cambio de foto del contacto
-   */
   async changePhoto(): Promise<void> {
     try {
       if (!await this.checkCameraPermissions()) {
@@ -69,9 +56,6 @@ export class AddContactModalComponent {
     }
   }
 
-  /**
-   * Obtiene una foto del usuario (cámara o galería)
-   */
   private async getPhotoFromUser() {
     return await Camera.getPhoto({
       quality: 90,
@@ -83,9 +67,6 @@ export class AddContactModalComponent {
     });
   }
 
-  /**
-   * Maneja una nueva foto seleccionada
-   */
   private async handleNewPhoto(dataUrl: string): Promise<void> {
     this.userPhotoPreview = dataUrl;
     this.form.patchValue({ foto: dataUrl });
@@ -95,9 +76,6 @@ export class AddContactModalComponent {
     }
   }
 
-  /**
-   * Verifica los permisos de cámara
-   */
   private async checkCameraPermissions(): Promise<boolean> {
     if (this.platform.is('capacitor')) {
       try {
@@ -110,9 +88,6 @@ export class AddContactModalComponent {
     return true; 
   }
 
-  /**
-   * Guarda la imagen localmente en el dispositivo
-   */
   private async saveImageToDevice(dataUrl: string): Promise<void> {
     try {
       const fileName = `contact_photo_${new Date().getTime()}.jpeg`;
@@ -127,9 +102,6 @@ export class AddContactModalComponent {
     }
   }
 
-  /**
-   * Maneja el envío del formulario
-   */
   async onSubmit(): Promise<void> {
     if (this.form.invalid || this.isSubmitting) {
       if (this.form.invalid) {
@@ -154,9 +126,6 @@ export class AddContactModalComponent {
     }
   }
 
-  /**
-   * Procesa la adición de un nuevo contacto
-   */
   private async processContactAddition(): Promise<any> {
     const { nombre, telefono, foto } = this.form.value;
     const userId = this.authService.getUserId();
@@ -175,9 +144,6 @@ export class AddContactModalComponent {
     return this.createContactData(userId, contact, nombre, telefono, foto);
   }
 
-  /**
-   * Crea los datos del contacto y los guarda
-   */
   private async createContactData(userId: string, contact: any, nombre: string, telefono: string, foto: string): Promise<any> {
     const contactData = {
       ...contact,
@@ -192,9 +158,6 @@ export class AddContactModalComponent {
     return { success: true, contact: contactData };
   }
 
-  /**
-   * Muestra errores de validación del formulario
-   */
   private showFormErrors(): void {
     if (this.form.get('nombre')?.errors?.['required']) {
       this.toastService.warning('El nombre es requerido');
@@ -207,9 +170,6 @@ export class AddContactModalComponent {
     }
   }
 
-  /**
-   * Muestra el loading indicator
-   */
   private async showLoading(): Promise<HTMLIonLoadingElement> {
     const loading = await this.loadingCtrl.create({
       message: 'Agregando contacto...',
@@ -219,18 +179,12 @@ export class AddContactModalComponent {
     return loading;
   }
 
-  /**
-   * Maneja errores durante el envío del formulario
-   */
   private handleSubmissionError(error: any): void {
     console.error('Error al agregar contacto:', error);
     const errorMessage = error?.message || 'Error al agregar contacto. Intenta nuevamente.';
     this.toastService.error(errorMessage);
   }
 
-  /**
-   * Cierra el modal sin guardar cambios
-   */
   dismiss(): void {
     this.modalCtrl.dismiss();
   }

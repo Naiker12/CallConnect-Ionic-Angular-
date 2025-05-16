@@ -26,6 +26,56 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 
+// :root {
+//   --sat: env(safe-area-inset-top);
+//   --sab: env(safe-area-inset-bottom);
+//   --sal: env(safe-area-inset-left);
+//   --sar: env(safe-area-inset-right);
+// }
+
+
+// ion-app {
+//   --ion-safe-area-top: max(var(--sat), 20px); 
+//   --ion-safe-area-bottom: max(var(--sab), 20px);
+//   --ion-safe-area-left: max(var(--sal), 0px);
+//   --ion-safe-area-right: max(var(--sar), 0px);
+  
+
+//   &.md {
+//     --ion-safe-area-top: 24px; 
+//   }
+// }
+
+// ion-header {
+//   padding-top: var(--ion-safe-area-top) !important;
+//   min-height: calc(56px + var(--ion-safe-area-top)) !important;
+  
+//   ion-toolbar {
+//     padding-top: var(--ion-safe-area-top) !important;
+//     min-height: calc(56px + var(--ion-safe-area-top)) !important;
+//   }
+// }
+
+// ion-content {
+//   --padding-top: calc(var(--ion-safe-area-top) + 8px);
+//   --padding-bottom: calc(var(--ion-safe-area-bottom) + 8px);
+//   --padding-start: calc(var(--ion-safe-area-left) + 16px);
+//   --padding-end: calc(var(--ion-safe-area-right) + 16px);
+// }
+
+// ion-modal {
+//   --ion-safe-area-top: var(--sat);
+//   --ion-safe-area-bottom: var(--sab);
+//   --ion-safe-area-left: var(--sal);
+//   --ion-safe-area-right: var(--sar);
+  
+//   &.fullscreen {
+//     --width: 100%;
+//     --height: 100%;
+//     --border-radius: 0;
+//   }
+// }
+
 .side-modal {
     --width: 320px !important;
     --height: 100%;

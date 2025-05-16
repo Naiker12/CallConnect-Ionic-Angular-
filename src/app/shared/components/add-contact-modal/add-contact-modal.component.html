@@ -1,44 +1,53 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>Agregar contacto</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="close" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
+    <ion-title class="header-title">Agregar contacto</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="contact-content">
-  <div class="contact-header">
-    <div class="contact-avatar-container">
-      <ion-img class="contact-avatar" src="assets/imagen-landing.png"></ion-img>
-    </div>
-    <div class="contact-name">Nuevo contacto</div>
+<ion-content class="ion-padding">
+  <div class="contact-illustration">
+    <img src="assets/Agregar.png" alt="Ilustración agregar contacto" class="illustration-img">
+    <div class="illustration-bg"></div>
   </div>
 
-  <div class="contact-details">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <ion-list lines="none">
-        <ion-item class="modern-input">
-          <ion-icon name="person-outline" slot="start" class="detail-icon"></ion-icon>
-          <ion-input formControlName="nombre" placeholder="Nombre completo"></ion-input>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-container">
+      <ion-text class="form-description">Ingresa los datos del nuevo contacto</ion-text>
+      
+      <div class="input-section">
+        <ion-text class="input-label">Nombre completo</ion-text>
+        <ion-item fill="outline" class="modern-input" shape="round">
+          <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input formControlName="nombre"></ion-input>
         </ion-item>
-
-        <ion-item class="modern-input">
-          <ion-icon name="call-outline" slot="start" class="detail-icon"></ion-icon>
-          <ion-input formControlName="telefono" type="tel" maxlength="10" placeholder="Teléfono"></ion-input>
-        </ion-item>
-      </ion-list>
-
-      <div class="contact-actions">
-        <ion-button expand="block" type="submit" [disabled]="isSubmitting" class="edit-button">
-          <ion-icon slot="start" name="save-outline"></ion-icon>
-          Guardar contacto
-        </ion-button>
       </div>
-    </form>
-  </div>
 
-  <div class="footer-gradient"></div>
+      <div class="divider"></div>
+
+      <div class="input-section">
+        <ion-text class="input-label">Teléfono</ion-text>
+        <ion-item fill="outline" class="modern-input" shape="round">
+          <ion-icon name="call-outline" slot="start" class="input-icon"></ion-icon>
+          <ion-input formControlName="telefono" type="tel" maxlength="10"></ion-input>
+        </ion-item>
+      </div>
+    </div>
+
+    <div class="save-button-container">
+      <ion-button expand="block" type="submit" [disabled]="form.invalid || isSubmitting" class="save-button">
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span *ngIf="!isSubmitting">AGREGAR CONTACTO</span>
+      </ion-button>
+    </div>
+
+    <div class="dynamic-footer">
+      <ion-icon name="people-outline" class="footer-icon"></ion-icon>
+      <ion-text class="footer-text">Conectando personas</ion-text>
+    </div>
+  </form>
 </ion-content>

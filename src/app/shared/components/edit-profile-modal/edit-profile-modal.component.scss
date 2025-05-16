@@ -1,17 +1,17 @@
 :host {
-  --primary-color: #007B83;     
-  --primary-light: #4DA8B0;       
-  --primary-dark: #005D66;      
-  --secondary-color: #00B27A;     
-  --secondary-light: #4DCB9D;     
-  --secondary-dark: #008A5E;     
-  --tertiary-color: #0A3D62;    
-  --tertiary-light: #3C6B8F;     
-  --tertiary-dark: #072A47;     
-  --light-bg: #F5F5F5;          
-  --light-card: #FFFFFF;         
-  --light-text: #333333;         
-  --light-text-alt: #666666;      
+  --primary-color: #007B83;
+  --primary-light: #4DA8B0;
+  --primary-dark: #005D66;
+  --secondary-color: #00B27A;
+  --secondary-light: #4DCB9D;
+  --secondary-dark: #008A5E;
+  --tertiary-color: #0A3D62;
+  --tertiary-light: #3C6B8F;
+  --tertiary-dark: #072A47;
+  --light-bg: #F5F5F5;
+  --light-card: #FFFFFF;
+  --light-text: #333333;
+  --light-text-alt: #666666;
   --surface-variant: #E7E7E7;
   --outline: rgba(0, 0, 0, 0.12);
 }
@@ -19,22 +19,22 @@
 ion-header {
   ion-toolbar {
     --background: var(--primary-color);
-  --background-activated: var(--primary-dark);
+    --background-activated: var(--primary-dark);
     --color: white;
     --border-width: 0;
     --border-color: transparent;
     --min-height: 72px;
-    
+
     ion-title {
       font-weight: 600;
       font-size: 1.3rem;
       letter-spacing: 0.1px;
     }
-    
+
     ion-button {
-      --color: white; 
-      --background-hover: rgba(255, 255, 255, 0.1); 
-      
+      --color: white;
+      --background-hover: rgba(255, 255, 255, 0.1);
+
       ion-icon {
         font-size: 1.6rem;
       }
@@ -77,20 +77,20 @@ ion-item {
   --padding-end: 16px;
   --min-height: 56px;
   margin-bottom: 16px;
-  
+
   &.item-has-focus {
     --border-color: var(--primary-color);
     --border-width: 2px;
-    
+
     ion-label {
       color: var(--primary-color);
     }
   }
-  
+
   &.item-has-error {
     --border-color: var(--highlight-color-invalid);
     --border-width: 2px;
-    
+
     ion-label {
       color: var(--highlight-color-invalid);
     }
@@ -126,7 +126,7 @@ ion-note {
   --border-radius: 12px;
   height: 50px;
   font-weight: 500;
-  
+
   position: fixed;
   bottom: 20px;
   left: 50%;
@@ -134,7 +134,7 @@ ion-note {
   width: calc(100% - 32px);
   max-width: 500px;
   z-index: 10;
-  
+
   &:disabled {
     --background: #cccccc;
   }
@@ -149,18 +149,18 @@ ion-content {
   flex-direction: column;
   align-items: center;
   margin: 24px 0;
-  
+
   .avatar-preview {
     width: 96px;
     height: 96px;
     position: relative;
     margin-bottom: 12px;
-    
+
     img {
       border: 2px solid var(--light-card);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    
+
     .edit-avatar-btn {
       position: absolute;
       right: -8px;
@@ -170,13 +170,13 @@ ion-content {
       --border-radius: 50%;
       width: 32px;
       height: 32px;
-      
+
       ion-icon {
         font-size: 16px;
       }
     }
   }
-  
+
   .avatar-hint {
     font-size: 0.9rem;
     text-align: center;
@@ -190,23 +190,23 @@ ion-content {
   padding: 8px 0;
   margin-bottom: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  
+
   ion-list {
     background: transparent;
     padding: 0;
   }
-  
+
   ion-item {
     --padding-start: 16px;
     --padding-end: 16px;
     --min-height: 56px;
     --background-hover: rgba(var(--primary-light), 0.1);
-    
+
     ion-icon[slot="start"] {
       margin-right: 16px;
       font-size: 1.2rem;
     }
-    
+
     ion-label {
       font-size: 0.95rem;
       color: var(--light-text);
@@ -216,7 +216,9 @@ ion-content {
 
 ion-content {
   &.scrolling {
-    .form-container, .settings-section {
+
+    .form-container,
+    .settings-section {
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
       transition: box-shadow 0.3s ease;
     }

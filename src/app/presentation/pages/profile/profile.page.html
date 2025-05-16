@@ -1,11 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
+      <ion-button (click)="goBack()" fill="clear" shape="round">
+        <ion-icon name="arrow-back" slot="icon-only" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title>Mi Perfil</ion-title>
+    <ion-title class="header-title">Mi Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -25,27 +25,31 @@
   </div>
 
   <div class="profile-details">
-    <ion-item class="detail-item">
+    <ion-item class="detail-item" lines="none">
       <ion-icon name="person-outline" slot="start" class="detail-icon"></ion-icon>
       <ion-label>
-        <h3>Nombre completo</h3>
-        <p>{{ userData ? (userData.nombre + ' ' + userData.apellido) : 'No especificado' }}</p>
+        <div class="detail-label">Nombre completo</div>
+        <div class="detail-value">{{ userData ? (userData.nombre + ' ' + userData.apellido) : 'No especificado' }}</div>
       </ion-label>
     </ion-item>
 
-    <ion-item class="detail-item">
+    <div class="divider"></div>
+
+    <ion-item class="detail-item" lines="none">
       <ion-icon name="mail-outline" slot="start" class="detail-icon"></ion-icon>
       <ion-label>
-        <h3>Correo electrónico</h3>
-        <p>{{ userData?.correo || 'No especificado' }}</p>
+        <div class="detail-label">Correo electrónico</div>
+        <div class="detail-value">{{ userData?.correo || 'No especificado' }}</div>
       </ion-label>
     </ion-item>
 
-    <ion-item class="detail-item">
+    <div class="divider"></div>
+
+    <ion-item class="detail-item" lines="none">
       <ion-icon name="call-outline" slot="start" class="detail-icon"></ion-icon>
       <ion-label>
-        <h3>Teléfono</h3>
-        <p>{{ userData?.telefono || 'No especificado' }}</p>
+        <div class="detail-label">Teléfono</div>
+        <div class="detail-value">{{ userData?.telefono || 'No especificado' }}</div>
       </ion-label>
     </ion-item>
   </div>
@@ -56,7 +60,7 @@
       Editar Perfil
     </ion-button>
     
-    <ion-button expand="block" shape="round" class="action-button" fill="outline"  (click)="changePassword()" >
+    <ion-button expand="block" shape="round" class="password-button" (click)="changePassword()">
       <ion-icon name="key-outline" slot="start"></ion-icon>
       Cambiar Contraseña
     </ion-button>
@@ -65,5 +69,10 @@
       <ion-icon name="log-out-outline" slot="start"></ion-icon>
       Cerrar Sesión
     </ion-button>
+  </div>
+
+  <div class="profile-footer">
+    <ion-icon name="people-circle-outline" class="footer-icon"></ion-icon>
+    <ion-text class="footer-text">Mi cuenta</ion-text>
   </div>
 </ion-content>

@@ -26,42 +26,71 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 
-.side-modal {
-    --width: 320px !important;
-    --height: 100%;
-    --border-radius: 0 !important;
-    align-items: flex-start;
-    justify-content: flex-start;
-}
-
-
-ion-app {
+:root {
+  /* Variables de seguridad para áreas no seguras (transparentes en Android) */
   --ion-safe-area-top: env(safe-area-inset-top);
   --ion-safe-area-bottom: env(safe-area-inset-bottom);
   --ion-safe-area-left: env(safe-area-inset-left);
   --ion-safe-area-right: env(safe-area-inset-right);
+  
+  /* Corrección para barra de estado en Android */
+  --statusbar-height: 25px; /* Altura por defecto para Android */
 }
 
+/* Configuración global para la aplicación */
+ion-app {
+  /* Forzar barra de estado transparente en Android */
+  .platform-android & {
+    --ion-statusbar-padding: var(--statusbar-height);
+    padding-top: var(--ion-statusbar-padding);
+    
+    ion-header {
+      padding-top: calc(var(--ion-safe-area-top) + var(--statusbar-height));
+    }
+  }
+}
 
+/* Side Modal ajustado */
+.side-modal {
+  --width: 320px !important;
+  --height: 100%;
+  --border-radius: 0 !important;
+  --background: transparent;
+  --ion-background-color: transparent;
+  
+  .modal-wrapper {
+    background: transparent;
+  }
+}
+
+/* Ajustes de contenido para respetar áreas seguras */
 ion-content {
   --padding-top: var(--ion-safe-area-top, 0);
   --padding-bottom: var(--ion-safe-area-bottom, 0);
   --padding-start: var(--ion-safe-area-left, 0);
   --padding-end: var(--ion-safe-area-right, 0);
+  --background: transparent;
 }
 
-
+/* Header con soporte para barra de estado */
 ion-header {
   padding-top: var(--ion-safe-area-top, 0);
+  --ion-toolbar-background: transparent;
+  --border-width: 0;
+  
+  ion-toolbar {
+    --background: transparent;
+    --color: white;
+  }
 }
 
-
+/* Footer ajustado */
 ion-footer {
   padding-bottom: var(--ion-safe-area-bottom, 0);
+  --ion-toolbar-background: transparent;
 }
 
-
-/* Toast personalizados */
+/* Mejoras para los Toast (manteniendo tus estilos) */
 .custom-toast {
   --width: 90%;
   --max-width: 500px;
@@ -70,11 +99,12 @@ ion-footer {
   font-size: 16px;
   font-weight: 500;
   margin-top: 10px;
-
+  --backdrop-opacity: 0;
+  
   &::part(message) {
     padding: 12px 0;
   }
-
+  
   &::part(header) {
     font-weight: bold;
     font-size: 18px;
@@ -82,76 +112,37 @@ ion-footer {
   }
 }
 
-/* Toast de éxito */
-.success-toast {
-  --background: var(--ion-color-success);
-  --color: white;
-}
-
-/* Toast de error */
-.error-toast {
-  --background: var(--ion-color-danger);
-  --color: white;
-}
-
-/* Toast de advertencia */
-.warning-toast {
-  --background: var(--ion-color-warning);
-  --color: black;
-}
-
-/* Toast informativo */
-.info-toast {
-  --background: var(--ion-color-primary);
-  --color: white;
-}
-
-/* Toast elegante con animación */
-.fancy-toast {
-  --background: rgba(0, 0, 0, 0.8);
-  --color: #fff;
-  animation: fadeInDown 0.3s, fadeOutUp 0.3s 2.2s forwards;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOutUp {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-}
-
+/* Side Menu Modal mejorado */
 .side-menu-modal {
   --width: 85%;
   --max-width: 320px;
   --height: 100%;
   --border-radius: 0;
   --box-shadow: none;
+  --ion-background-color: rgba(255, 255, 255, 0.95);
   
   .modal-wrapper {
     right: unset;
     left: 0;
+    background: transparent;
   }
   
   ion-backdrop {
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
   }
 }
-  
+
+/* Clase adicional para transparencia en Android */
+.transparent-statusbar {
+  .platform-android & {
+    ion-header {
+      &:after {
+        display: none !important;
+      }
+    }
+  }
+}
 
 /**
  * Ionic Dark Mode

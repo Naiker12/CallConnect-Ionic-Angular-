@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController, Platform, LoadingController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
-import { Router } from '@angular/router';
 import { NavigationService } from 'src/app/core/services/navigation.service';
+import { LoadingService } from 'src/app/core/services/loading.service'; 
 
 @Component({
   selector: 'app-add-contact',
@@ -27,9 +27,8 @@ export class AddContactModalComponent {
     private authService: AuthService,
     private platform: Platform,
     private toastService: CustomToastService,
-    private loadingCtrl: LoadingController,
-    private router: Router,
-    private navService: NavigationService
+    private navService: NavigationService,
+    private loadingService: LoadingService 
   ) {
     this.initializeForm();
   }
@@ -113,9 +112,10 @@ export class AddContactModalComponent {
     }
 
     this.isSubmitting = true;
-    const loading = await this.showLoading();
-
+    
     try {
+      await this.loadingService.show('Agregando contacto...');
+
       const result = await this.processContactAddition();
       if (result) {
         this.modalCtrl.dismiss(result);
@@ -124,7 +124,7 @@ export class AddContactModalComponent {
       this.handleSubmissionError(error);
     } finally {
       this.isSubmitting = false;
-      await loading.dismiss();
+      await this.loadingService.hide();
     }
   }
 
@@ -172,15 +172,6 @@ export class AddContactModalComponent {
     }
   }
 
-  private async showLoading(): Promise<HTMLIonLoadingElement> {
-    const loading = await this.loadingCtrl.create({
-      message: 'Agregando contacto...',
-      spinner: 'crescent'
-    });
-    await loading.present();
-    return loading;
-  }
-
   private handleSubmissionError(error: any): void {
     console.error('Error al agregar contacto:', error);
     const errorMessage = error?.message || 'Error al agregar contacto. Intenta nuevamente.';
@@ -194,5 +185,4 @@ export class AddContactModalComponent {
   goBack() {
     this.navService.goToHome();
   }
-
 }

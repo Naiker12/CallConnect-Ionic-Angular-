@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ActionSheetController, NavController, ModalController, LoadingController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { ActionSheetController, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
 import { Contact } from 'src/app/core/models/contact';
@@ -10,6 +10,7 @@ import { ContactService } from 'src/app/core/services/contact.service';
 import { Capacitor } from '@capacitor/core';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
+import { LoadingService } from 'src/app/core/services/loading.service';
 
 @Component({
   selector: 'app-chat',
@@ -28,10 +29,10 @@ export class ChatPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
-    private loadingCtrl: LoadingController,
     private contactService: ContactService,
     private toastService: CustomToastService,
-    private navService: NavigationService
+    private navService: NavigationService,
+    private loadingService: LoadingService 
   ) {}
 
   ngOnInit() {
@@ -69,12 +70,10 @@ export class ChatPage implements OnInit, OnDestroy {
     });
   }
 
-
   private handleContactNotFound(): void {
     this.toastService.error('Contacto no encontrado');
     this.navigateToContacts();
   }
-
 
   private cleanupSubscriptions(): void {
     if (this.contactsSubscription) {
@@ -148,8 +147,8 @@ export class ChatPage implements OnInit, OnDestroy {
           text: 'Eliminar',
           role: 'destructive',
           handler: async () => {
-            const loading = await this.showLoading('Eliminando contacto...');
             try {
+              await this.loadingService.show('Eliminando contacto...');
               await this.firebaseContactService.deleteContact(this.userId!, this.contact!.uid);
               this.toastService.success('Contacto eliminado');
               this.navigateToContacts();
@@ -157,7 +156,7 @@ export class ChatPage implements OnInit, OnDestroy {
               console.error('Error eliminando:', error);
               this.toastService.error('Error al eliminar el contacto');
             } finally {
-              await loading.dismiss();
+              await this.loadingService.hide();
             }
           }
         },
@@ -188,15 +187,6 @@ export class ChatPage implements OnInit, OnDestroy {
     if (data?.success) {
       this.toastService.success('Contacto actualizado');
     }
-  }
-
-  private async showLoading(message: string = 'Procesando...') {
-    const loading = await this.loadingCtrl.create({
-      message,
-      spinner: 'crescent'
-    });
-    await loading.present();
-    return loading;
   }
 
   private navigateToContacts(): void {

@@ -3,16 +3,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { User } from 'src/app/core/models/user';
 import { RegisterService } from 'src/app/domain/use-cases/register.service';
-import { LoadingController } from '@ionic/angular';
 import { NavigationService } from 'src/app/core/services/navigation.service';
 import { ValidationService } from 'src/app/core/validation/services/validation.service';
-
+import { LoadingService } from 'src/app/core/services/loading.service'; 
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
-  standalone : false
+  standalone: false
 })
 export class RegisterPage {
   form!: FormGroup;
@@ -22,9 +21,9 @@ export class RegisterPage {
     private fb: FormBuilder,
     private registerService: RegisterService,
     private toastService: CustomToastService,
-    private loadingCtrl: LoadingController,
     private navService: NavigationService,
-    private validationService: ValidationService
+    private validationService: ValidationService,
+    private loadingService: LoadingService 
   ) {
     this.initializeForm();
   }
@@ -42,12 +41,14 @@ export class RegisterPage {
   async onSubmit(): Promise<void> {
     try {
       this.validationService.validateRegisterForm(this.form);
-      const loading = await this.showLoading();
+      
+      await this.loadingService.show('Creando tu cuenta...');
 
       const userData = this.prepareUserData();
       await this.registerService.registerUser(userData.user, userData.password);
       
-      await loading.dismiss();
+      await this.loadingService.hide();
+      
       this.form.reset();
       
       this.toastService.success(
@@ -57,6 +58,8 @@ export class RegisterPage {
       );
       
     } catch (error) {
+      await this.loadingService.hide();
+      
       this.toastService.handleError(error);
     }
   }
@@ -67,15 +70,6 @@ export class RegisterPage {
       user: { nombre, apellido, correo, telefono },
       password
     };
-  }
-
-  private async showLoading() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Creando tu cuenta...',
-      spinner: 'crescent'
-    });
-    await loading.present();
-    return loading;
   }
 
   togglePassword(): void {

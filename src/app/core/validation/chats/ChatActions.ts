@@ -152,7 +152,6 @@ export class ChatActions {
           this.toastService.success('Imagen enviada');
           break;
         case 'file':
-          // Se maneja en el componente principal
           break;
       }
     } catch (error) {

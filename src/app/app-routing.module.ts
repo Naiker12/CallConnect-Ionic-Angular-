@@ -35,8 +35,10 @@ const routes: Routes = [
   },
   {
     path: 'chat/:id',
-    loadChildren: () => import('./presentation/pages/chat/chat.module').then( m => m.ChatPageModule)
-  },  {
+    loadChildren: () => import('./presentation/pages/chat/chat.module').then( m => m.ChatPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'profile',
     loadChildren: () => import('./presentation/pages/profile/profile.module').then( m => m.ProfilePageModule)
   }

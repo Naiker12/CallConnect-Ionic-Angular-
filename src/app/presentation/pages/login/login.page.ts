@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/domain/use-cases/login.service';
-import { ModalController, LoadingController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { VerificationModalComponent } from 'src/app/shared/components/verification-modal/verification-modal.component';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
-import { ValidationService } from 'src/app/core/validation/services/validation.service';
+import { ValidationService } from 'src/app/core/validation/auth/validation.service';
+import { LoadingService } from 'src/app/core/services/loading.service'; // Importar el nuevo servicio
 import { AuthError } from 'src/app/core/ exceptions/handlers/auth-error';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.page.html',
     styleUrls: ['./login.page.scss'],
-    standalone : false
+    standalone: false
 })
 export class LoginPage implements OnInit {
     form!: FormGroup;
@@ -22,10 +23,10 @@ export class LoginPage implements OnInit {
         private fb: FormBuilder,
         private loginService: LoginService,
         private modalCtrl: ModalController,
-        private loadingCtrl: LoadingController,
         private toastService: CustomToastService,
         private navService: NavigationService,
-        private validationService: ValidationService
+        private validationService: ValidationService,
+        private loadingService: LoadingService
     ) {
         this.initializeForm();
     }
@@ -43,16 +44,12 @@ export class LoginPage implements OnInit {
         try {
             this.validationService.validateLoginForm(this.form);
             
-            const loading = await this.loadingCtrl.create({
-                message: 'Iniciando sesión...',
-                spinner: 'crescent'
-            });
-            await loading.present();
+            await this.loadingService.show('Iniciando sesión...'); 
 
             const { email, password } = this.form.value;
             const isVerified = await this.loginService.login(email, password);
             
-            await loading.dismiss();
+            await this.loadingService.hide();
             this.form.reset();
 
             if (!isVerified) {
@@ -62,6 +59,7 @@ export class LoginPage implements OnInit {
             this.navService.goToHome();
             
         } catch (error) {
+            await this.loadingService.hide();             
             if (error instanceof AuthError && error.errorType === 'UNVERIFIED_EMAIL') {
                 await this.presentVerificationModal();
             }

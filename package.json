@@ -42,6 +42,7 @@
     "@capacitor/toast": "^7.0.1",
     "@ionic/angular": "^8.5.4",
     "@popperjs/core": "^2.11.8",
+    "@supabase/supabase-js": "^2.49.8",
     "animate.css": "^4.1.1",
     "capacitor-jitsi-meet": "^7.0.0",
     "cors": "^2.8.5",

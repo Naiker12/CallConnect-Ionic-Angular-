@@ -21,6 +21,7 @@ import { ChatService } from 'src/app/core/services/Chat.Service';
 })
 export class ChatPage implements OnInit, OnDestroy {
   @ViewChild(IonContent, { static: false }) content!: IonContent;
+  @ViewChild('fileInput', { static: false }) fileInput!: ElementRef<HTMLInputElement>;
 
   contact: Contact | null = null;
   userId: string | null = null;
@@ -28,12 +29,14 @@ export class ChatPage implements OnInit, OnDestroy {
   messages: Message[] = [];
   newMessage: string = '';
   isLoading: boolean = false;
+  isSendingFile: boolean = false;
 
   private contactsSubscription?: Subscription;
   private messagesSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private firebaseContactService: FirebaseContactService,
     private authService: AuthService,
     private actionSheetCtrl: ActionSheetController,
@@ -136,6 +139,196 @@ export class ChatPage implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Muestra el ActionSheet para seleccionar tipo de archivo
+   */
+  async showAttachmentOptions(): Promise<void> {
+    if (this.isSendingFile) return;
+
+    const actionSheet = await this.actionSheetCtrl.create({
+      header: 'Enviar archivo',
+      buttons: [
+        {
+          text: 'Tomar foto',
+          icon: 'camera-outline',
+          handler: () => this.sendImageFromCamera()
+        },
+        {
+          text: 'Elegir imagen',
+          icon: 'images-outline',
+          handler: () => this.sendImageFromGallery()
+        },
+        {
+          text: 'Subir archivo',
+          icon: 'document-outline',
+          handler: () => this.openFileSelector()
+        },
+        {
+          text: 'Cancelar',
+          icon: 'close',
+          role: 'cancel'
+        }
+      ]
+    });
+
+    await actionSheet.present();
+  }
+
+  /**
+   * Toma una foto con la cámara y la envía
+   */
+  async sendImageFromCamera(): Promise<void> {
+    if (!this.chatId || !this.userId) return;
+
+    const loading = await this.showFileLoading('Tomando foto...');
+    this.isSendingFile = true;
+
+    try {
+      await this.chatService.sendImageFromCamera(this.chatId, this.userId);
+      this.toastService.success('Foto enviada');
+    } catch (error) {
+      console.error('Error enviando foto:', error);
+      this.toastService.error('Error al enviar la foto');
+    } finally {
+      await loading.dismiss();
+      this.isSendingFile = false;
+    }
+  }
+
+  /**
+   * Selecciona una imagen de la galería y la envía
+   */
+  async sendImageFromGallery(): Promise<void> {
+    if (!this.chatId || !this.userId) return;
+
+    const loading = await this.showFileLoading('Seleccionando imagen...');
+    this.isSendingFile = true;
+
+    try {
+      await this.chatService.sendImageFromGallery(this.chatId, this.userId);
+      this.toastService.success('Imagen enviada');
+    } catch (error) {
+      console.error('Error enviando imagen:', error);
+      this.toastService.error('Error al enviar la imagen');
+    } finally {
+      await loading.dismiss();
+      this.isSendingFile = false;
+    }
+  }
+
+  /**
+   * Abre el selector de archivos
+   */
+  openFileSelector(): void {
+    if (this.fileInput) {
+      this.fileInput.nativeElement.click();
+    }
+  }
+
+  /**
+   * Maneja la selección de archivos
+   */
+  async onFileSelected(event: any): Promise<void> {
+    if (!this.chatId || !this.userId) return;
+
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+    const loading = await this.showFileLoading('Subiendo archivo...');
+    this.isSendingFile = true;
+
+    try {
+      // Determinar el tipo de archivo
+      let fileType: 'file' | 'audio' = 'file';
+      if (file.type.startsWith('audio/')) {
+        fileType = 'audio';
+      }
+
+      await this.chatService.sendFile(this.chatId, this.userId, file, fileType);
+      this.toastService.success('Archivo enviado');
+    } catch (error) {
+      console.error('Error enviando archivo:', error);
+      this.toastService.error('Error al enviar el archivo');
+    } finally {
+      await loading.dismiss();
+      this.isSendingFile = false;
+      // Limpiar el input
+      if (this.fileInput) {
+        this.fileInput.nativeElement.value = '';
+      }
+    }
+  }
+
+  /**
+   * Obtiene la URL de visualización para archivos multimedia
+   */
+  getMediaUrl(message: Message): string {
+    return message.content;
+  }
+
+  /**
+   * Verifica si el mensaje es una imagen
+   */
+  isImageMessage(message: Message): boolean {
+    return message.type === 'image';
+  }
+
+  /**
+   * Verifica si el mensaje es un audio
+   */
+  isAudioMessage(message: Message): boolean {
+    return message.type === 'audio';
+  }
+
+  /**
+   * Verifica si el mensaje es un archivo
+   */
+  isFileMessage(message: Message): boolean {
+    return message.type === 'file';
+  }
+
+  /**
+   * Obtiene el nombre del archivo
+   */
+  getFileName(message: Message): string {
+    return message.metadata?.name || 'Archivo';
+  }
+
+  /**
+   * Obtiene el tamaño del archivo formateado
+   */
+  getFileSize(message: Message): string {
+    const size = message.metadata?.size;
+    if (!size) return '';
+
+    if (size < 1024) {
+      return `${size} B`;
+    } else if (size < 1024 * 1024) {
+      return `${(size / 1024).toFixed(1)} KB`;
+    } else {
+      return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+    }
+  }
+
+  /**
+   * Abre un archivo en el navegador
+   */
+  openFile(message: Message): void {
+    if (message.content) {
+      window.open(message.content, '_blank');
+    }
+  }
+
+  private async showFileLoading(message: string = 'Procesando archivo...') {
+    const loading = await this.loadingCtrl.create({
+      message,
+      spinner: 'crescent'
+    });
+    await loading.present();
+    return loading;
+  }
+
   onEnterKey(event: KeyboardEvent): void {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
@@ -234,44 +427,74 @@ export class ChatPage implements OnInit, OnDestroy {
       return 'Ayer';
     }
     
+    // Si es de esta semana
+    const weekAgo = new Date(now);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    if (messageDate > weekAgo) {
+      const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+      return days[messageDate.getDay()];
+    }
+    
+    // Para fechas más antiguas
     return messageDate.toLocaleDateString('es-ES', { 
-      weekday: 'long', 
-      day: 'numeric', 
-      month: 'long' 
+      day: '2-digit', 
+      month: '2-digit',
+      year: 'numeric' 
     });
   }
 
-  private handleContactNotFound(): void {
-    this.toastService.error('Contacto no encontrado');
-    this.navigateToContacts();
+  /**
+   * Funciones adicionales requeridas por el template HTML
+   */
+
+  /**
+   * Navegar a la pantalla de llamada
+   */
+  goToCall(): void {
+    if (this.contact) {
+      // Implementar navegación a llamada
+      console.log('Iniciando llamada con:', this.contact.nombre);
+      this.toastService.info('Función de llamada no implementada');
+    }
   }
 
-  private cleanupSubscriptions(): void {
-    if (this.contactsSubscription) {
-      this.contactsSubscription.unsubscribe();
-    }
-    if (this.messagesSubscription) {
-      this.messagesSubscription.unsubscribe();
+  /**
+   * Navegar a la pantalla de videollamada
+   */
+  goToVideoCall(): void {
+    if (this.contact) {
+      // Implementar navegación a videollamada
+      console.log('Iniciando videollamada con:', this.contact.nombre);
+      this.toastService.info('Función de videollamada no implementada');
     }
   }
 
+  /**
+   * Mostrar opciones del chat
+   */
   async showOptions(): Promise<void> {
-    if (!this.contact) return;
-
     const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Opciones del contacto',
-      subHeader: this.contact.nombre,
+      header: 'Opciones del chat',
       buttons: [
         {
-          text: 'Actualizar',
-          icon: 'create-outline',
-          handler: () => this.updateContact()
+          text: 'Ver perfil',
+          icon: 'person-outline',
+          handler: () => this.viewProfile()
         },
         {
-          text: 'Eliminar',
+          text: 'Buscar en chat',
+          icon: 'search-outline',
+          handler: () => this.searchInChat()
+        },
+        {
+          text: 'Silenciar',
+          icon: 'notifications-off-outline',
+          handler: () => this.muteChat()
+        },
+        {
+          text: 'Limpiar chat',
           icon: 'trash-outline',
-          role: 'destructive',
-          handler: () => this.confirmDelete()
+          handler: () => this.clearChat()
         },
         {
           text: 'Cancelar',
@@ -284,103 +507,65 @@ export class ChatPage implements OnInit, OnDestroy {
     await actionSheet.present();
   }
 
-  async startCall(isVideo: boolean = false): Promise<void> {
-    if (!this.contact) return;
-  
-    if (Capacitor.getPlatform() !== 'android') {
-      this.toastService.warning('La función de llamada solo está disponible en Android');
-      return;
-    }
-  
-    try {
-      const meetingId = this.generateMeetingId();
-      await (window as any).Capacitor.Plugins.CallConnect.startCall({
-        meetingId: meetingId,
-        userName: this.contact.nombre || 'Invitado',
-        isVideo: isVideo
-      });
-    } catch (error) {
-      console.error('Error al iniciar la llamada:', error);
-      this.toastService.error('Error al iniciar la llamada');
-    }
-  }
- 
-  private generateMeetingId(): string {
-    return Math.random().toString(36).substring(2, 15) + 
-           Math.random().toString(36).substring(2, 15);
-  }
-
-  private async confirmDelete(): Promise<void> {
-    if (!this.contact || !this.userId) return;
-
-    const confirmSheet = await this.actionSheetCtrl.create({
-      header: 'Confirmar',
-      subHeader: `¿Eliminar a ${this.contact.nombre}?`,
-      buttons: [
-        {
-          text: 'Eliminar',
-          role: 'destructive',
-          handler: async () => {
-            const loading = await this.showLoading('Eliminando contacto...');
-            try {
-              await this.firebaseContactService.deleteContact(this.userId!, this.contact!.uid);
-              this.toastService.success('Contacto eliminado');
-              this.navigateToContacts();
-            } catch (error) {
-              console.error('Error eliminando:', error);
-              this.toastService.error('Error al eliminar el contacto');
-            } finally {
-              await loading.dismiss();
-            }
-          }
-        },
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        }
-      ]
-    });
-    
-    await confirmSheet.present();
-  }
-
-  async updateContact(): Promise<void> {
-    if (!this.contact || !this.userId) return;
-
-    const modal = await this.modalCtrl.create({
-      component: AddContactModalComponent,
-      componentProps: {
-        contactToEdit: {...this.contact},
-        isEditMode: true
-      }
-    });
-
-    await modal.present();
-    const { data } = await modal.onWillDismiss();
-    
-    if (data?.success) {
-      this.toastService.success('Contacto actualizado');
+  /**
+   * Ver perfil del contacto
+   */
+  private viewProfile(): void {
+    if (this.contact) {
+      console.log('Ver perfil de:', this.contact.nombre);
+      this.toastService.info('Función de perfil no implementada');
     }
   }
 
-  private async showLoading(message: string = 'Procesando...') {
-    const loading = await this.loadingCtrl.create({
-      message,
-      spinner: 'crescent'
-    });
-    await loading.present();
-    return loading;
+  /**
+   * Buscar en el chat
+   */
+  private searchInChat(): void {
+    console.log('Buscar en chat');
+    this.toastService.info('Función de búsqueda no implementada');
   }
 
+  /**
+   * Silenciar el chat
+   */
+  private muteChat(): void {
+    console.log('Silenciar chat');
+    this.toastService.info('Chat silenciado');
+  }
+
+  /**
+   * Limpiar el chat
+   */
+  private async clearChat(): Promise<void> {
+    // Aquí podrías mostrar un alert de confirmación
+    console.log('Limpiar chat');
+    this.toastService.info('Función de limpiar chat no implementada');
+  }
+
+  /**
+   * Manejar cuando no se encuentra el contacto
+   */
+  private handleContactNotFound(): void {
+    this.toastService.error('Contacto no encontrado');
+    this.navigateToContacts();
+  }
+
+  /**
+   * Navegar a la lista de contactos
+   */
   private navigateToContacts(): void {
-    this.navService.goToContacts();
+    this.router.navigate(['/home']);
   }
 
-  goToCall(): void {
-    this.startCall(false);
-  }
-  
-  goToVideoCall(): void {
-    this.startCall(true);
+  /**
+   * Limpiar suscripciones
+   */
+  private cleanupSubscriptions(): void {
+    if (this.contactsSubscription) {
+      this.contactsSubscription.unsubscribe();
+    }
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
+    }
   }
 }

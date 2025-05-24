@@ -56,7 +56,32 @@
         
         <!-- Message Content -->
         <div class="message-content">
-          <p class="message-text">{{ message.content }}</p>
+          <!-- Text Message -->
+          <p *ngIf="message.type === 'text'" class="message-text">{{ message.content }}</p>
+          
+          <!-- Image Message -->
+          <div *ngIf="isImageMessage(message)" class="image-message">
+            <img [src]="getMediaUrl(message)" 
+                 alt="Imagen" 
+                 class="message-image"
+                 (click)="openFile(message)">
+          </div>
+          
+          <!-- Audio Message -->
+          <div *ngIf="isAudioMessage(message)" class="audio-message">
+            <ion-icon name="play-circle-outline" class="audio-icon"></ion-icon>
+            <audio controls [src]="getMediaUrl(message)" class="audio-player"></audio>
+          </div>
+          
+          <!-- File Message -->
+          <div *ngIf="isFileMessage(message)" class="file-message" (click)="openFile(message)">
+            <ion-icon name="document-outline" class="file-icon"></ion-icon>
+            <div class="file-info">
+              <span class="file-name">{{ getFileName(message) }}</span>
+              <span class="file-size">{{ getFileSize(message) }}</span>
+            </div>
+            <ion-icon name="download-outline" class="download-icon"></ion-icon>
+          </div>
         </div>
 
         <!-- Message Time -->
@@ -79,6 +104,13 @@
   </div>
 </ion-content>
 
+<!-- Hidden File Input -->
+<input #fileInput 
+       type="file" 
+       accept="*/*" 
+       (change)="onFileSelected($event)"
+       style="display: none;">
+
 <!-- Message Input -->
 <ion-footer class="message-input-footer">
   <ion-toolbar class="input-toolbar">
@@ -88,7 +120,8 @@
       <ion-button fill="clear" 
                   color="medium" 
                   class="attachment-button"
-                  [disabled]="isLoading">
+                  (click)="showAttachmentOptions()"
+                  [disabled]="isLoading || isSendingFile">
         <ion-icon name="add-outline"></ion-icon>
       </ion-button>
 
@@ -100,7 +133,7 @@
           [autoGrow]="true"
           [rows]="1"
           (keydown)="onEnterKey($event)"
-          [disabled]="isLoading"
+          [disabled]="isLoading || isSendingFile"
           class="message-textarea">
         </ion-textarea>
 
@@ -108,7 +141,7 @@
         <ion-button fill="clear" 
                     color="medium" 
                     class="emoji-button"
-                    [disabled]="isLoading">
+                    [disabled]="isLoading || isSendingFile">
           <ion-icon name="happy-outline"></ion-icon>
         </ion-button>
       </div>
@@ -121,7 +154,7 @@
         shape="round"
         color="primary"
         class="send-button"
-        [disabled]="isLoading">
+        [disabled]="isLoading || isSendingFile">
         <ion-icon name="send-outline"></ion-icon>
       </ion-button>
 
@@ -129,7 +162,7 @@
         <ion-button fill="clear" 
                     color="medium" 
                     class="mic-button"
-                    [disabled]="isLoading">
+                    [disabled]="isLoading || isSendingFile">
           <ion-icon name="mic-outline"></ion-icon>
         </ion-button>
       </ng-template>

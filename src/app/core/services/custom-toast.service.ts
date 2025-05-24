@@ -5,7 +5,10 @@ import { ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class CustomToastService {
-  // Configuración por defecto para todos los toasts
+  handleError(error: unknown) {
+    throw new Error('Method not implemented.');
+  }
+
   private defaultOptions = {
     duration: 3000,
     position: 'top' as const,
@@ -16,12 +19,6 @@ export class CustomToastService {
 
   constructor(private toastController: ToastController) {}
 
-  /**
-   * @param options 
-   * Muestra un toast personalizado
-   * @param options Configuración del toast
-   * @returns Promise<HTMLIonToastElement>
-   */
   async showToast(options: {
     message: string;
     duration?: number;
@@ -50,13 +47,6 @@ export class CustomToastService {
     await toast.present();
     return toast;
   }
-
-  /**
-   * Toast de éxito con estilo personalizado
-   * @param message Mensaje a mostrar
-   * @param duration Duración en ms (opcional)
-   * @param header Título del toast (opcional)
-   */
   async success(message: string, duration?: number, header?: string) {
     return this.showToast({
       message,
@@ -68,12 +58,6 @@ export class CustomToastService {
     });
   }
 
-  /**
-   * Toast de error con estilo personalizado
-   * @param message Mensaje a mostrar
-   * @param duration Duración en ms (opcional)
-   * @param header Título del toast (opcional)
-   */
   async error(message: string, duration?: number, header?: string) {
     return this.showToast({
       message,
@@ -85,12 +69,6 @@ export class CustomToastService {
     });
   }
 
-  /**
-   * Toast de advertencia con estilo personalizado
-   * @param message Mensaje a mostrar
-   * @param duration Duración en ms (opcional)
-   * @param header Título del toast (opcional)
-   */
   async warning(message: string, duration?: number, header?: string) {
     return this.showToast({
       message,
@@ -102,12 +80,6 @@ export class CustomToastService {
     });
   }
 
-  /**
-   * Toast informativo con estilo personalizado
-   * @param message Mensaje a mostrar
-   * @param duration Duración en ms (opcional)
-   * @param header Título del toast (opcional)
-   */
   async info(message: string, duration?: number, header?: string) {
     return this.showToast({
       message,
@@ -119,11 +91,6 @@ export class CustomToastService {
     });
   }
 
-  /**
-   * Toast con animación especial
-   * @param message Mensaje a mostrar
-   * @param icon Icono a mostrar (opcional)
-   */
   async fancyToast(message: string, icon?: string) {
     return this.showToast({
       message,
@@ -136,7 +103,6 @@ export class CustomToastService {
     });
   }
 
-  // Método privado para manejar clases CSS personalizadas
   private addCustomClass(customClass?: string | string[]): string[] {
     const baseClass = this.defaultOptions.cssClass;
     if (!customClass) return [baseClass];

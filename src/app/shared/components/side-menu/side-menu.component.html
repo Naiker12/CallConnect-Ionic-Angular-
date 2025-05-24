@@ -8,7 +8,7 @@
           <ion-avatar class="menu-avatar">
             <img src="assets/imagen-landing.png" alt="Foto de perfil">
           </ion-avatar>
-          <h2 class="menu-username">Usuario</h2>
+          <h2 class="menu-username">{{userData ? (userData.nombre + ' ' + userData.apellido) : 'Usuario'}}</h2>
           <p class="menu-userstatus">En línea</p>
         </div>
 
@@ -21,7 +21,6 @@
       <div class="menu-divider"></div>
 
       <ion-list class="menu-list">
-        <!-- Grupo 1 -->
         <div class="menu-group">
           <div class="group-title">Comunicación</div>
           <ion-item button class="menu-item" lines="none" (click)="selectItem('Chats')">
@@ -43,10 +42,10 @@
 
         <div class="menu-divider"></div>
 
-        <!-- Grupo 2 -->
+
         <div class="menu-group">
           <div class="group-title">Contactos</div>
-          <ion-item button class="menu-item" lines="none" (click)="selectItem('Add New Contact')">
+          <ion-item button class="menu-item" lines="none" (click)="openAddContactModal()">
             <ion-icon name="person-add-outline" slot="start"></ion-icon>
             <ion-label>Agregar Contacto</ion-label>
           </ion-item>
@@ -59,7 +58,6 @@
 
         <div class="menu-divider"></div>
 
-        <!-- Grupo 3 -->
         <div class="menu-group">
           <div class="group-title">Personalización</div>
           <ion-item button class="menu-item" lines="none" (click)="selectItem('Theme Pages')">
@@ -75,14 +73,13 @@
 
         <div class="menu-divider"></div>
 
-        <!-- Grupo 4 -->
         <div class="menu-group">
           <ion-item button class="menu-item" lines="none" (click)="selectItem('Setting')">
             <ion-icon name="settings-outline" slot="start"></ion-icon>
             <ion-label>Configuración</ion-label>
           </ion-item>
 
-          <ion-item button class="menu-item logout-item" lines="none" (click)="selectItem('Logout')">
+          <ion-item button class="menu-item logout-item" lines="none" (click)="logout()">
             <ion-icon name="log-out-outline" slot="start"></ion-icon>
             <ion-label>Cerrar Sesión</ion-label>
           </ion-item>

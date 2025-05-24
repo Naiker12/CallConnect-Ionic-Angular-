@@ -1,4 +1,3 @@
-// src/app/use-cases/login.service.ts
 import { Injectable } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';

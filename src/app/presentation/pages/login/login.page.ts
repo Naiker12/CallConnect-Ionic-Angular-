@@ -1,156 +1,94 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/domain/use-cases/login.service';
 import { ModalController, LoadingController } from '@ionic/angular';
 import { VerificationModalComponent } from 'src/app/shared/components/verification-modal/verification-modal.component';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
+import { NavigationService } from 'src/app/core/services/navigation.service';
+import { ValidationService } from 'src/app/core/validation/services/validation.service';
+import { AuthError } from 'src/app/core/ exceptions/handlers/auth-error';
 
-
-/**
- * Página de inicio de sesión
- * 
- * Maneja la autenticación de usuarios, validación de formularios
- * y redirección a otras páginas relacionadas con la autenticación.
- */
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
-  standalone: false,
+    selector: 'app-login',
+    templateUrl: './login.page.html',
+    styleUrls: ['./login.page.scss'],
+    standalone : false
 })
 export class LoginPage implements OnInit {
-  form!: FormGroup;
-  currentUrl: string;
-  showPassword = false;
+    form!: FormGroup;
+    showPassword = false;
 
-  constructor(
-    private router: Router,
-    private fb: FormBuilder,
-    private loginService: LoginService,
-    private modalCtrl: ModalController,
-    private loadingCtrl: LoadingController,
-    private toastService: CustomToastService
-  ) {
-    this.currentUrl = this.router.url;
-    this.initializeForm();
-  }
-
-  ngOnInit() { }
-
-  /** Inicializa el formulario con validaciones */
-  private initializeForm(): void {
-    this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-  }
-
-  /** Maneja el proceso de inicio de sesión */
-  async onLogin(): Promise<void> {
-    if (this.form.invalid) {
-      this.toastService.error('Por favor completa todos los campos correctamente');
-      return;
+    constructor(
+        private fb: FormBuilder,
+        private loginService: LoginService,
+        private modalCtrl: ModalController,
+        private loadingCtrl: LoadingController,
+        private toastService: CustomToastService,
+        private navService: NavigationService,
+        private validationService: ValidationService
+    ) {
+        this.initializeForm();
     }
 
-    const loading = await this.showLoading();
-    const { email, password } = this.form.value;
+    ngOnInit() {}
 
-    try {
-      const isVerified = await this.loginService.login(email, password);
-      await loading.dismiss();
-      this.form.reset();
-
-      if (isVerified) {
-        this.router.navigate(['/home']);
-      } else {
-        this.handleUnverifiedUser();
-      }
-
-    } catch (error: any) {
-      await loading.dismiss();
-      this.handleLoginError(error);
+    private initializeForm(): void {
+        this.form = this.fb.group({
+            email: ['', [Validators.required, Validators.email]],
+            password: ['', [Validators.required, Validators.minLength(6)]]
+        });
     }
-  }
 
+    async onLogin(): Promise<void> {
+        try {
+            this.validationService.validateLoginForm(this.form);
+            
+            const loading = await this.loadingCtrl.create({
+                message: 'Iniciando sesión...',
+                spinner: 'crescent'
+            });
+            await loading.present();
 
+            const { email, password } = this.form.value;
+            const isVerified = await this.loginService.login(email, password);
+            
+            await loading.dismiss();
+            this.form.reset();
 
-  /** Muestra el modal de verificación de email */
-  private async handleUnverifiedUser(): Promise<void> {
-    await this.presentVerificationModal();
-    this.toastService.warning('Por favor verifica tu correo electrónico');
-  }
+            if (!isVerified) {
+                throw new AuthError('UNVERIFIED_EMAIL', 'Email no verificado');
+            }
 
-  /** Maneja errores durante el login */
-  private handleLoginError(error: unknown): void {
-    this.form.reset();
-
-    const errorMessage = this.getErrorMessage(error).toLowerCase();
-
-    if (this.isPasswordError(errorMessage)) {
-      this.toastService.error('Contraseña incorrecta. Inténtalo de nuevo');
-    } else if (this.isUserError(errorMessage)) {
-      this.toastService.error('Usuario no encontrado o correo inválido');
-    } else {
-      this.toastService.error('Error al iniciar sesión. Por favor intenta nuevamente');
+            this.navService.goToHome();
+            
+        } catch (error) {
+            if (error instanceof AuthError && error.errorType === 'UNVERIFIED_EMAIL') {
+                await this.presentVerificationModal();
+            }
+            this.toastService.handleError(error);
+        }
     }
-  }
 
-  private getErrorMessage(error: unknown): string {
-    if (error instanceof Error) return error.message;
-    if (typeof error === 'string') return error;
-    return 'Error al iniciar sesión';
-  }
-
-  private isPasswordError(message: string): boolean {
-    return message.includes('contraseña') || message.includes('password');
-  }
-
-  private isUserError(message: string): boolean {
-    return message.includes('usuario') ||
-      message.includes('user') ||
-      message.includes('email') ||
-      message.includes('correo');
-  }
-
-  /** Muestra el loading indicator */
-  private async showLoading() {
-    const loading = await this.loadingCtrl.create({
-      message: 'Iniciando sesión...',
-      spinner: 'crescent'
-    });
-    await loading.present();
-    return loading;
-  }
-
-  /** Muestra el modal de verificación */
-  private async presentVerificationModal(): Promise<void> {
-    const modal = await this.modalCtrl.create({
-      component: VerificationModalComponent,
-      componentProps: {
-        title: 'Correo no verificado',
-        message: 'Por favor verifica tu correo antes de iniciar sesión.'
-      }
-    });
-    await modal.present();
-  }
-
-  /** Navega a la página de registro */
-  goToRegister(): void {
-    if (this.router.url !== '/register') {
-      this.router.navigate(['/register']);
+    private async presentVerificationModal(): Promise<void> {
+        const modal = await this.modalCtrl.create({
+            component: VerificationModalComponent,
+            componentProps: {
+                title: 'Verificación requerida',
+                message: 'Por favor verifica tu correo electrónico para continuar.'
+            }
+        });
+        await modal.present();
     }
-  }
 
-  /** Navega a la página de recuperación de contraseña */
-  goToRecover(): void {
-    if (this.router.url !== '/recover') {
-      this.router.navigate(['/recover']);
+    goToRegister(): void {
+        this.navService.goToRegister();
     }
-  }
 
-  /** Alterna la visibilidad de la contraseña */
-  togglePassword(): void {
-    this.showPassword = !this.showPassword;
-  }
+    goToRecover(): void {
+        this.navService.goToRecover();
+    }
+    
+    togglePassword(): void {
+        this.showPassword = !this.showPassword;
+    }
 }

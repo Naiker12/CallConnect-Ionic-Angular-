@@ -6,10 +6,12 @@ import { IonicModule } from '@ionic/angular';
 import { VerificationModalComponent } from './components/verification-modal/verification-modal.component';
 import { AddContactModalComponent } from './components/add-contact-modal/add-contact-modal.component';
 import { SideMenuComponent } from './components/side-menu/side-menu.component';
+import { EditProfileModalComponent } from './components/edit-profile-modal/edit-profile-modal.component';
+import { ChangePasswordModalComponent } from './components/change-password-modal/change-password-modal.component';
 
 
  const MODULOS = [CommonModule , FormsModule, IonicModule, ReactiveFormsModule ];
- const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent  , SideMenuComponent];
+ const COMPONENTES = [BackButtonComponent , VerificationModalComponent , AddContactModalComponent  , SideMenuComponent , EditProfileModalComponent , ChangePasswordModalComponent];
 
 
 

@@ -1,18 +1,16 @@
 :host {
-  /* Paleta de colores del chat */
-  --primary-color: #007B83;       /* Azul petróleo */
-  --primary-light: #4DA8B0;       /* Versión más clara del primario */
-  --primary-dark: #005D66;        /* Versión más oscura del primario */
-  --secondary-color: #00B27A;     /* Verde jade */
-  --secondary-light: #4DCB9D;     /* Versión más clara del secundario */
-  --secondary-dark: #008A5E;      /* Versión más oscura del secundario */
-  --tertiary-color: #0A3D62;      /* Azul noche */
-  --tertiary-light: #3C6B8F;      /* Versión más clara del terciario */
-  --tertiary-dark: #072A47;       /* Versión más oscura del terciario */
-  --accent-color: #FF5A5F;        /* Color para alertas/éxito */
-  --success-color: #00B27A;       /* Verde jade para éxito */
+  --primary-color: #007B83; 
+  --primary-light: #4DA8B0;      
+  --primary-dark: #005D66;        
+  --secondary-color: #00B27A;     
+  --secondary-light: #4DCB9D;     
+  --secondary-dark: #008A5E;      
+  --tertiary-color: #0A3D62;      
+  --tertiary-light: #3C6B8F;      
+  --tertiary-dark: #072A47;       
+  --accent-color: #FF5A5F;        
+  --success-color: #00B27A;       
   
-  /* Variables de modo claro */
   --menu-bg-gradient: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-dark) 100%);
   --menu-bg-overlay: rgba(0, 0, 0, 0.1);
   --text-primary: rgba(255, 255, 255, 0.95);
@@ -325,12 +323,10 @@
   }
 }
 
-/* Efectos para iconos */
 ion-icon {
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
 }
 
-/* Modo oscuro */
 @media (prefers-color-scheme: dark) {
   :host {
     --menu-bg-gradient: linear-gradient(135deg, var(--tertiary-dark) 0%, var(--primary-dark) 100%);
@@ -360,7 +356,6 @@ ion-icon {
   }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .menu-container {
     width: 100%;

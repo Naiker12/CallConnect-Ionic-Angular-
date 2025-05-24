@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { 
+import {
   Firestore,
   collection,
   collectionData,
@@ -20,20 +20,13 @@ import { Contact } from 'src/app/core/models/contact';
 export class FirebaseContactService {
   constructor(
     private firestore: Firestore
-  ) {}
+  ) { }
 
-  /**
-   * Obtiene los contactos como Observable (nueva API Firestore)
-   * @param userId ID del usuario actual
-   */
   getContacts(userId: string): Observable<Contact[]> {
     const contactsRef = collection(this.firestore, `users/${userId}/contacts`);
     return collectionData(contactsRef, { idField: 'uid' }) as Observable<Contact[]>;
   }
-  /**
-   * Obtiene los contactos (versión Promise)
-   * @param userId ID del usuario actual
-   */
+
   async getContactsPromise(userId: string): Promise<Contact[]> {
     try {
       const contactsRef = collection(this.firestore, `users/${userId}/contacts`);
@@ -49,10 +42,6 @@ export class FirebaseContactService {
     }
   }
 
-  /**
-   * Busca un usuario por número de teléfono
-   * @param phone Número de teléfono a buscar
-   */
   async searchUserByPhone(phone: string): Promise<Contact | null> {
     try {
       const usersRef = collection(this.firestore, 'users');
@@ -79,11 +68,6 @@ export class FirebaseContactService {
     }
   }
 
-  /**
-   * Agrega un contacto
-   * @param userId ID del usuario actual
-   * @param contact Objeto del contacto a agregar
-   */
   async addContact(userId: string, contact: Contact): Promise<void> {
     try {
       const contactRef = doc(this.firestore, `users/${userId}/contacts/${contact.uid}`);
@@ -97,12 +81,6 @@ export class FirebaseContactService {
     }
   }
 
-  /**
-   * Actualiza un contacto
-   * @param userId ID del usuario actual
-   * @param contactId ID del contacto a actualizar
-   * @param contactData Datos parciales del contacto
-   */
   async updateContact(userId: string, contactId: string, contactData: Partial<Contact>): Promise<void> {
     try {
       const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);
@@ -112,12 +90,7 @@ export class FirebaseContactService {
       throw error;
     }
   }
-/**
- * Elimina un contacto
- * @param userId ID del usuario actual
- * @param contactId ID del contacto a eliminar
- */
-  
+
   deleteContact(userId: string, contactId: string): Observable<void> {
     return new Observable<void>(observer => {
       (async () => {
@@ -132,9 +105,7 @@ export class FirebaseContactService {
       })();
     });
   }
-/**
-* Versión con Promise para eliminar contacto
-*/
+
   async deleteContactPromise(userId: string, contactId: string): Promise<void> {
     try {
       const contactRef = doc(this.firestore, `users/${userId}/contacts/${contactId}`);

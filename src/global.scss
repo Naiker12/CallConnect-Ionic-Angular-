@@ -26,6 +26,56 @@
 @import "@ionic/angular/css/flex-utils.css";
 
 
+// :root {
+//   --sat: env(safe-area-inset-top);
+//   --sab: env(safe-area-inset-bottom);
+//   --sal: env(safe-area-inset-left);
+//   --sar: env(safe-area-inset-right);
+// }
+
+
+// ion-app {
+//   --ion-safe-area-top: max(var(--sat), 20px); 
+//   --ion-safe-area-bottom: max(var(--sab), 20px);
+//   --ion-safe-area-left: max(var(--sal), 0px);
+//   --ion-safe-area-right: max(var(--sar), 0px);
+  
+
+//   &.md {
+//     --ion-safe-area-top: 24px; 
+//   }
+// }
+
+// ion-header {
+//   padding-top: var(--ion-safe-area-top) !important;
+//   min-height: calc(56px + var(--ion-safe-area-top)) !important;
+  
+//   ion-toolbar {
+//     padding-top: var(--ion-safe-area-top) !important;
+//     min-height: calc(56px + var(--ion-safe-area-top)) !important;
+//   }
+// }
+
+// ion-content {
+//   --padding-top: calc(var(--ion-safe-area-top) + 8px);
+//   --padding-bottom: calc(var(--ion-safe-area-bottom) + 8px);
+//   --padding-start: calc(var(--ion-safe-area-left) + 16px);
+//   --padding-end: calc(var(--ion-safe-area-right) + 16px);
+// }
+
+// ion-modal {
+//   --ion-safe-area-top: var(--sat);
+//   --ion-safe-area-bottom: var(--sab);
+//   --ion-safe-area-left: var(--sal);
+//   --ion-safe-area-right: var(--sar);
+  
+//   &.fullscreen {
+//     --width: 100%;
+//     --height: 100%;
+//     --border-radius: 0;
+//   }
+// }
+
 :root {
   /* Variables de seguridad para áreas no seguras (transparentes en Android) */
   --ion-safe-area-top: env(safe-area-inset-top);
@@ -90,7 +140,8 @@ ion-footer {
   --ion-toolbar-background: transparent;
 }
 
-/* Mejoras para los Toast (manteniendo tus estilos) */
+
+/* Toast personalizados */
 .custom-toast {
   --width: 90%;
   --max-width: 500px;
@@ -112,7 +163,59 @@ ion-footer {
   }
 }
 
-/* Side Menu Modal mejorado */
+/* Toast de éxito */
+.success-toast {
+  --background: var(--ion-color-success);
+  --color: white;
+}
+
+/* Toast de error */
+.error-toast {
+  --background: var(--ion-color-danger);
+  --color: white;
+}
+
+/* Toast de advertencia */
+.warning-toast {
+  --background: var(--ion-color-warning);
+  --color: black;
+}
+
+/* Toast informativo */
+.info-toast {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+/* Toast elegante con animación */
+.fancy-toast {
+  --background: rgba(0, 0, 0, 0.8);
+  --color: #fff;
+  animation: fadeInDown 0.3s, fadeOutUp 0.3s 2.2s forwards;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOutUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+}
+
 .side-menu-modal {
   --width: 85%;
   --max-width: 320px;

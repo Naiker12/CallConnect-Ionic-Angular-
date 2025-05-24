@@ -21,7 +21,6 @@ export class MessagingService {
 
       if (token) {
         console.log('Token FCM:', token);
-        // Enviar token a tu backend
         await this.http.post('https://ravishing-courtesy-production.up.railway.app/user/save-token', {
           userId,
           token
@@ -36,7 +35,6 @@ export class MessagingService {
   listenForMessages() {
     onMessage(this.messaging, (payload) => {
       console.log(' Nueva notificación:', payload);
-      // Aquí puedes mostrarla con un toast, modal, etc.
     });
   }
 }

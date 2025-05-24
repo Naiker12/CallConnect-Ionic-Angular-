@@ -27,13 +27,11 @@ export class NotificationService {
   }
 
   private setupListeners() {
-    // Listener para primer plano
     FirebaseMessaging.addListener('notificationReceived', (event) => {
       console.log('Notificación en primer plano:', event);
       this.handleNotification(event.notification.data);
     });
 
-    // Listener para segundo plano/cerrado
     FirebaseMessaging.addListener('notificationActionPerformed', (event) => {
       console.log('Notificación en segundo plano:', event);
       this.handleNotification(event.notification.data);

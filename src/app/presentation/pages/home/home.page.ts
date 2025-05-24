@@ -7,10 +7,7 @@ import { AddContactModalComponent } from 'src/app/shared/components/add-contact-
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MenuService } from 'src/app/core/services/Menu.Service';
-import { Router } from '@angular/router';
-
-
-
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-home',
@@ -25,8 +22,6 @@ export class HomePage implements OnInit, OnDestroy {
   selectedContact: any
   scrolled = false;
 
-
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -34,7 +29,7 @@ export class HomePage implements OnInit, OnDestroy {
     private authService: AuthService,
     private modalCtrl: ModalController,
     private menuService: MenuService,
-    private router: Router,
+    private navService: NavigationService
 
   ) { }
 
@@ -66,6 +61,7 @@ export class HomePage implements OnInit, OnDestroy {
         }
       });
   }
+
   async openAddContactModal() {
     const modal = await this.modalCtrl.create({
       component: AddContactModalComponent
@@ -98,9 +94,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   goToProfile(): void {
-    if (this.router.url !== '/profile') {
-      this.router.navigate(['/profile']);
-    }
+     this.navService.goToProfile();
   }
 
 }

@@ -3,7 +3,6 @@
   <div class="gradient-footer"></div>
   
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-card">
-    <!-- Logo/Imagen centrada -->
     <div class="image-container">
       <img src="assets/icon/icon_1200.webp" alt="App Logo" class="center-image">
     </div>
@@ -14,7 +13,6 @@
     </div>
 
     <div class="form-fields">
-      <!-- Campo: Nombre -->
       <ion-item class="custom-input" lines="none">
         <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
@@ -26,7 +24,6 @@
         </ion-input>
       </ion-item>
 
-      <!-- Campo: Apellido -->
       <ion-item class="custom-input" lines="none">
         <ion-icon name="person-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
@@ -38,7 +35,6 @@
         </ion-input>
       </ion-item>
 
-      <!-- Campo: Correo -->
       <ion-item class="custom-input" lines="none">
         <ion-icon name="mail-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
@@ -50,7 +46,6 @@
         </ion-input>
       </ion-item>
 
-      <!-- Campo: Teléfono -->
       <ion-item class="custom-input" lines="none">
         <ion-icon name="call-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
@@ -62,7 +57,6 @@
         </ion-input>
       </ion-item>
 
-      <!-- Campo: Contraseña -->
       <ion-item class="custom-input" lines="none">
         <ion-icon name="lock-closed-outline" slot="start" class="input-icon"></ion-icon>
         <ion-input
@@ -107,7 +101,7 @@
 
     <p class="login-text">
       ¿Ya tienes una cuenta?
-      <a routerLink="/login" class="login-link">Inicia sesión</a>
+      <a (click)="goToLogin()" class="login-link">Inicia sesión</a>
     </p>
   </form>
 </ion-content>

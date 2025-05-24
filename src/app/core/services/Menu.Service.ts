@@ -1,8 +1,8 @@
-// menu.service.ts
 import { Injectable } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 import { createAnimation } from '@ionic/core';
 import { SideMenuComponent } from 'src/app/shared/components/side-menu/side-menu.component';
+import { CustomToastService } from './custom-toast.service';
 
 
 @Injectable({
@@ -12,7 +12,7 @@ export class MenuService {
 
   constructor(
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController
+    private customToast: CustomToastService
   ) { }
 
   async openSideMenu(): Promise<void> {
@@ -26,7 +26,7 @@ export class MenuService {
 
       await modal.present();
     } catch (error) {
-      this.showErrorToast('No se pudo abrir el perfil');
+      this.customToast.error('No se pudo abrir el perfil');
     }
   }
 
@@ -71,14 +71,5 @@ export class MenuService {
       .fromTo('transform', 'translateX(0)', 'translateX(-100%)')
       .easing('cubic-bezier(0.36,0.66,0.04,1)')
       .duration(300);
-  }
-
-  private async showErrorToast(message: string): Promise<void> {
-    const toast = await this.toastCtrl.create({
-      message,
-      duration: 2000,
-      color: 'danger'
-    });
-    await toast.present();
   }
 }

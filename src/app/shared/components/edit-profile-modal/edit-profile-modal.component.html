@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()" fill="clear" shape="round">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Editar perfil</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="save()" fill="clear" shape="round" [disabled]="profileForm.invalid">
+        <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="profileForm" (ngSubmit)="save()">
+    <div class="form-container">
+      
+      <div class="avatar-section ion-margin-vertical">
+        <ion-avatar class="avatar-preview">
+          <img src="assets/imagen-landing.png" />
+          <ion-button fill="clear" class="edit-avatar-btn">
+            <ion-icon name="camera-outline"></ion-icon>
+          </ion-button>
+        </ion-avatar>
+        <ion-text color="medium" class="avatar-hint">
+          Toca para cambiar tu foto de perfil
+        </ion-text>
+      </div>
+      
+      <ion-item fill="outline" class="ion-margin-bottom">
+        <ion-label position="floating" color="medium">Nombre</ion-label>
+        <ion-input formControlName="nombre" type="text" placeholder="Ingresa tu nombre"></ion-input>
+        <ion-note slot="error" *ngIf="profileForm.get('nombre')?.touched && profileForm.get('nombre')?.hasError('required')">
+          El nombre es obligatorio
+        </ion-note>
+      </ion-item>
+      
+      <ion-item fill="outline" class="ion-margin-bottom">
+        <ion-label position="floating" color="medium">Apellido</ion-label>
+        <ion-input formControlName="apellido" type="text" placeholder="Ingresa tu apellido"></ion-input>
+        <ion-note slot="error" *ngIf="profileForm.get('apellido')?.touched && profileForm.get('apellido')?.hasError('required')">
+          El apellido es obligatorio
+        </ion-note>
+      </ion-item>
+      
+      <ion-item fill="outline" class="ion-margin-bottom">
+        <ion-label position="floating" color="medium">Teléfono</ion-label>
+        <ion-input formControlName="telefono" type="tel" placeholder="Ej. +34 612 345 678"></ion-input>
+        <ion-note slot="error" *ngIf="profileForm.get('telefono')?.touched && profileForm.get('telefono')?.hasError('pattern')">
+          Ingresa un número de teléfono válido
+        </ion-note>
+      </ion-item>
+      
+    </div>
+
+    <div class="settings-section">
+      <ion-list lines="none">
+        <ion-item button >
+          <ion-icon slot="start" name="lock-closed-outline" color="medium"></ion-icon>
+          <ion-label>Privacidad y seguridad</ion-label>
+          <ion-icon slot="end" name="chevron-forward-outline" color="medium"></ion-icon>
+        </ion-item>
+        
+        <ion-item button >
+          <ion-icon slot="start" name="notifications-outline" color="medium"></ion-icon>
+          <ion-label>Configuración de notificaciones</ion-label>
+          <ion-icon slot="end" name="chevron-forward-outline" color="medium"></ion-icon>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <ion-button expand="block" type="submit" shape="round" class="save-button" [disabled]="profileForm.invalid || isSubmitting">
+      <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+      <span *ngIf="!isSubmitting">Guardar cambios</span>
+    </ion-button>
+  </form>
+</ion-content>

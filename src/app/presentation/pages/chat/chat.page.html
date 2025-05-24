@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" class="back-button"></ion-back-button>
+      <ion-back-button default-href="/home" class="back-button"></ion-back-button>
     </ion-buttons>
 
     <div class="contact-header" *ngIf="contact">
@@ -31,31 +31,109 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="chat-content">
-  <div class="maintenance-container">
-    <div class="maintenance-message">
-      <div class="tool-icon">
-        <ion-icon name="construct"></ion-icon>
-      </div>
-      <h2>Chat en mantenimiento</h2>
-      <p>Estamos trabajando para mejorar tu experiencia de mensajería</p>
-    </div>
+<ion-content class="chat-content" [scrollEvents]="true">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando chat...</p>
   </div>
 
-  <div class="message-input-container">
-    <ion-item class="message-input">
-      <ion-input placeholder="Escribe un mensaje..." readonly></ion-input>
-      <ion-buttons slot="end">
-        <ion-button fill="clear" disabled>
-          <ion-icon name="mic-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" disabled>
-          <ion-icon name="image-outline"></ion-icon>
-        </ion-button>
-        <ion-button fill="clear" disabled>
-          <ion-icon name="happy-outline"></ion-icon>
-        </ion-button>
-      </ion-buttons>
-    </ion-item>
+  <!-- Messages Container -->
+  <div *ngIf="!isLoading" class="messages-container">
+    <div *ngFor="let message of messages; let i = index" class="message-wrapper">
+      
+      <!-- Date Separator -->
+      <div *ngIf="shouldShowDateSeparator(i)" class="date-separator">
+        <span class="date-text">{{ getDateSeparatorText(message.timestamp) }}</span>
+      </div>
+
+      <!-- Message Bubble -->
+      <div class="message-bubble" 
+           [ngClass]="{
+             'message-sent': isMyMessage(message),
+             'message-received': !isMyMessage(message)
+           }">
+        
+        <!-- Message Content -->
+        <div class="message-content">
+          <p class="message-text">{{ message.content }}</p>
+        </div>
+
+        <!-- Message Time -->
+        <div class="message-time">
+          <span class="time-text">{{ formatMessageTime(message.timestamp) }}</span>
+          <!-- Checkmarks for sent messages -->
+          <ion-icon *ngIf="isMyMessage(message)" 
+                    name="checkmark-done-outline" 
+                    class="message-status delivered"></ion-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="messages.length === 0 && !isLoading" class="empty-chat">
+      <ion-icon name="chatbubbles-outline" class="empty-icon"></ion-icon>
+      <p class="empty-text">¡Inicia la conversación!</p>
+      <p class="empty-subtext">Envía tu primer mensaje a {{ contact?.nombre }}</p>
+    </div>
   </div>
 </ion-content>
+
+<!-- Message Input -->
+<ion-footer class="message-input-footer">
+  <ion-toolbar class="input-toolbar">
+    <div class="message-input-container">
+      
+      <!-- Attachment Button -->
+      <ion-button fill="clear" 
+                  color="medium" 
+                  class="attachment-button"
+                  [disabled]="isLoading">
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+
+      <!-- Text Input -->
+      <div class="input-wrapper">
+        <ion-textarea
+          [(ngModel)]="newMessage"
+          placeholder="Escribe un mensaje..."
+          [autoGrow]="true"
+          [rows]="1"
+          (keydown)="onEnterKey($event)"
+          [disabled]="isLoading"
+          class="message-textarea">
+        </ion-textarea>
+
+        <!-- Emoji Button -->
+        <ion-button fill="clear" 
+                    color="medium" 
+                    class="emoji-button"
+                    [disabled]="isLoading">
+          <ion-icon name="happy-outline"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Send/Record Button -->
+      <ion-button 
+        *ngIf="newMessage.trim().length > 0; else micButton"
+        (click)="sendMessage()"
+        fill="solid"
+        shape="round"
+        color="primary"
+        class="send-button"
+        [disabled]="isLoading">
+        <ion-icon name="send-outline"></ion-icon>
+      </ion-button>
+
+      <ng-template #micButton>
+        <ion-button fill="clear" 
+                    color="medium" 
+                    class="mic-button"
+                    [disabled]="isLoading">
+          <ion-icon name="mic-outline"></ion-icon>
+        </ion-button>
+      </ng-template>
+
+    </div>
+  </ion-toolbar>
+</ion-footer>

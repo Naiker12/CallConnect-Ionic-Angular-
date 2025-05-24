@@ -18,6 +18,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getMessaging } from 'firebase/messaging';
 
+
 // Inicialización única de Firebase
 const firebaseApp = initializeApp(environment.firebaseConfig);
 
@@ -30,7 +31,8 @@ const firebaseApp = initializeApp(environment.firebaseConfig);
     CoreModule,
     HttpClientModule
   ],
-  providers: [
+  providers: [  
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { 
       provide: 'FIREBASE_APP', 

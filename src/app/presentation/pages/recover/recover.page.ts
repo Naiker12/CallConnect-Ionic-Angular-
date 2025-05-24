@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { LoadingService } from 'src/app/core/services/loading.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
-import { ValidationService } from 'src/app/core/validation/services/validation.service';
+import { ValidationService } from 'src/app/core/validation/auth/validation.service';
 import { RecoverPasswordService } from 'src/app/domain/use-cases/recover-password.service';
 
 @Component({

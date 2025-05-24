@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { AuthValidator } from '../validators/auth.validator';
+import { AuthValidator } from './auth.validator';
 import { ValidationError } from '../../ exceptions/handlers/validation-error';
 
 

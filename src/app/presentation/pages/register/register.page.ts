@@ -4,7 +4,7 @@ import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { User } from 'src/app/core/models/user';
 import { RegisterService } from 'src/app/domain/use-cases/register.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
-import { ValidationService } from 'src/app/core/validation/services/validation.service';
+import { ValidationService } from 'src/app/core/validation/auth/validation.service';
 import { LoadingService } from 'src/app/core/services/loading.service'; 
 
 @Component({

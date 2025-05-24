@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ActionSheetController, ModalController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, NavController, ModalController, LoadingController, IonContent } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { FirebaseContactService } from 'src/app/data/sources/firebase-contact.service';
 import { Contact } from 'src/app/core/models/contact';
@@ -10,7 +10,8 @@ import { ContactService } from 'src/app/core/services/contact.service';
 import { Capacitor } from '@capacitor/core';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
-import { LoadingService } from 'src/app/core/services/loading.service';
+import { Message } from 'src/app/core/models/Message';
+import { ChatService } from 'src/app/core/services/Chat.Service';
 
 @Component({
   selector: 'app-chat',
@@ -19,9 +20,17 @@ import { LoadingService } from 'src/app/core/services/loading.service';
   standalone: false
 })
 export class ChatPage implements OnInit, OnDestroy {
+  @ViewChild(IonContent, { static: false }) content!: IonContent;
+
   contact: Contact | null = null;
   userId: string | null = null;
+  chatId: string | null = null;
+  messages: Message[] = [];
+  newMessage: string = '';
+  isLoading: boolean = false;
+
   private contactsSubscription?: Subscription;
+  private messagesSubscription?: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,10 +38,11 @@ export class ChatPage implements OnInit, OnDestroy {
     private authService: AuthService,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController,
+    private loadingCtrl: LoadingController,
     private contactService: ContactService,
     private toastService: CustomToastService,
     private navService: NavigationService,
-    private loadingService: LoadingService 
+    private chatService: ChatService
   ) {}
 
   ngOnInit() {
@@ -56,10 +66,12 @@ export class ChatPage implements OnInit, OnDestroy {
 
   private loadContact(userId: string, contactId: string): void {
     this.contactsSubscription = this.contactService.getContacts(userId).subscribe({
-      next: (contacts) => {
+      next: async (contacts) => {
         this.contact = contacts.find(c => c.uid === contactId) || null;
         if (!this.contact) {
           this.handleContactNotFound();
+        } else {
+          await this.initializeChat();
         }
       },
       error: (error) => {
@@ -67,6 +79,165 @@ export class ChatPage implements OnInit, OnDestroy {
         this.toastService.error('Error al cargar el contacto');
         this.navigateToContacts();
       }
+    });
+  }
+
+  private async initializeChat(): Promise<void> {
+    if (!this.userId || !this.contact) return;
+
+    try {
+      this.isLoading = true;
+      this.chatId = await this.chatService.createOrGetChat(this.userId, this.contact.uid);
+      this.listenToMessages();
+    } catch (error) {
+      console.error('Error initializing chat:', error);
+      this.toastService.error('Error al inicializar el chat');
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private listenToMessages(): void {
+    if (!this.chatId) return;
+
+    this.messagesSubscription = this.chatService.listenToMessages(this.chatId).subscribe({
+      next: (messages) => {
+        this.messages = messages;
+        setTimeout(() => this.scrollToBottom(), 100);
+      },
+      error: (error) => {
+        console.error('Error listening to messages:', error);
+        this.toastService.error('Error al cargar los mensajes');
+      }
+    });
+  }
+
+  async sendMessage(): Promise<void> {
+    if (!this.newMessage.trim() || !this.chatId || !this.userId) return;
+
+    const message: Message = {
+      senderId: this.userId,
+      type: 'text',
+      content: this.newMessage.trim(),
+      timestamp: null // Se asignará en el servidor
+    };
+
+    const messageText = this.newMessage;
+    this.newMessage = ''; // Limpiar input inmediatamente
+
+    try {
+      await this.chatService.sendMessage(this.chatId, message);
+      this.scrollToBottom();
+    } catch (error) {
+      console.error('Error sending message:', error);
+      this.toastService.error('Error al enviar el mensaje');
+      // Restaurar el mensaje en caso de error
+      this.newMessage = messageText;
+    }
+  }
+
+  onEnterKey(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.sendMessage();
+    }
+  }
+
+  private scrollToBottom(): void {
+    setTimeout(() => {
+      if (this.content) {
+        this.content.scrollToBottom(300);
+      }
+    }, 100);
+  }
+
+  isMyMessage(message: Message): boolean {
+    return message.senderId === this.userId;
+  }
+
+  formatMessageTime(timestamp: any): string {
+    if (!timestamp) return '';
+    
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const messageDate = new Date(date);
+    
+    // Si es hoy, mostrar solo la hora
+    if (messageDate.toDateString() === now.toDateString()) {
+      return messageDate.toLocaleTimeString('es-ES', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+    }
+    
+    // Si es de ayer
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (messageDate.toDateString() === yesterday.toDateString()) {
+      return 'Ayer ' + messageDate.toLocaleTimeString('es-ES', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+    }
+    
+    // Si es de esta semana
+    const weekAgo = new Date(now);
+    weekAgo.setDate(weekAgo.getDate() - 7);
+    if (messageDate > weekAgo) {
+      const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      return days[messageDate.getDay()] + ' ' + messageDate.toLocaleTimeString('es-ES', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+    }
+    
+    // Para fechas más antiguas
+    return messageDate.toLocaleDateString('es-ES', { 
+      day: '2-digit', 
+      month: '2-digit' 
+    }) + ' ' + messageDate.toLocaleTimeString('es-ES', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  }
+
+  shouldShowDateSeparator(index: number): boolean {
+    if (index === 0) return true;
+    
+    const currentMessage = this.messages[index];
+    const previousMessage = this.messages[index - 1];
+    
+    if (!currentMessage.timestamp || !previousMessage.timestamp) return false;
+    
+    const currentDate = currentMessage.timestamp.toDate ? 
+      currentMessage.timestamp.toDate() : new Date(currentMessage.timestamp);
+    const previousDate = previousMessage.timestamp.toDate ? 
+      previousMessage.timestamp.toDate() : new Date(previousMessage.timestamp);
+    
+    return currentDate.toDateString() !== previousDate.toDateString();
+  }
+
+  getDateSeparatorText(timestamp: any): string {
+    if (!timestamp) return '';
+    
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const now = new Date();
+    const messageDate = new Date(date);
+    
+    if (messageDate.toDateString() === now.toDateString()) {
+      return 'Hoy';
+    }
+    
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    if (messageDate.toDateString() === yesterday.toDateString()) {
+      return 'Ayer';
+    }
+    
+    return messageDate.toLocaleDateString('es-ES', { 
+      weekday: 'long', 
+      day: 'numeric', 
+      month: 'long' 
     });
   }
 
@@ -78,6 +249,9 @@ export class ChatPage implements OnInit, OnDestroy {
   private cleanupSubscriptions(): void {
     if (this.contactsSubscription) {
       this.contactsSubscription.unsubscribe();
+    }
+    if (this.messagesSubscription) {
+      this.messagesSubscription.unsubscribe();
     }
   }
 
@@ -147,8 +321,8 @@ export class ChatPage implements OnInit, OnDestroy {
           text: 'Eliminar',
           role: 'destructive',
           handler: async () => {
+            const loading = await this.showLoading('Eliminando contacto...');
             try {
-              await this.loadingService.show('Eliminando contacto...');
               await this.firebaseContactService.deleteContact(this.userId!, this.contact!.uid);
               this.toastService.success('Contacto eliminado');
               this.navigateToContacts();
@@ -156,7 +330,7 @@ export class ChatPage implements OnInit, OnDestroy {
               console.error('Error eliminando:', error);
               this.toastService.error('Error al eliminar el contacto');
             } finally {
-              await this.loadingService.hide();
+              await loading.dismiss();
             }
           }
         },
@@ -187,6 +361,15 @@ export class ChatPage implements OnInit, OnDestroy {
     if (data?.success) {
       this.toastService.success('Contacto actualizado');
     }
+  }
+
+  private async showLoading(message: string = 'Procesando...') {
+    const loading = await this.loadingCtrl.create({
+      message,
+      spinner: 'crescent'
+    });
+    await loading.present();
+    return loading;
   }
 
   private navigateToContacts(): void {

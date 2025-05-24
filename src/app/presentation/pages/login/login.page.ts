@@ -5,7 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { VerificationModalComponent } from 'src/app/shared/components/verification-modal/verification-modal.component';
 import { CustomToastService } from 'src/app/core/services/custom-toast.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
-import { ValidationService } from 'src/app/core/validation/services/validation.service';
+import { ValidationService } from 'src/app/core/validation/auth/validation.service';
 import { LoadingService } from 'src/app/core/services/loading.service'; // Importar el nuevo servicio
 import { AuthError } from 'src/app/core/ exceptions/handlers/auth-error';
 

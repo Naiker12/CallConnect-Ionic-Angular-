@@ -133,7 +133,6 @@ export class ChatService {
     try {
       const messagesRef = collection(this.firestore, `chats/${chatId}/messages`);
       
-      // Preparar el mensaje para enviar
       const messageToSend = {
         senderId: message.senderId,
         type: message.type,
@@ -143,10 +142,8 @@ export class ChatService {
         metadata: message.metadata || null
       };
 
-      // Agregar mensaje a la colección
       await addDoc(messagesRef, messageToSend);
       
-      // Actualizar información del chat
       await this.updateChatInfo(chatId, message);
       
       console.log('Mensaje enviado exitosamente');
@@ -161,23 +158,22 @@ export class ChatService {
    */
   async sendImageFromCamera(chatId: string, senderId: string): Promise<void> {
     try {
-      // Capturar imagen con la cámara
       const imagePath = await this.cameraService.captureImage();
       if (!imagePath) {
         throw new Error('No se pudo capturar la imagen');
       }
 
-      // Convertir la imagen a File
+
       const file = await this.convertUriToFile(imagePath);
       
-      // Generar nombre único para el archivo
+
       const fileName = `chat_${chatId}_${Date.now()}.jpg`;
       const filePath = `images/chats/${fileName}`;
       
-      // Subir imagen a Supabase
+
       const imageUrl = await this.supabaseService.uploadImage(file, filePath);
       
-      // Crear mensaje con imagen
+
       const message: Message = {
         senderId: senderId,
         type: 'image',
@@ -210,17 +206,11 @@ export class ChatService {
         throw new Error('No se pudo seleccionar la imagen');
       }
 
-      // Convertir la imagen a File
       const file = await this.convertUriToFile(imagePath);
-      
-      // Generar nombre único para el archivo
       const fileName = `chat_${chatId}_${Date.now()}.jpg`;
       const filePath = `images/chats/${fileName}`;
-      
-      // Subir imagen a Supabase
       const imageUrl = await this.supabaseService.uploadImage(file, filePath);
       
-      // Crear mensaje con imagen
       const message: Message = {
         senderId: senderId,
         type: 'image',
@@ -233,7 +223,6 @@ export class ChatService {
         }
       };
 
-      // Enviar mensaje
       await this.sendMessage(chatId, message);
       
     } catch (error) {
@@ -247,7 +236,6 @@ export class ChatService {
    */
   async sendFile(chatId: string, senderId: string, file: File, fileType: 'file' | 'audio' = 'file'): Promise<void> {
     try {
-      // Determinar la carpeta según el tipo de archivo
       let folder = 'files';
       if (fileType === 'audio') {
         folder = 'audios';
@@ -255,15 +243,13 @@ export class ChatService {
         folder = 'images';
       }
       
-      // Generar nombre único para el archivo
       const fileExtension = file.name.split('.').pop() || '';
       const fileName = `chat_${chatId}_${Date.now()}.${fileExtension}`;
       const filePath = `${folder}/chats/${fileName}`;
       
-      // Subir archivo a Supabase
+
       const fileUrl = await this.supabaseService.uploadImage(file, filePath);
       
-      // Determinar el tipo de mensaje
       let messageType: 'file' | 'audio' | 'image' = 'file';
       if (fileType === 'audio' || file.type.startsWith('audio/')) {
         messageType = 'audio';
@@ -271,7 +257,6 @@ export class ChatService {
         messageType = 'image';
       }
       
-      // Crear mensaje con archivo
       const message: Message = {
         senderId: senderId,
         type: messageType,
@@ -422,8 +407,6 @@ export class ChatService {
               status: data['status'] || 'sent'
             });
           });
-          
-          // Revertir el orden para mostrar mensajes más antiguos primero
           observer.next(messages.reverse());
         },
         (error) => {

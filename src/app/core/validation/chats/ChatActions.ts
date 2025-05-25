@@ -15,9 +15,6 @@ export class ChatActions {
     private chatService: ChatService
   ) {}
 
-  /**
-   * Muestra opciones de archivo adjunto
-   */
   async showAttachmentOptions(): Promise<'camera' | 'gallery' | 'file' | null> {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Enviar archivo',
@@ -59,9 +56,7 @@ export class ChatActions {
     return result.data || null;
   }
 
-  /**
-   * Muestra opciones del chat
-   */
+
   async showChatOptions(): Promise<string | null> {
     const actionSheet = await this.actionSheetCtrl.create({
       header: 'Opciones del chat',
@@ -111,9 +106,6 @@ export class ChatActions {
     return result.data || null;
   }
 
-  /**
-   * Maneja las acciones del chat
-   */
   async handleChatAction(action: string): Promise<void> {
     switch (action) {
       case 'profile':
@@ -131,9 +123,6 @@ export class ChatActions {
     }
   }
 
-  /**
-   * Maneja el envío de archivos multimedia
-   */
   async handleFileAction(
     action: 'camera' | 'gallery' | 'file',
     chatId: string,
@@ -162,9 +151,6 @@ export class ChatActions {
     }
   }
 
-  /**
-   * Muestra loading para archivos
-   */
   async showFileLoading(message: string = 'Procesando archivo...'): Promise<HTMLIonLoadingElement> {
     const loading = await this.loadingCtrl.create({
       message,
@@ -174,9 +160,6 @@ export class ChatActions {
     return loading;
   }
 
-  /**
-   * Obtiene el mensaje de loading según la acción
-   */
   private getLoadingMessage(action: string): string {
     switch (action) {
       case 'camera': return 'Tomando foto...';
@@ -186,9 +169,7 @@ export class ChatActions {
     }
   }
 
-  /**
-   * Maneja funciones de llamada
-   */
+
   handleCallAction(type: 'call' | 'video'): void {
     const message = type === 'call' ? 'llamada' : 'videollamada';
     this.toastService.info(`Función de ${message} no implementada`);

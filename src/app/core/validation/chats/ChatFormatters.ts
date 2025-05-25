@@ -6,9 +6,6 @@ import { Message } from 'src/app/core/models/Message';
 })
 export class ChatFormatters {
 
-  /**
-   * Formatea la hora del mensaje
-   */
   formatMessageTime(timestamp: any): string {
     if (!timestamp) return '';
     
@@ -16,7 +13,7 @@ export class ChatFormatters {
     const now = new Date();
     const messageDate = new Date(date);
     
-    // Si es hoy, mostrar solo la hora
+
     if (messageDate.toDateString() === now.toDateString()) {
       return messageDate.toLocaleTimeString('es-ES', { 
         hour: '2-digit', 
@@ -24,7 +21,7 @@ export class ChatFormatters {
       });
     }
     
-    // Si es de ayer
+ 
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
     if (messageDate.toDateString() === yesterday.toDateString()) {
@@ -34,7 +31,7 @@ export class ChatFormatters {
       });
     }
     
-    // Si es de esta semana
+
     const weekAgo = new Date(now);
     weekAgo.setDate(weekAgo.getDate() - 7);
     if (messageDate > weekAgo) {
@@ -45,19 +42,17 @@ export class ChatFormatters {
       });
     }
     
-    // Para fechas más antiguas
-    return messageDate.toLocaleDateString('es-ES', { 
-      day: '2-digit', 
-      month: '2-digit' 
-    }) + ' ' + messageDate.toLocaleTimeString('es-ES', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+
+    return messageDate.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit'
+    }) + ' ' + messageDate.toLocaleTimeString('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   }
 
-  /**
-   * Determina si mostrar separador de fecha
-   */
+
   shouldShowDateSeparator(messages: Message[], index: number): boolean {
     if (index === 0) return true;
     
@@ -74,9 +69,7 @@ export class ChatFormatters {
     return currentDate.toDateString() !== previousDate.toDateString();
   }
 
-  /**
-   * Obtiene el texto del separador de fecha
-   */
+ 
   getDateSeparatorText(timestamp: any): string {
     if (!timestamp) return '';
     
@@ -94,7 +87,7 @@ export class ChatFormatters {
       return 'Ayer';
     }
     
-    // Si es de esta semana
+
     const weekAgo = new Date(now);
     weekAgo.setDate(weekAgo.getDate() - 7);
     if (messageDate > weekAgo) {
@@ -103,16 +96,14 @@ export class ChatFormatters {
     }
     
     // Para fechas más antiguas
-    return messageDate.toLocaleDateString('es-ES', { 
-      day: '2-digit', 
+    return messageDate.toLocaleDateString('es-ES', {
+      day: '2-digit',
       month: '2-digit',
-      year: 'numeric' 
+      year: 'numeric'
     });
   }
 
-  /**
-   * Formatea el tamaño del archivo
-   */
+
   formatFileSize(size: number): string {
     if (!size) return '';
 
@@ -125,9 +116,6 @@ export class ChatFormatters {
     }
   }
 
-  /**
-   * Obtiene el nombre del archivo desde metadata
-   */
   getFileName(message: Message): string {
     return message.metadata?.name || 'Archivo';
   }

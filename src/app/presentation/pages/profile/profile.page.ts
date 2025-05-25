@@ -83,4 +83,4 @@ export class ProfilePage implements OnInit, OnDestroy {
   editPhoto() {
     this.toastService.info('Función de cambio de foto en desarrollo');
   }
-}
+}    

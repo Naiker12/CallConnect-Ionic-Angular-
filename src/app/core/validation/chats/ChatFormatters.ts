@@ -95,7 +95,6 @@ export class ChatFormatters {
       return days[messageDate.getDay()];
     }
     
-    // Para fechas más antiguas
     return messageDate.toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',

@@ -32,6 +32,18 @@
 </ion-header>
 
 <ion-content class="chat-content" [scrollEvents]="true">
+  <!-- Indicador de grabación de audio -->
+  <div *ngIf="isRecording" class="recording-indicator">
+    <div class="recording-content">
+      <ion-icon name="mic" class="recording-icon"></ion-icon>
+      <span class="recording-text">Grabando...</span>
+      <span class="recording-duration">{{ formattedRecordingDuration }}</span>
+      <ion-button fill="clear" color="danger" (click)="cancelRecording()">
+        <ion-icon name="close-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
   <div *ngIf="isLoading" class="loading-container">
     <ion-spinner name="crescent"></ion-spinner>
     <p>Cargando chat...</p>
@@ -47,7 +59,10 @@
       <div class="message-bubble" 
            [ngClass]="{
              'message-sent': isMyMessage(message),
-             'message-received': !isMyMessage(message)
+             'message-received': !isMyMessage(message),
+             'message-short': getMessageLength(message) <= 20,
+             'message-medium': getMessageLength(message) > 20 && getMessageLength(message) <= 50,
+             'message-long': getMessageLength(message) > 50
            }">
         
         <div class="message-content">
@@ -65,6 +80,9 @@
           <div *ngIf="isAudioMessage(message)" class="audio-message">
             <ion-icon name="play-circle-outline" class="audio-icon"></ion-icon>
             <audio controls [src]="getMediaUrl(message)" class="audio-player"></audio>
+            <div class="audio-duration">
+              {{ formatAudioDuration(message) }}
+            </div>
           </div>
           
   
@@ -107,57 +125,87 @@
 
 <ion-footer class="message-input-footer">
   <ion-toolbar class="input-toolbar">
-    <div class="message-input-container">
+    <div class="message-input-container" [class.recording-mode]="isRecording">
       
-
-      <ion-button fill="clear" 
-                  color="medium" 
-                  class="attachment-button"
-                  (click)="showAttachmentOptions()"
-                  [disabled]="isLoading || isSendingFile">
-        <ion-icon name="add-outline"></ion-icon>
-      </ion-button>
-
-
-      <div class="input-wrapper">
-        <ion-textarea
-          [(ngModel)]="newMessage"
-          placeholder="Escribe un mensaje..."
-          [autoGrow]="true"
-          [rows]="1"
-          (keydown)="onEnterKey($event)"
-          [disabled]="isLoading || isSendingFile"
-          class="message-textarea">
-        </ion-textarea>
-
-
+      <!-- Modo normal de entrada de mensajes -->
+      <div *ngIf="!isRecording" class="normal-input-mode">
         <ion-button fill="clear" 
                     color="medium" 
-                    class="emoji-button"
+                    class="attachment-button"
+                    (click)="showAttachmentOptions()"
                     [disabled]="isLoading || isSendingFile">
-          <ion-icon name="happy-outline"></ion-icon>
+          <ion-icon name="add-outline"></ion-icon>
         </ion-button>
+
+        <div class="input-wrapper">
+          <ion-textarea
+            [(ngModel)]="newMessage"
+            placeholder="Escribe un mensaje..."
+            [autoGrow]="true"
+            [rows]="1"
+            (keydown)="onEnterKey($event)"
+            [disabled]="isLoading || isSendingFile"
+            class="message-textarea">
+          </ion-textarea>
+
+          <ion-button fill="clear" 
+                      color="medium" 
+                      class="emoji-button"
+                      [disabled]="isLoading || isSendingFile">
+            <ion-icon name="happy-outline"></ion-icon>
+          </ion-button>
+        </div>
+
+        <ion-button 
+          *ngIf="newMessage.trim().length > 0; else micButton"
+          (click)="sendMessage()"
+          fill="solid"
+          shape="round"
+          color="primary"
+          class="send-button"
+          [disabled]="isLoading || isSendingFile">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+
+        <ng-template #micButton>
+          <ion-button fill="clear" 
+                      color="medium" 
+                      class="mic-button"
+                      (click)="handleMicrophoneAction()"
+                      [disabled]="isLoading || isSendingFile">
+            <ion-icon name="mic-outline"></ion-icon>
+          </ion-button>
+        </ng-template>
       </div>
 
-      <ion-button 
-        *ngIf="newMessage.trim().length > 0; else micButton"
-        (click)="sendMessage()"
-        fill="solid"
-        shape="round"
-        color="primary"
-        class="send-button"
-        [disabled]="isLoading || isSendingFile">
-        <ion-icon name="send-outline"></ion-icon>
-      </ion-button>
-
-      <ng-template #micButton>
+      <!-- Modo de grabación de audio -->
+      <div *ngIf="isRecording" class="recording-input-mode">
         <ion-button fill="clear" 
-                    color="medium" 
-                    class="mic-button"
-                    [disabled]="isLoading || isSendingFile">
-          <ion-icon name="mic-outline"></ion-icon>
+                    color="danger" 
+                    class="cancel-recording-button"
+                    (click)="cancelRecording()">
+          <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
-      </ng-template>
+
+        <div class="recording-info">
+          <div class="recording-visual">
+            <div class="recording-pulse"></div>
+            <ion-icon name="mic" class="recording-mic-icon"></ion-icon>
+          </div>
+          <div class="recording-details">
+            <span class="recording-label">Grabando audio</span>
+            <span class="recording-time">{{ formattedRecordingDuration }}</span>
+          </div>
+        </div>
+
+        <ion-button fill="solid" 
+                    shape="round"
+                    color="primary" 
+                    class="stop-recording-button"
+                    (click)="stopRecording()">
+          <ion-icon name="stop-outline"></ion-icon>
+        </ion-button>
+      </div>
 
     </div>
   </ion-toolbar>

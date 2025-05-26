@@ -9,6 +9,7 @@ export interface Message {
     size?: number;
     lat?: number;
     lng?: number;
+    duration?: number;
     mimeType?: string;
   };
   status?: 'sending' | 'sent' | 'delivered' | 'read';

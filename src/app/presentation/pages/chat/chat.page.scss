@@ -9,18 +9,20 @@
   --tertiary-light: #3C6B8F;      
   --tertiary-dark: #072A47;      
   --online-status: #00B27A;       
-  --light-bg: #f8fafc;            
+  --light-bg: #f0f2f5;            
   --light-text: #1e293b;         
   --light-text-alt: #64748b;     
   --dark-bg: #0f172a;             
   --dark-text: #e2e8f0;
   --glass-bg: rgba(255, 255, 255, 0.1);
   --glass-border: rgba(255, 255, 255, 0.2);
-  --shadow-soft: 0 4px 32px rgba(0, 123, 131, 0.15);
-  --shadow-message: 0 2px 16px rgba(0, 0, 0, 0.08);
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-message: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --message-bg-sent: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  --message-bg-received: #ffffff;
 }
 
-// Header mejorado con glassmorphism
+
 ion-header {
   ion-toolbar {
     --background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 70%, var(--primary-light) 100%);
@@ -135,15 +137,15 @@ ion-header {
     }
     
     ion-icon {
-      font-size: 20px;
+      font-size: 24px; 
       filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
     }
   }
 }
 
-.back-button {
+.back-button, .options-button {
   --color: white;
-  --icon-font-size: 26px;
+  --icon-font-size: 28px;
   --border-radius: 12px;
   transition: all 0.3s ease;
   
@@ -153,37 +155,13 @@ ion-header {
   }
 }
 
-.options-button {
-  --color: white;
-  --icon-font-size: 24px;
-  --border-radius: 12px;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    --background: rgba(255, 255, 255, 0.15);
-    transform: scale(1.05);
-  }
-}
 
-// Chat content mejorado
 .chat-content {
-  --background: linear-gradient(180deg, var(--light-bg) 0%, #ffffff 100%);
-  padding-bottom: 90px;
+  --background: var(--light-bg);
+  padding-bottom: 80px;
   position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: linear-gradient(180deg, rgba(0,123,131,0.05) 0%, transparent 100%);
-    pointer-events: none;
-  }
 }
 
-// Loading mejorado
 .loading-container {
   display: flex;
   flex-direction: column;
@@ -205,11 +183,12 @@ ion-header {
 }
 
 .messages-container {
-  padding: 24px 16px;
+  padding: 16px 12px;
+  min-height: calc(100vh - 140px);
 }
 
 .message-wrapper {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   animation: messageSlideIn 0.3s ease-out;
 }
 
@@ -226,79 +205,98 @@ ion-header {
 
 .date-separator {
   text-align: center;
-  margin: 24px 0;
+  margin: 20px 0 16px 0;
   
   .date-text {
-    background: linear-gradient(135deg, rgba(0,123,131,0.1), rgba(76,168,176,0.1));
-    backdrop-filter: blur(10px);
-    padding: 10px 20px;
-    border-radius: 24px;
-    font-size: 13px;
+    background: rgba(0,0,0,0.05);
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
     color: var(--light-text-alt);
     display: inline-block;
     font-weight: 500;
-    border: 1px solid rgba(0,123,131,0.1);
   }
 }
 
-// Mensajes mejorados
+
 .message-bubble {
-  max-width: 75%;
-  margin-bottom: 8px;
-  padding: 14px 18px;
-  border-radius: 20px;
+  max-width: 80%;
+  margin-bottom: 2px;
+  padding: 8px 12px 4px 12px;
+  border-radius: 8px;
   position: relative;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    transform: translateY(-1px);
-  }
+  word-wrap: break-word;
+  box-shadow: var(--shadow-message);
   
   &.message-sent {
     background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
     color: white;
     margin-left: auto;
-    border-bottom-right-radius: 8px;
-    box-shadow: var(--shadow-message);
+    margin-right: 8px;
+    border-bottom-right-radius: 2px;
     position: relative;
     
     &::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
       border-radius: inherit;
       pointer-events: none;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: -8px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid var(--primary-color);
+      border-bottom: 8px solid transparent;
+    }
+    
+    .message-time .time-text {
+      color: rgba(255, 255, 255, 0.8);
     }
   }
   
   &.message-received {
-    background: white;
+    background: var(--message-bg-received);
     color: var(--light-text);
     margin-right: auto;
-    border-bottom-left-radius: 8px;
-    box-shadow: var(--shadow-message);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    margin-left: 8px;
+    border-bottom-left-radius: 2px;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: -8px;
+      width: 0;
+      height: 0;
+      border-right: 8px solid var(--message-bg-received);
+      border-bottom: 8px solid transparent;
+    }
   }
 }
 
 .message-content {
   position: relative;
-  z-index: 2;
   
   .message-text {
-    margin: 0;
-    line-height: 1.5;
-    font-size: 16px;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+    font-size: 14px;
     font-weight: 400;
+    padding-right: 50px;
   }
   
-  // Mejoras para contenido multimedia
   .image-message {
     margin: -4px;
     
     .message-image {
-      border-radius: 12px;
+      border-radius: 8px;
       max-width: 100%;
       height: auto;
       cursor: pointer;
@@ -317,7 +315,7 @@ ion-header {
     padding: 8px 0;
     
     .audio-icon {
-      font-size: 24px;
+      font-size: 28px; 
       color: var(--primary-color);
     }
     
@@ -333,7 +331,7 @@ ion-header {
     gap: 12px;
     padding: 12px;
     background: rgba(0, 123, 131, 0.05);
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
     
@@ -342,15 +340,13 @@ ion-header {
       transform: translateY(-1px);
     }
     
-    .file-icon {
-      font-size: 24px;
+    .file-icon, .download-icon {
+      font-size: 24px; 
       color: var(--primary-color);
     }
     
     .file-info {
       flex: 1;
-      display: flex;
-      flex-direction: column;
       
       .file-name {
         font-weight: 500;
@@ -363,11 +359,6 @@ ion-header {
         color: var(--light-text-alt);
       }
     }
-    
-    .download-icon {
-      font-size: 20px;
-      color: var(--light-text-alt);
-    }
   }
 }
 
@@ -375,69 +366,63 @@ ion-header {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-top: 8px;
-  gap: 6px;
+  gap: 4px;
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
   
   .time-text {
-    font-size: 12px;
+    font-size: 11px;
     opacity: 0.7;
-    font-weight: 500;
+    font-weight: 400;
+    color: #666;
   }
-}
-
-.message-status {
-  font-size: 16px;
   
-  &.delivered {
-    color: var(--online-status);
-    filter: drop-shadow(0 0 2px rgba(0, 178, 122, 0.3));
+  .message-status {
+    font-size: 16px; 
+    
+    &.delivered {
+      color: var(--online-status);
+    }
   }
 }
 
-// Empty chat mejorado
 .empty-chat {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 350px;
+  height: 300px;
   text-align: center;
   padding: 40px;
   
   .empty-icon {
-    font-size: 72px;
+    font-size: 80px; 
     color: var(--primary-light);
-    margin-bottom: 24px;
-    opacity: 0.8;
-    animation: float 3s ease-in-out infinite;
+    margin-bottom: 16px;
+    opacity: 0.6;
   }
   
   .empty-text {
-    font-size: 20px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 600;
     color: var(--light-text);
     margin: 0 0 8px 0;
   }
   
   .empty-subtext {
-    font-size: 16px;
+    font-size: 14px;
     color: var(--light-text-alt);
     margin: 0;
-    font-weight: 500;
   }
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
 
-// Footer estilo WhatsApp moderno - MISMO COLOR QUE HEADER
 .message-input-footer {
-  --background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 70%, var(--primary-light) 100%) !important;
-  background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 70%, var(--primary-light) 100%) !important;
-  box-shadow: 0 -4px 32px rgba(10, 61, 98, 0.3);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  --background: linear-gradient(135deg, var(--tertiary-dark) 0%, var(--primary-dark) 70%, var(--primary-color) 100%) !important;
+  background: linear-gradient(135deg, var(--tertiary-dark) 0%, var(--primary-dark) 70%, var(--primary-color) 100%) !important;
+  box-shadow: 0 -4px 32px rgba(10, 61, 98, 0.4);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
   
   &::before {
@@ -447,94 +432,107 @@ ion-header {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
-    backdrop-filter: blur(15px);
+    background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.08) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     pointer-events: none;
+    z-index: 1;
   }
 }
 
 .input-toolbar {
   --background: transparent !important;
   background: transparent !important;
-  --min-height: 75px;
-  padding: 10px 16px;
+  --min-height: 80px; 
+  padding: 10px 12px;
   position: relative;
   z-index: 2;
 }
 
 .message-input-container {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-end;
+  gap: 12px;
   padding: 0;
+  position: relative;
+  z-index: 2;
 }
 
-// Botones de acción estilo WhatsApp moderno
-.attachment-button,
-.emoji-button,
-.mic-button {
+.normal-input-mode {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  width: 100%;
+}
+
+.attachment-button, .emoji-button, .mic-button {
   --color: white !important;
-  --background: rgba(255, 255, 255, 0.2) !important;
-  --padding-start: 0;
-  --padding-end: 0;
-  --border-radius: 50%;
-  width: 44px !important;
-  height: 44px !important;
-  min-width: 44px;
-  min-height: 44px;
+  --background: rgba(255, 255, 255, 0.25) !important;
+  width: 54px !important;
+  height: 54px !important;
+  min-width: 54px;
+  min-height: 54px;
   margin: 0;
+  --border-radius: 50%;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   position: relative;
+  z-index: 2;
   
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
     border-radius: inherit;
     pointer-events: none;
+    z-index: -1;
   }
   
   &:hover {
-    --background: rgba(255, 255, 255, 0.3) !important;
-    --color: white !important;
-    transform: scale(1.08) translateY(-1px);
-    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+    --background: rgba(255, 255, 255, 0.35) !important;
+    transform: scale(1.1) translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.25);
   }
   
   &:active {
-    transform: scale(0.92);
+    transform: scale(0.95);
   }
   
   ion-icon {
-    font-size: 22px !important;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    font-size: 28px !important; 
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
     margin: 0 !important;
+    color: white !important;
   }
 }
 
-// Input wrapper estilo WhatsApp moderno
 .input-wrapper {
   flex: 1;
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-radius: 24px;
-  padding: 4px 16px;
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-radius: 27px;
+  padding: 8px 20px;
   display: flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  align-items: flex-end;
+  gap: 10px;
+  min-height: 54px; 
+  border: 1px solid rgba(255, 255, 255, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  backdrop-filter: blur(10px);
-  margin: 0 4px;
+  box-shadow: 
+    0 2px 12px rgba(0, 0, 0, 0.1),
+    inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  margin: 0 6px;
   
   &:focus-within {
-    border-color: rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
-    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 
+      0 4px 24px rgba(255, 255, 255, 0.2),
+      inset 0 1px 3px rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
     background: white !important;
   }
 }
@@ -542,226 +540,279 @@ ion-header {
 .message-textarea {
   flex: 1;
   --background: transparent !important;
-  --color: var(--tertiary-color) !important;
+  --color: var(--tertiary-dark) !important;
   --placeholder-color: var(--light-text-alt) !important;
   --padding-start: 0 !important;
   --padding-end: 0 !important;
-  --padding-top: 8px !important;
-  --padding-bottom: 8px !important;
-  font-size: 15px;
+  --padding-top: 12px !important;
+  --padding-bottom: 12px !important;
+  font-size: 16px;
   font-weight: 400;
   border: none !important;
   outline: none !important;
+  line-height: 1.4;
+  margin: 0;
+  max-height: 120px;
   
   textarea {
     background: transparent !important;
     border: none !important;
     outline: none !important;
-    color: var(--tertiary-color) !important;
+    color: var(--tertiary-dark) !important;
     font-weight: 400;
     resize: none;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    scrollbar-width: thin;
     
     &::placeholder {
       color: var(--light-text-alt) !important;
       font-weight: 400;
+      opacity: 0.8;
+    }
+    
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 123, 131, 0.3);
+      border-radius: 2px;
     }
   }
 }
 
-// Botón emoji dentro del input
-.emoji-button {
-  --color: var(--light-text-alt) !important;
-  --background: transparent !important;
-  width: 32px !important;
-  height: 32px !important;
-  min-width: 32px;
-  min-height: 32px;
-  border: none !important;
-  
-  &:hover {
-    --background: rgba(0, 123, 131, 0.1) !important;
-    --color: var(--primary-color) !important;
-    transform: scale(1.1);
-    box-shadow: none;
-  }
-  
-  ion-icon {
-    font-size: 20px !important;
-    filter: none;
-  }
-}
-
-// Botón de envío estilo WhatsApp moderno
 .send-button {
-  --background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%) !important;
+  --background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%) !important;
   --color: white !important;
-  width: 44px !important;
-  height: 44px !important;
-  min-width: 44px;
-  min-height: 44px;
+  width: 54px !important; 
+  height: 54px !important;
+  min-width: 54px;
+  min-height: 54px;
   margin: 0;
   --border-radius: 50%;
-  --box-shadow: 0 4px 16px rgba(0, 178, 122, 0.4);
+  --box-shadow: 0 4px 20px rgba(0, 178, 122, 0.5);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  z-index: 2;
   
   &:hover {
-    transform: scale(1.08) translateY(-2px);
-    --box-shadow: 0 8px 24px rgba(0, 178, 122, 0.5);
+    transform: scale(1.1) translateY(-3px);
+    --box-shadow: 0 8px 28px rgba(0, 178, 122, 0.6);
+    --background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%) !important;
   }
   
   &:active {
-    transform: scale(0.92);
+    transform: scale(0.95);
   }
   
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+    background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, transparent 100%);
     border-radius: inherit;
     pointer-events: none;
   }
   
   ion-icon {
-    font-size: 20px !important;
+    font-size: 26px !important; 
     position: relative;
     z-index: 2;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
     margin: 0 !important;
+    transform: translateX(1px);
+    color: white !important;
   }
 }
 
-// Forzar estilos para ion-footer
-ion-footer.message-input-footer {
-  background: linear-gradient(135deg, var(--tertiary-color) 0%, var(--primary-color) 70%, var(--primary-light) 100%) !important;
-  
-  ion-toolbar.input-toolbar {
-    background: transparent !important;
-  }
-}
 
-// Maintenance container mejorado
-.maintenance-container {
+.recording-input-mode {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: calc(100% - 80px);
+  width: 100%;
+  gap: 10px;
   
-  .maintenance-message {
-    text-align: center;
-    padding: 48px;
-    background: white;
-    margin: 20px;
-    border-radius: 24px;
-    box-shadow: var(--shadow-soft);
-    max-width: 420px;
-    width: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+  .cancel-recording-button, .stop-recording-button {
+    --color: white !important;
+    --background: rgba(255, 255, 255, 0.25) !important;
+    width: 60px !important; 
+    height: 60px !important;
+    min-width: 54px;
+    min-height: 54px;
+    --border-radius: 50%;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.25s ease;
     
-    .tool-icon {
-      font-size: 72px;
-      color: var(--tertiary-color);
-      margin-bottom: 24px;
-      animation: float 3s ease-in-out infinite;
+    &:hover {
+      --background: rgba(255, 255, 255, 0.35) !important;
+      transform: scale(1.1);
     }
     
-    h2 {
-      color: var(--light-text);
-      font-weight: 700;
-      margin-bottom: 12px;
-      font-size: 24px;
-      letter-spacing: -0.02em;
+    ion-icon {
+      font-size: 26px !important; 
+      color: white !important;
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.3));
+    }
+  }
+  
+  .cancel-recording-button {
+    --background: rgba(229, 62, 62, 0.8) !important;
+    
+    &:hover {
+      --background: rgba(229, 62, 62, 0.9) !important;
+    }
+  }
+  
+  .stop-recording-button {
+    --background: linear-gradient(135deg, var(--secondary-dark) 0%, var(--secondary-color) 100%) !important;
+    
+    &:hover {
+      --background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%) !important;
+    }
+  }
+  
+  .recording-info {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.98) !important;
+    border-radius: 27px;
+    padding: 10px 18px;
+    box-shadow: 
+      0 2px 12px rgba(0, 0, 0, 0.1),
+      inset 0 1px 2px rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    min-height: 54px; 
+    
+    .recording-visual {
+      position: relative;
+      margin-right: 14px;
+      
+      .recording-pulse {
+        width: 28px; 
+        height: 28px;
+        background: rgba(255, 0, 0, 0.3);
+        border-radius: 50%;
+        animation: pulse 1.5s infinite;
+      }
+      
+      .recording-mic-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #e53e3e;
+        font-size: 16px;
+      }
     }
     
-    p {
-      color: var(--light-text-alt);
-      font-size: 16px;
-      margin: 0;
-      line-height: 1.6;
-      font-weight: 500;
+    .recording-details {
+      flex: 1;
+      
+      .recording-label {
+        display: block;
+        color: var(--light-text);
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 2px;
+      }
+      
+      .recording-time {
+        display: block;
+        color: var(--light-text-alt);
+        font-size: 13px; 
+      }
     }
   }
 }
 
-// Media query para móviles
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.8; }
+}
+
+
 @media (max-width: 768px) {
+  .messages-container {
+    padding: 12px 8px;
+  }
+  
   .message-bubble {
     max-width: 85%;
-  }
-  
-  .contact-header {
-    padding-left: 12px;
+    font-size: 14px;
     
-    .contact-name {
-      font-size: 18px;
+    .message-content .message-text {
+      padding-right: 45px;
     }
-  }
-  
-  .messages-container {
-    padding: 16px 12px;
   }
   
   .input-toolbar {
-    padding: 8px 12px;
-    --min-height: 70px;
+    padding: 8px 10px;
+    --min-height: 72px; 
   }
   
-  .attachment-button,
-  .mic-button,
-  .send-button {
-    width: 40px !important;
-    height: 40px !important;
-    min-height: 40px;
-    min-width: 40px;
+  .attachment-button, .emoji-button, .mic-button, .send-button {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px;
+    min-height: 48px;
     
     ion-icon {
-      font-size: 20px !important;
+      font-size: 26px !important; 
     }
   }
   
   .input-wrapper {
-    min-height: 40px;
-    padding: 4px 14px;
-    margin: 0 2px;
+    min-height: 48px;
+    padding: 8px 16px;
+    border-radius: 24px;
   }
   
   .message-textarea {
-    --padding-top: 6px !important;
-    --padding-bottom: 6px !important;
-    font-size: 14px;
+    font-size: 15px;
+    --padding-top: 10px !important;
+    --padding-bottom: 10px !important;
   }
   
-  .emoji-button {
-    width: 28px !important;
-    height: 28px !important;
-    min-width: 28px;
-    min-height: 28px;
+  .recording-input-mode {
+    gap: 10px;
     
-    ion-icon {
-      font-size: 18px !important;
+    .cancel-recording-button, .stop-recording-button {
+      width: 48px !important;
+      height: 48px !important;
+      min-width: 48px;
+      min-height: 48px;
+      
+      ion-icon {
+        font-size: 24px !important;
+      }
+    }
+    
+    .recording-info {
+      min-height: 48px;
+      padding: 8px 16px;
+      
+      .recording-visual .recording-pulse {
+        width: 24px;
+        height: 24px;
+      }
+      
+      .recording-visual .recording-mic-icon {
+        font-size: 14px;
+      }
     }
   }
-}
-
-* {
-  -webkit-tap-highlight-color: transparent;
-}
-
-ion-button {
-  --ripple-color: rgba(255, 255, 255, 0.3);
-}
-
-ion-icon {
-  transition: all 0.2s ease;
-}
-
-@keyframes pulse-gentle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.7; }
-}
-
-.status-dot {
-  animation: pulse-gentle 2s infinite;
+  
+  .action-buttons ion-icon {
+    font-size: 22px;
+  }
+  
+  .back-button, .options-button {
+    --icon-font-size: 26px;
+  }
 }

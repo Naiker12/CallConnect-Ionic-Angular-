@@ -35,5 +35,8 @@ project(':capacitor-toast').projectDir = new File('../node_modules/@capacitor/to
 include ':capacitor-jitsi-meet'
 project(':capacitor-jitsi-meet').projectDir = new File('../node_modules/capacitor-jitsi-meet/android')
 
+include ':capacitor-voice-recorder'
+project(':capacitor-voice-recorder').projectDir = new File('../node_modules/capacitor-voice-recorder/android')
+
 include ':my-custom-plugin'
 project(':my-custom-plugin').projectDir = new File('../my-custom-plugin/android')

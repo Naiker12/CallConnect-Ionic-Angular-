@@ -4,7 +4,6 @@ import { Capacitor } from '@capacitor/core';
 import { CustomToastService } from '../custom-toast.service';
 import { LoadingService } from '../loading.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -59,7 +58,7 @@ export class AudioService {
     }
   }
 
-  async stopRecording(): Promise<{ success: boolean; audioFile?: File; duration?: number }> {
+  async stopRecording(): Promise<{ success: boolean; audioFile?: File; duration?: number; recordDataBase64?: string; mimeType?: string }> {
     try {
       if (!this.isRecording) {
         return { success: false };
@@ -73,11 +72,21 @@ export class AudioService {
       const duration = Math.floor((Date.now() - this.recordingStartTime) / 1000);
       
       if (result.value && result.value.recordDataBase64) {
-        const audioBlob = this.base64ToBlob(result.value.recordDataBase64, 'audio/aac');
-        const audioFile = new File([audioBlob], `audio_${Date.now()}.aac`, { type: 'audio/aac' });
+        // Determinar el tipo MIME basado en la plataforma
+        const mimeType = result.value.mimeType || 'audio/aac';
+        const extension = this.getFileExtension(mimeType);
+        
+        const audioBlob = this.base64ToBlob(result.value.recordDataBase64, mimeType);
+        const audioFile = new File([audioBlob], `audio_${Date.now()}.${extension}`, { type: mimeType });
         
         await this.loadingService.hide();
-        return { success: true, audioFile, duration };
+        return { 
+          success: true, 
+          audioFile, 
+          duration,
+          recordDataBase64: result.value.recordDataBase64,
+          mimeType
+        };
       }
       
       await this.loadingService.hide();
@@ -107,20 +116,58 @@ export class AudioService {
   }
 
   private base64ToBlob(base64: string, mimeType: string): Blob {
-    const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-    
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    try {
+      const byteCharacters = atob(base64);
+      const byteArrays = [];
+      
+      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+        
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+      
+      return new Blob(byteArrays, { type: mimeType });
+    } catch (error) {
+      console.error('Error converting base64 to blob:', error);
+      // Fallback al método original
+      const byteCharacters = atob(base64);
+      const byteNumbers = new Array(byteCharacters.length);
+      
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      
+      const byteArray = new Uint8Array(byteNumbers);
+      return new Blob([byteArray], { type: mimeType });
     }
+  }
+
+  private getFileExtension(mimeType: string): string {
+    const mimeToExtension: { [key: string]: string } = {
+      'audio/aac': 'aac',
+      'audio/mp4': 'm4a',
+      'audio/mpeg': 'mp3',
+      'audio/wav': 'wav',
+      'audio/webm': 'webm',
+      'audio/ogg': 'ogg'
+    };
     
-    const byteArray = new Uint8Array(byteNumbers);
-    return new Blob([byteArray], { type: mimeType });
+    return mimeToExtension[mimeType] || 'aac';
   }
 
   formatDuration(seconds: number): string {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  get isCurrentlyRecording(): boolean {
+    return this.isRecording;
   }
 }

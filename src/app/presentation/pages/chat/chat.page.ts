@@ -14,7 +14,6 @@ import { Capacitor } from '@capacitor/core';
 import { ChatService } from 'src/app/core/services/Chat.Service';
 import { AudioService } from 'src/app/core/services/chats/audio.Service';
 
-
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.page.html',
@@ -32,12 +31,10 @@ export class ChatPage implements OnInit, OnDestroy {
   newMessage: string = '';
   isLoading: boolean = false;
   isSendingFile: boolean = false;
-
-  // Variables para grabación de audio
   isRecording: boolean = false;
   recordingDuration: number = 0;
-  private recordingTimer?: Subscription;
 
+  private recordingTimer?: Subscription;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -61,7 +58,6 @@ export class ChatPage implements OnInit, OnDestroy {
     if (this.recordingTimer) {
       this.recordingTimer.unsubscribe();
     }
-    // Cancelar grabación si está activa
     if (this.isRecording) {
       this.audioService.cancelRecording();
     }
@@ -138,7 +134,26 @@ export class ChatPage implements OnInit, OnDestroy {
     }
   }
 
-  // Métodos para grabación de audio
+  async handleMicrophoneAction(): Promise<void> {
+    if (!this.chatId || !this.userId) {
+      this.toastService.error('Error: Chat no inicializado');
+      return;
+    }
+
+    try {
+      if (this.isRecording) {
+        await this.stopRecordingAndSend();
+      } else {
+        await this.startRecording();
+      }
+    } catch (error) {
+      console.error('Error en handleMicrophoneAction:', error);
+      this.toastService.error('Error al procesar la grabación');
+      this.isRecording = false;
+      this.recordingDuration = 0;
+    }
+  }
+
   async startRecording(): Promise<void> {
     try {
       const started = await this.audioService.startRecording();
@@ -154,25 +169,58 @@ export class ChatPage implements OnInit, OnDestroy {
     }
   }
 
-  async stopRecording(): Promise<void> {
+   async stopRecordingAndSend(): Promise<void> {
     try {
-      if (!this.isRecording) return;
-
       this.stopRecordingTimer();
       const result = await this.audioService.stopRecording();
       
-      if (result.success && result.audioFile) {
-        await this.sendAudioMessage(result.audioFile, result.duration || 0);
-        this.toastService.success(`Audio enviado (${this.audioService.formatDuration(result.duration || 0)})`);
+      if (result.success && result.recordDataBase64 && result.mimeType) {
+        const audioBlob = this.base64ToBlob(result.recordDataBase64, result.mimeType);
+        const audioFile = new File([audioBlob], `audio_${Date.now()}.${this.getAudioExtension(result.mimeType)}`, { 
+          type: result.mimeType 
+        });
+        
+        await this.sendAudioToChat(audioFile, result.duration || this.recordingDuration, result.mimeType);
+        
+        this.toastService.success(`Audio enviado (${this.audioService.formatDuration(result.duration || this.recordingDuration)})`);
       } else {
-        this.toastService.error('Error al procesar el audio');
+        this.toastService.error('Error al procesar el audio grabado');
       }
-    } catch (error) {
-      console.error('Error al detener grabación:', error);
-      this.toastService.error('Error al procesar el audio');
     } finally {
       this.isRecording = false;
       this.recordingDuration = 0;
+    }
+  }
+
+  private async sendAudioToChat(audioFile: File, duration: number, mimeType: string): Promise<void> {
+    try {
+      this.isSendingFile = true;
+      
+      const path = `audios/chats/audio_${Date.now()}_${audioFile.name}`;
+      
+      const publicUrl = await this.chatService.uploadAudioFile(audioFile, path);
+      
+      const message: Message = {
+        senderId: this.userId!,
+        type: 'audio',
+        content: publicUrl,
+        timestamp: null,
+        metadata: {
+          name: audioFile.name,
+          size: audioFile.size,
+          mimeType: mimeType,
+          duration: duration
+        }
+      };
+      
+      await this.chatService.sendMessage(this.chatId!, message);
+      this.scrollToBottom();
+      
+    } catch (error) {
+      console.error('Error enviando audio:', error);
+      throw error;
+    } finally {
+      this.isSendingFile = false;
     }
   }
 
@@ -201,29 +249,43 @@ export class ChatPage implements OnInit, OnDestroy {
     }
   }
 
-  private async sendAudioMessage(audioFile: File, duration: number): Promise<void> {
-    if (!this.chatId || !this.userId) return;
-
+  private base64ToBlob(base64: string, mimeType: string): Blob {
     try {
-      this.isSendingFile = true;
-      await this.chatService.sendFile(this.chatId, this.userId, audioFile, 'audio');
-      this.scrollToBottom();
+      const byteCharacters = atob(base64);
+      const byteArrays = [];
+      
+      for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+        const slice = byteCharacters.slice(offset, offset + 512);
+        const byteNumbers = new Array(slice.length);
+        
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+        
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+      
+      return new Blob(byteArrays, { type: mimeType });
     } catch (error) {
-      console.error('Error al enviar audio:', error);
-      this.toastService.error('Error al enviar el audio');
-    } finally {
-      this.isSendingFile = false;
+      console.error('Error converting base64 to blob:', error);
+      throw error;
     }
   }
 
-  // Método para manejar el botón del micrófono
-  async handleMicrophoneAction(): Promise<void> {
-    if (this.isRecording) {
-      await this.stopRecording();
-    } else {
-      await this.startRecording();
-    }
+  private getAudioExtension(mimeType: string): string {
+    const extensions: { [key: string]: string } = {
+      'audio/aac': 'aac',
+      'audio/mp4': 'm4a',
+      'audio/mpeg': 'mp3',
+      'audio/wav': 'wav',
+      'audio/webm': 'webm',
+      'audio/ogg': 'ogg'
+    };
+    
+    return extensions[mimeType] || 'aac';
   }
+
 
   async showAttachmentOptions(): Promise<void> {
     if (this.isSendingFile) return;
@@ -309,24 +371,21 @@ export class ChatPage implements OnInit, OnDestroy {
     setTimeout(() => this.content?.scrollToBottom(300), 100);
   }
 
-  // Método para formatear duración de audio
   formatAudioDuration(message: Message): string {
     const duration = message.metadata?.duration;
     return duration ? this.audioService.formatDuration(duration) : '0:00';
   }
 
-  // Getter para obtener la duración formateada
   get formattedRecordingDuration(): string {
     return this.audioService.formatDuration(this.recordingDuration);
   }
 
   getMessageLength(message: Message): number {
-  if (message.type === 'text') {
-    return message.content.length;
+    if (message.type === 'text') {
+      return message.content.length;
+    }
+    return 0;
   }
-  // Para mensajes que no son de texto, retornamos 0 para que sean considerados como 'message-short'
-  return 0;
-}
 
   isMyMessage = (message: Message) => this.validators.isMyMessage(message, this.userId);
   formatMessageTime = (timestamp: any) => this.formatters.formatMessageTime(timestamp);

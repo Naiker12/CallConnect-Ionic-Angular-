@@ -51,31 +51,27 @@
 
   <div *ngIf="!isLoading" class="messages-container">
     <div *ngFor="let message of messages; let i = index" class="message-wrapper">
-      
+
       <div *ngIf="shouldShowDateSeparator(i)" class="date-separator">
         <span class="date-text">{{ getDateSeparatorText(message.timestamp) }}</span>
       </div>
 
-      <div class="message-bubble" 
-           [ngClass]="{
+      <div class="message-bubble" [ngClass]="{
              'message-sent': isMyMessage(message),
              'message-received': !isMyMessage(message),
              'message-short': getMessageLength(message) <= 20,
              'message-medium': getMessageLength(message) > 20 && getMessageLength(message) <= 50,
              'message-long': getMessageLength(message) > 50
            }">
-        
+
         <div class="message-content">
 
           <p *ngIf="message.type === 'text'" class="message-text">{{ message.content }}</p>
-          
+
           <div *ngIf="isImageMessage(message)" class="image-message">
-            <img [src]="getMediaUrl(message)" 
-                 alt="Imagen" 
-                 class="message-image"
-                 (click)="openFile(message)">
+            <img [src]="getMediaUrl(message)" alt="Imagen" class="message-image" (click)="openFile(message)">
           </div>
-          
+
 
           <div *ngIf="isAudioMessage(message)" class="audio-message">
             <ion-icon name="play-circle-outline" class="audio-icon"></ion-icon>
@@ -84,8 +80,8 @@
               {{ formatAudioDuration(message) }}
             </div>
           </div>
-          
-  
+
+
           <div *ngIf="isFileMessage(message)" class="file-message" (click)="openFile(message)">
             <ion-icon name="document-outline" class="file-icon"></ion-icon>
             <div class="file-info">
@@ -99,9 +95,8 @@
 
         <div class="message-time">
           <span class="time-text">{{ formatMessageTime(message.timestamp) }}</span>
-          <ion-icon *ngIf="isMyMessage(message)" 
-                    name="checkmark-done-outline" 
-                    class="message-status delivered"></ion-icon>
+          <ion-icon *ngIf="isMyMessage(message)" name="checkmark-done-outline"
+            class="message-status delivered"></ion-icon>
         </div>
       </div>
     </div>
@@ -116,63 +111,38 @@
 </ion-content>
 
 
-<input #fileInput 
-       type="file" 
-       accept="*/*" 
-       (change)="onFileSelected($event)"
-       style="display: none;">
+<input #fileInput type="file" accept="*/*" (change)="onFileSelected($event)" style="display: none;">
 
 
 <ion-footer class="message-input-footer">
   <ion-toolbar class="input-toolbar">
     <div class="message-input-container" [class.recording-mode]="isRecording">
-      
+
       <!-- Modo normal de entrada de mensajes -->
       <div *ngIf="!isRecording" class="normal-input-mode">
-        <ion-button fill="clear" 
-                    color="medium" 
-                    class="attachment-button"
-                    (click)="showAttachmentOptions()"
-                    [disabled]="isLoading || isSendingFile">
+        <ion-button fill="clear" color="medium" class="attachment-button" (click)="showAttachmentOptions()"
+          [disabled]="isLoading || isSendingFile">
           <ion-icon name="add-outline"></ion-icon>
         </ion-button>
 
         <div class="input-wrapper">
-          <ion-textarea
-            [(ngModel)]="newMessage"
-            placeholder="Escribe un mensaje..."
-            [autoGrow]="true"
-            [rows]="1"
-            (keydown)="onEnterKey($event)"
-            [disabled]="isLoading || isSendingFile"
-            class="message-textarea">
+          <ion-textarea [(ngModel)]="newMessage" placeholder="Escribe un mensaje..." [autoGrow]="true" [rows]="1"
+            (keydown)="onEnterKey($event)" [disabled]="isLoading || isSendingFile" class="message-textarea">
           </ion-textarea>
 
-          <ion-button fill="clear" 
-                      color="medium" 
-                      class="emoji-button"
-                      [disabled]="isLoading || isSendingFile">
+          <ion-button fill="clear" color="medium" class="emoji-button" [disabled]="isLoading || isSendingFile">
             <ion-icon name="happy-outline"></ion-icon>
           </ion-button>
         </div>
 
-        <ion-button 
-          *ngIf="newMessage.trim().length > 0; else micButton"
-          (click)="sendMessage()"
-          fill="solid"
-          shape="round"
-          color="primary"
-          class="send-button"
-          [disabled]="isLoading || isSendingFile">
+        <ion-button *ngIf="newMessage.trim().length > 0; else micButton" (click)="sendMessage()" fill="solid"
+          shape="round" color="primary" class="send-button" [disabled]="isLoading || isSendingFile">
           <ion-icon name="send-outline"></ion-icon>
         </ion-button>
 
         <ng-template #micButton>
-          <ion-button fill="clear" 
-                      color="medium" 
-                      class="mic-button"
-                      (click)="handleMicrophoneAction()"
-                      [disabled]="isLoading || isSendingFile">
+          <ion-button fill="clear" color="medium" class="mic-button" (click)="handleMicrophoneAction()"
+            [disabled]="isLoading || isSendingFile">
             <ion-icon name="mic-outline"></ion-icon>
           </ion-button>
         </ng-template>
@@ -180,10 +150,7 @@
 
       <!-- Modo de grabación de audio -->
       <div *ngIf="isRecording" class="recording-input-mode">
-        <ion-button fill="clear" 
-                    color="danger" 
-                    class="cancel-recording-button"
-                    (click)="cancelRecording()">
+        <ion-button fill="clear" color="danger" class="cancel-recording-button" (click)="cancelRecording()">
           <ion-icon name="trash-outline"></ion-icon>
         </ion-button>
 
@@ -198,11 +165,8 @@
           </div>
         </div>
 
-        <ion-button fill="solid" 
-                    shape="round"
-                    color="primary" 
-                    class="stop-recording-button"
-                    (click)="stopRecording()">
+        <ion-button fill="solid" shape="round" color="primary" class="stop-recording-button"
+          (click)="stopRecordingAndSend()">
           <ion-icon name="stop-outline"></ion-icon>
         </ion-button>
       </div>

@@ -246,5 +246,15 @@ export class ChatService {
       throw error;
     }
   }
+
+async uploadAudioFile(audioFile: File, filePath: string): Promise<string> {
+  try {
+    const audioUrl = await this.supabaseService.uploadImage(audioFile, filePath);
+    return audioUrl;
+  } catch (error) {
+    console.error('Error subiendo audio:', error);
+    throw new Error('Error al subir el archivo de audio');
+  }
+}
   
 }

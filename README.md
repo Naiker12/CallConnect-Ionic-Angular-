@@ -78,6 +78,8 @@ La documentación completa de la API está disponible en:
 https://ravishing-courtesy-production.up.railway.app/documentation
 
 7. Despliegue
+
+
 ![Captura de pantalla 2025-06-07 150555](https://github.com/user-attachments/assets/6f8387ec-f66b-4bdb-9f40-dfebfe8f8419)
 ![Captura de pantalla 2025-06-07 150547](https://github.com/user-attachments/assets/05df63d2-be77-4100-9d80-c7a2859a2172)
 ![Captura de pantalla 2025-06-07 150538](https://github.com/user-attachments/assets/d14500ca-d0ed-4b69-b482-61e96bc8f78a)
